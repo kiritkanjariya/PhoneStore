@@ -1,0 +1,92 @@
+@extends('admin/admin_master_view')
+
+@section('file_content')
+
+<style>
+    .card {
+        border-radius: 1rem;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        border: none;
+        background-color: #ffffff;
+    }
+
+    .card-header {
+        background: linear-gradient(135deg, #20c997, #0dcaf0);
+        color: white;
+        border-radius: 0.75rem 0.75rem 0 0;
+        padding: 1rem 1.5rem;
+        font-size: 1.5rem;
+    }
+
+    .table th {
+        vertical-align: middle;
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+
+    .table td {
+        vertical-align: middle;
+        background-color: #ffffff;
+    }
+
+    .table tbody tr:hover {
+        background-color: #e8fafd;
+        transition: all 0.3s ease;
+        transform: scale(1.01);
+    }
+
+    .btn {
+        border-radius: 0.5rem !important;
+        padding: 6px 12px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        transition: all 0.2s ease;
+    }
+
+    .btn-danger:hover {
+        background-color: #c82333;
+    }
+
+    .table th,
+    .table td {
+        text-align: center;
+    }
+</style>
+
+<div class="card container mt-5 p-4 border-2 mb-4">
+    <div class="card-header fs-3 fw-bold h-font d-flex align-items-center justify-content-between">
+        Review & Rating
+    </div>
+    <div class="table-responsive table-responsive-md table-responsive-sm" style="z-index: 1;">
+        <div class="container mt-3">
+            <table id="user" class="table table-striped table-bordered text-center" style="min-width: 1100px;">
+                <thead class="sticky-top">
+                    <tr class="align-middle">
+                        <th scope="col" class="bg-dark text-white">Sr. No.</th>
+                        <th scope="col" class="bg-dark text-white">Product</th>
+                        <th scope="col" class="bg-dark text-white">User</th>
+                        <th scope="col" class="bg-dark text-white">Rating</th>
+                        <th scope="col" class="bg-dark text-white">Review</th>
+                        <th scope="col" class="bg-dark text-white">Date</th>
+                        <th scope="col" class="bg-dark text-white">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="align-middle">
+                        <td>1</td>
+                        <td>IPhone 13</td>
+                        <td>John Doe</td>
+                        <td>4</td>
+                        <td>Great phone with excellent features!</td>
+                        <td>2023-10-01</td>
+                        <td>
+                            <button class="btn btn-danger"><i class="bi bi-trash"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@endsection
