@@ -36,6 +36,9 @@
             z-index: 2;
         }
 
+
+        
+
         .hero-title {
             font-size: 3rem;
             font-weight: 700;
