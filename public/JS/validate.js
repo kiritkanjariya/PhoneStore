@@ -69,8 +69,8 @@ $(document).ready(function () {
             let fileName = file.name;
             let fileSizeKB = file.size / 1024;
 
-            if (!/\.(jpg|jpeg|png)$/i.test(fileName)) {
-                errorMessage = "Only JPG, JPEG, or PNG files are allowed.";
+            if (!/\.(jpg|jpeg|png|webp)$/i.test(fileName)) {
+                errorMessage = "Only JPG, JPEG, WEBP, or PNG files are allowed.";
             } else if (fieldType.includes("filesize") && fileSizeKB > filesize) {
                 errorMessage = `File size must be less than ${filesize} KB.`;
             }

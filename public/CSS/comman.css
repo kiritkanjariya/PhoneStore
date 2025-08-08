@@ -18,12 +18,12 @@ body {
 }
 
 .error {
-    color: #dc3545;
-    font-weight: 500;
-    margin-top: 5px;
+    color: red;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-top: 0.25rem;
 }
 
-/* --- Animations --- */
 .fade-in-section {
     opacity: 0;
     transform: translateY(25px);

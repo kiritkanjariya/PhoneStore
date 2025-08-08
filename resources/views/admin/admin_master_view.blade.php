@@ -31,7 +31,7 @@
             <ul class="sidebar-nav">
                 <li class="sidebar-item" title="Admin Dashboard">
                     <a href="{{ route('admin_dashboard') }}" class="sidebar-link">
-                        <i class="bi bi-speedometer2" ></i>
+                        <i class="bi bi-speedometer2"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
@@ -92,20 +92,171 @@
             </ul>
         </aside>
         <div class="main">
-            <nav class="navbar navbar-expand-lg navbar-light bg-white px-lg-3 py-lg-2 px-md-3 py-md-2 px-sm-3 px-sm-2 shadow">
-                <div class="navbar-brand">
-                    <a href="{{ route('admin_dashboard') }}" class="text-dark fs-5 fw-bold">Admin Panel</a>
-                </div>
-                <div class="dropdown ms-auto">
-                    <button type="button" class="btn dropdown-toggle text-light me-5 p-2" data-bs-toggle="dropdown">
-                        <img src="{{ asset('img/sliders/Default-Avatar.jpg') }}" class="rounded-circle" style="height: 40px; width: 40px;" alt="">
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{ route('admin_profile') }}"><i class="bi bi-person-circle me-2"></i> Profile</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
-                    </ul>
+            <nav class="top-navbar">
+                <a href="{{ route('admin_dashboard') }}" class="navbar-brand-text">Admin Panel</a>
+
+                <div class="d-flex align-items-center gap-3">
+
+                    <form class="search-form d-none d-md-flex">
+                        <i class="bi bi-search search-icon"></i>
+                        <input class="form-control search-input" type="search" placeholder="Search...">
+                    </form>
+
+                    <div class="dropdown">
+                        <button class="btn profile-dropdown-btn d-flex align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="{{ asset('img/sliders/Default-Avatar.jpg') }}" class="profile-avatar" alt="Admin">
+                            <div class="d-none d-sm-block text-start">
+                                <div class="profile-name">Admin Name</div>
+                                <div class="profile-role">Administrator</div>
+                            </div>
+                            <i class="bi bi-chevron-down d-none d-sm-block ms-2"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow border-0">
+                            <li>
+                                <h6 class="dropdown-header">My Account</h6>
+                            </li>
+                            <li><a class="dropdown-item" href="{{ route('admin_profile') }}"><i class="bi bi-person-circle me-2"></i> Profile</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+                        </ul>
+                    </div>
                 </div>
             </nav>
+            <style>
+                /* =================================== */
+                /* ===== TOP NAVBAR STYLES ===== */
+                /* =================================== */
+                .top-navbar {
+                    background-color: #ffffff;
+                    padding: 0.75rem 1.5rem;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    border-bottom: 1px solid #e0e5ec;
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+                }
+
+                .navbar-brand-text {
+                    font-size: 1.5rem;
+                    font-weight: 700;
+                    color: #2c3e50;
+                    text-decoration: none;
+                }
+
+                .search-form {
+                    position: relative;
+                    min-width: 300px;
+                }
+
+                .search-icon {
+                    position: absolute;
+                    left: 15px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    color: #95a5a6;
+                    font-size: 1.1rem;
+                }
+
+                .search-input {
+                    border-radius: 2rem;
+                    background-color: #f4f7fc;
+                    border: 1px solid #e0e5ec;
+                    padding-left: 45px;
+                    height: 44px;
+                    font-size: 0.95rem;
+                    transition: all 0.3s ease;
+                }
+
+                .search-input:focus {
+                    background-color: #ffffff;
+                    border-color: #3b7ddd;
+                    box-shadow: 0 0 0 3px rgba(59, 125, 221, 0.1);
+                }
+
+                .profile-dropdown-btn {
+                    background: transparent;
+                    border: none;
+                    padding: 0;
+                    min-height: 44px;
+                }
+
+                /* Override Bootstrap's default hover for the transparent button */
+                .profile-dropdown-btn:hover {
+                    background-color: transparent;
+                }
+
+                .profile-avatar {
+                    height: 40px;
+                    width: 40px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                    border: 2px solid #fff;
+                    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+                    margin-right: 0.75rem;
+                }
+
+                .profile-name {
+                    font-weight: 600;
+                    color: #2c3e50;
+                    font-size: 0.9rem;
+                    line-height: 1.2;
+                }
+
+                .profile-role {
+                    font-size: 0.75rem;
+                    color: #95a5a6;
+                    line-height: 1.2;
+                }
+
+                /* --- General Dropdown Menu Styling --- */
+                .dropdown-menu {
+                    border-radius: 0.75rem;
+                    border: 1px solid #e0e5ec;
+                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                    padding: 0.5rem 0;
+                    margin-top: 0.5rem !important;
+                }
+
+                .dropdown-header {
+                    font-weight: 700;
+                    padding: 0.75rem 1.25rem;
+                    color: #2c3e50;
+                }
+
+                .dropdown-item {
+                    padding: 0.75rem 1.25rem;
+                    font-size: 0.95rem;
+                    color: #566a7f;
+                    transition: all 0.2s ease-in-out;
+                }
+
+                .dropdown-item i {
+                    font-size: 1.1rem;
+                    margin-right: 0.75rem;
+                    width: 20px;
+                    text-align: center;
+                }
+
+                .dropdown-item:hover,
+                .dropdown-item:focus {
+                    background-color: #f4f7fc;
+                    color: #3b7ddd;
+                }
+
+                .dropdown-item:active {
+                    background-color: #e9ecef;
+                }
+
+                .dropdown-divider {
+                    margin: 0.5rem 0;
+                    border-top: 1px solid #e0e5ec;
+                }
+            </style>
 
             <div class="main-content-scrollable">
                 @yield('file_content')

@@ -32,23 +32,25 @@
                         <input type="text" class="form-control" id="price" name="price" placeholder="Enter Product Price" data-validation="required">
                         <div class="error" id="priceError"></div>
                     </div>
-
+                    @if(isset($brands))
                     <div class="mb-3">
                         <label for="brand" class="form-label fw-semibold">Brand</label>
                         <select class="form-select" id="brand" name="brand">
-                            <option value="apple" selected>Apple</option>
-                            <option value="samsung">Samsung</option>
-                            <option value="oneplus">OnePlus</option>
-                            <option value="oppo">Oppo</option>
-                            <option value="vivo">Vivo</option>
-                            <option value="realme">Realme</option>
+                            @foreach($brands as $brand)
+                            <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                            @endforeach
                         </select>
                     </div>
-
+                    @endif
                     <div class="mb-3">
                         <label for="ram" class="form-label fw-semibold">RAM</label>
-                        <input type="text" class="form-control" id="ram" name="ram" placeholder="Enter RAM" data-validation="required">
+                        <input type="text" class="form-control" id="ram" name="ram" placeholder="Enter RAM" data-validation="required numeric">
                         <div class="error" id="ramError"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="storage" class="form-label fw-semibold">Storage</label>
+                        <input type="text" class="form-control" id="storage" name="storage" placeholder="Enter storage" data-validation="required numeric">
+                        <div class="error" id="storageError"></div>
                     </div>
                     <div class="mb-3">
                         <label for="screen_size" class="form-label fw-semibold">Screen size</label>

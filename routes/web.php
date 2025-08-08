@@ -1,7 +1,11 @@
 <?php
 
+use App\Http\Controllers\BrandController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\UserController;
+use App\Models\Brand;
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/login', [PageController::class, 'showLoginForm'])->name('login');
@@ -18,6 +22,13 @@ Route::get('/orders', [PageController::class, 'showOrders'])->name('order');
 Route::get('/Checkout', [PageController::class, 'showCheckOut'])->name('Checkout');
 Route::get('/review-rating', [PageController::class, 'review_rating'])->name('review_rating');
 
+Route::post('/register_submit', [UserController::class, 'register_submit'])->name('register_submit');
+Route::get('/add_product',[ProductsController::class, 'add_product'])->name('add_product');
+Route::post('/added_product',[ProductsController::class, 'product_added'])->name('product_added');
+Route::get('/add_brand',[BrandController::class, 'add_brand'])->name('add_brand');
+Route::post('/brand_added',[BrandController::class, 'brand_added'])->name('brand_added');
+Route::get('/admin_product',[ProductsController::class, 'redicrect_product'])->name('admin_product');
+
 Route::get('/dashboard',[PageController::class, 'redicrect_dashboard'])->name('admin_dashboard');
 Route::get('/users',[PageController::class, 'redicrect_users'])->name('admin_users');
 Route::get('/edit_users',[PageController::class, 'edit_users'])->name('edit_user');
@@ -29,11 +40,8 @@ Route::get('/add_slider',[PageController::class, 'add_slider'])->name('add_slide
 Route::post('/added_slider',[PageController::class, 'slider_added'])->name('slider_added');
 Route::get('/edit_slider',[PageController::class, 'edit_slider'])->name('edit_slider');
 Route::post('/updated_slider',[PageController::class, 'slider_updated'])->name('slider_updated');
-Route::get('/admin_product',[PageController::class, 'redicrect_product'])->name('admin_product');
 Route::get('/edit_product',[PageController::class, 'edit_product'])->name('edit_product');
 Route::post('/updated_product',[PageController::class, 'product_updated'])->name('product_updated');
-Route::get('/add_product',[PageController::class, 'add_product'])->name('add_product');
-Route::post('/added_product',[PageController::class, 'product_added'])->name('product_added');
 Route::get('/admin_profile',[PageController::class, 'admin_profile'])->name('admin_profile');
 Route::post('/admin_changed_profile',[PageController::class,'admin_changed_profile'])->name('admin_changed_profile');
 Route::post('/admin_changed_password',[PageController::class,'admin_changed_password'])->name('admin_changed_password');
@@ -51,8 +59,6 @@ Route::post('/updated_discount',[PageController::class, 'discount_updated'])->na
 Route::get('/add_discount',[PageController::class, 'add_discount'])->name('add_discount');
 Route::post('/added_discount',[PageController::class, 'discount_added'])->name('discount_added');
 Route::get('/admin_brand',[PageController::class, 'redirect_brand'])->name('admin_brand');
-Route::get('/add_brand',[PageController::class, 'add_brand'])->name('add_brand');
-Route::post('/brand_added',[PageController::class, 'brand_added'])->name('brand_added');
 Route::get('/edit_brand',[PageController::class, 'edit_brand'])->name('edit_brand');
 Route::post('/brand_updated',[PageController::class, 'brand_updated'])->name('brand_updated');
 Route::get('/admin_contact_about',[PageController::class, 'redirect_contact_about'])->name('admin_contact_about');

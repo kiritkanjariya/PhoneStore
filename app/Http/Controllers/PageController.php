@@ -52,7 +52,7 @@ class PageController extends Controller
     public function showProfile() {
         return view('profile');
     }
-    public function checkout() {
+    public function showCheckOut() {
         return view('checkout');
     }   
 
@@ -113,24 +113,11 @@ class PageController extends Controller
         return view('admin/admin_slider');
     }
 
-    public function redicrect_product()
-    {
-        return view('admin/admin_product');
-    }
-
     public function edit_product()
     {
         return view('admin/edit_product');
     }
     public function product_updated()
-    {
-        return view('admin/admin_product');
-    }
-    public function add_product()
-    {
-        return view('admin/add_product');
-    }
-    public function product_added()
     {
         return view('admin/admin_product');
     }
@@ -205,14 +192,7 @@ class PageController extends Controller
     {
         return view('admin/admin_brand');
     }
-    public function add_brand()
-    {
-        return view('admin/add_brand');
-    }
-    public function brand_added()
-    {
-        return view('admin/admin_brand');
-    }
+  
     public function edit_brand()
     {
         return view('admin/edit_brand');

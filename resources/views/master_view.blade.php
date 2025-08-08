@@ -12,7 +12,7 @@
     <link href="{{ asset('CSS/comman.css') }}" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('JS/jquery-3.7.1.js') }}"></script>
-    <script src="{{ asset("JS/validate.js") }}"></script>
+    <script src="{{ asset('JS/validate.js') }}"></script>
 
 
 </head>

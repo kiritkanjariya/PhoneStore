@@ -74,7 +74,8 @@
         transform: scale(1.05);
     }
 
-    .table th, .table td {
+    .table th,
+    .table td {
         text-align: center;
     }
 </style>
@@ -107,18 +108,20 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @if(isset($products))
+                    @foreach($products as $product)
                     <tr class="align-middle">
-                        <td>1</td>
-                        <td>IPhone 13</td>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $product->name }}</td>
                         <td>
-                            <img src="{{ asset('img/product-images/iphone-15.webp') }}" class="img-fluid" style="height: 100px; width: 100px;">
+                            <img src="{{ asset('img/product-images/'. $product->image) }}" class="img-fluid" style="height: 100px; width: 100px;">
                         </td>
-                        <td>$799</td>
-                        <td>Apple</td>
-                        <td>4GB</td>
-                        <td>128GB</td>
-                        <td>6.1 inches</td>
-                        <td>50</td>
+                        <td>{{ $product->price }}</td>
+                        <td>{{ $product->brand->name }}</td>
+                        <td>{{ $product->ram }}</td>
+                        <td>{{ $product->storage }}</td>
+                        <td>{{ $product->screen_size }}</td>
+                        <td>{{ $product->stock_quantity }}</td>
                         <td>
                             <button class="btn btn-success">Active</button>
                         </td>
@@ -131,6 +134,8 @@
                             </button>
                         </td>
                     </tr>
+                    @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>
