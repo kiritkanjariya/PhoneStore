@@ -1,17 +1,20 @@
 <?php
 
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\Contact_query_Controller;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\DiscountController;    
+use App\Http\Controllers\SliderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\UserController;
 use App\Models\Brand;
 
-Route::get('/', [PageController::class, 'home'])->name('home');
+
 Route::get('/login', [PageController::class, 'showLoginForm'])->name('login');
 Route::get('/registration', [PageController::class, 'showRegisterForm'])->name('register');
 Route::get('/about', [PageController::class, 'about'])->name('about');
-Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 Route::get('/service', [PageController::class, 'service'])->name('service');
 Route::get('/cart', [PageController::class, 'cart'])->name('cart_detail');
 Route::get('/shop', [PageController::class, 'shop'])->name('shop');
@@ -22,12 +25,23 @@ Route::get('/orders', [PageController::class, 'showOrders'])->name('order');
 Route::get('/Checkout', [PageController::class, 'showCheckOut'])->name('Checkout');
 Route::get('/review-rating', [PageController::class, 'review_rating'])->name('review_rating');
 
-Route::post('/register_submit', [UserController::class, 'register_submit'])->name('register_submit');
+Route::get('/', [ProductsController::class, 'home'])->name('home');
 Route::get('/add_product',[ProductsController::class, 'add_product'])->name('add_product');
 Route::post('/added_product',[ProductsController::class, 'product_added'])->name('product_added');
+Route::get('/admin_product',[ProductsController::class, 'redicrect_product'])->name('admin_product');
+Route::post('/register_submit', [UserController::class, 'register_submit'])->name('register_submit');
 Route::get('/add_brand',[BrandController::class, 'add_brand'])->name('add_brand');
 Route::post('/brand_added',[BrandController::class, 'brand_added'])->name('brand_added');
-Route::get('/admin_product',[ProductsController::class, 'redicrect_product'])->name('admin_product');
+Route::get('/add_discount',[DiscountController::class, 'add_discount'])->name('add_discount');
+Route::post('/added_discount',[DiscountController::class, 'discount_added'])->name('discount_added');
+Route::get('/admin_offers',[DiscountController::class, 'redicrect_offers'])->name('admin_offers');
+Route::get('/slider',[SliderController::class, 'redicrect_slider'])->name('admin_slider');
+Route::get('/add_slider',[SliderController::class, 'add_slider'])->name('add_slider');
+Route::post('/added_slider',[SliderController::class, 'slider_added'])->name('slider_added');
+
+Route::get('/contact', [ContactController::class, 'contact'])->name('contact');
+Route::post('/contact_updated',[ContactController::class, 'contact_updated'])->name('contact_updated');
+Route::post('/contact/submit', [Contact_query_Controller::class, 'submitQuery'])->name('contact.submit');
 
 Route::get('/dashboard',[PageController::class, 'redicrect_dashboard'])->name('admin_dashboard');
 Route::get('/users',[PageController::class, 'redicrect_users'])->name('admin_users');
@@ -35,9 +49,6 @@ Route::get('/edit_users',[PageController::class, 'edit_users'])->name('edit_user
 Route::post('/users_updated',[PageController::class, 'user_updated'])->name('user_updated');
 Route::get('/add_user',[PageController::class, 'user_add'])->name('add_user');
 Route::post('/added_user',[PageController::class, 'user_added'])->name('user_added');
-Route::get('/slider',[PageController::class, 'redicrect_slider'])->name('admin_slider');
-Route::get('/add_slider',[PageController::class, 'add_slider'])->name('add_slider');
-Route::post('/added_slider',[PageController::class, 'slider_added'])->name('slider_added');
 Route::get('/edit_slider',[PageController::class, 'edit_slider'])->name('edit_slider');
 Route::post('/updated_slider',[PageController::class, 'slider_updated'])->name('slider_updated');
 Route::get('/edit_product',[PageController::class, 'edit_product'])->name('edit_product');
@@ -46,7 +57,6 @@ Route::get('/admin_profile',[PageController::class, 'admin_profile'])->name('adm
 Route::post('/admin_changed_profile',[PageController::class,'admin_changed_profile'])->name('admin_changed_profile');
 Route::post('/admin_changed_password',[PageController::class,'admin_changed_password'])->name('admin_changed_password');
 Route::get('/admin_review_rating',[PageController::class, 'redicrect_review_rating'])->name('admin_review_rating');
-Route::get('/admin_offers',[PageController::class, 'redicrect_offers'])->name('admin_offers');
 Route::get('/admin_order',[PageController::class, 'redicrect_order'])->name('admin_order');
 Route::get('/edit_order',[PageController::class, 'edit_order'])->name('edit_order');
 Route::post('/updated_order',[PageController::class, 'order_updated'])->name('order_updated');
@@ -56,14 +66,11 @@ Route::get('/edit_offer',[PageController::class, 'edit_offer'])->name('edit_offe
 Route::post('/updated_offer',[PageController::class, 'offer_updated'])->name('offer_updated');
 Route::get('/edit_discount',[PageController::class, 'edit_discount'])->name('edit_discount');
 Route::post('/updated_discount',[PageController::class, 'discount_updated'])->name('discount_updated');
-Route::get('/add_discount',[PageController::class, 'add_discount'])->name('add_discount');
-Route::post('/added_discount',[PageController::class, 'discount_added'])->name('discount_added');
 Route::get('/admin_brand',[PageController::class, 'redirect_brand'])->name('admin_brand');
 Route::get('/edit_brand',[PageController::class, 'edit_brand'])->name('edit_brand');
 Route::post('/brand_updated',[PageController::class, 'brand_updated'])->name('brand_updated');
 Route::get('/admin_contact_about',[PageController::class, 'redirect_contact_about'])->name('admin_contact_about');
 Route::get('/admin_service',[PageController::class, 'redirect_service'])->name('admin_service');
-Route::post('/contact_updated',[PageController::class, 'contact_updated'])->name('contact_updated');
 Route::post('/about_updated',[PageController::class, 'about_updated'])->name('about_updated');
 Route::get('/add_drawback',[PageController::class, 'add_drawback'])->name('add_drawback');
 Route::post('/drawback_added',[PageController::class, 'drawback_added'])->name('drawback_added');

@@ -11,7 +11,7 @@ class BrandController extends Controller
     {
         return view('admin/add_brand');
     }
-      public function brand_added(Request $form)
+    public function brand_added(Request $form)
     {
         $brand = new Brand();
         $brand->name = $form->brand_name;

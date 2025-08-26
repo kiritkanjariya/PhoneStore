@@ -102,6 +102,7 @@
                         <th scope="col" class="bg-dark text-white">RAM</th>
                         <th scope="col" class="bg-dark text-white">Storage</th>
                         <th scope="col" class="bg-dark text-white">Screen size</th>
+                        <th scope="col" class="bg-dark text-white">Feature-highlight</th>
                         <th scope="col" class="bg-dark text-white">Stock</th>
                         <th scope="col" class="bg-dark text-white">Status</th>
                         <th scope="col" class="bg-dark text-white">Action</th>
@@ -121,6 +122,13 @@
                         <td>{{ $product->ram }}</td>
                         <td>{{ $product->storage }}</td>
                         <td>{{ $product->screen_size }}</td>
+                        <td>
+                            @if ($product->feature_highlight)
+                                {{$product->feature_highlight }}
+                            @else
+                                -    
+                            @endif
+                        </td>
                         <td>{{ $product->stock_quantity }}</td>
                         <td>
                             <button class="btn btn-success">Active</button>

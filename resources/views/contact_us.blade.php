@@ -138,21 +138,20 @@
 
                     <div class="contact-info-item">
                         <div class="contact-icon-wrapper"><i class="bi bi-telephone-fill"></i></div>
-                        <span>+91 98765 43210</span>
+                        <span>+91 {{ $cantactInfo->phone }}</span>
                     </div>
                     <div class="contact-info-item">
                         <div class="contact-icon-wrapper"><i class="bi bi-envelope-fill"></i></div>
-                        <span>support@nextphone.com</span>
+                        <span>{{ $cantactInfo->email }}</span>
                     </div>
                     <div class="contact-info-item">
                         <div class="contact-icon-wrapper"><i class="bi bi-geo-alt-fill"></i></div>
-                        <span>123 Tech Avenue, Mumbai, India</span>
+                        <span>{{ $cantactInfo->location }}</span>
                     </div>
 
                     <div class="map-container mt-4">
-                        <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3721.493963495246!2d70.77253337499143!3d21.13254998436417!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39583366d3a86999%3A0xdf593a23f556b6f!2sJunagadh%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1721932623359!5m2!1sen!2sin"
-                            width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                        <iframe src="https://www.google.com/maps?q=123+Tech+Avenue,+Mumbai,+India&output=embed" width="100%"
+                            height="100%" style="border:0;" allowfullscreen="" loading="lazy"
                             referrerpolicy="no-referrer-when-downgrade">
                         </iframe>
                     </div>
@@ -162,7 +161,10 @@
             <div class="col-lg-7 fade-in-section">
                 <div class="contact-form-card">
                     <h3 class="form-card-title">Send Us a Message</h3>
-                    <form action="/er" method="POST">
+                    @if(session('success'))
+                        <div class="alert alert-success">{{ session('success') }}</div>
+                    @endif
+                    <form action="{{ route('contact.submit') }}" method="POST">
                         @csrf
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -183,16 +185,16 @@
 
                         <div class="mb-3">
                             <label for="phone" class="form-label">Phone Number</label>
-                            <input type="tel" class="form-control" id="phone" name="phone"
-                                placeholder="+91 12345 67890" data-validation="required numeric min max" data-min="10"
-                                data-max="10">
+                            <input type="tel" class="form-control" id="phone" name="phone" placeholder="+91 12345 67890"
+                                data-validation="required numeric min max" data-min="10" data-max="10">
                             <div class="error" id="phoneError"></div>
                         </div>
 
                         <div class="mb-3">
                             <label for="message" class="form-label">Message</label>
-                            <textarea class="form-control" id="message" name="message" rows="5" placeholder="Type your message here..."
-                                data-validation="required min max" data-min="10" data-max="500"></textarea>
+                            <textarea class="form-control" id="message" name="message" rows="5"
+                                placeholder="Type your message here..." data-validation="required min max" data-min="10"
+                                data-max="500"></textarea>
                             <div class="error" id="messageError"></div>
                         </div>
 

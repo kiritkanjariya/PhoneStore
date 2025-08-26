@@ -7,6 +7,34 @@ use Illuminate\Http\Request;
 
 class SliderController extends Controller
 {
+
+    public function redicrect_slider()
+    {
+        $sliders = Slider::all();
+        return view('admin/admin_slider', compact('sliders'));
+    }
+
+    public function add_slider()
+    {
+        return view('admin/add_slider');
+    }
+
+    public function slider_added(Request $request)
+    {
+        $slider = new Slider();
+        $slider->status = $request->status;
+
+        if ($request->hasFile('slider_image')) {
+            $file = $request->file('slider_image');
+            $originalName = $file->getClientOriginalName();
+            $file->move(public_path('img/sliders'), $originalName); 
+            $slider->image = $originalName; 
+        }
+
+        $slider->save();
+        return $this->redicrect_slider();
+    }
+
     /**
      * Display a listing of the resource.
      */

@@ -16,9 +16,9 @@
                     @csrf
 
                     <div class="mb-3">
-                        <label for="image" class="form-label fw-semibold">Image</label>
-                        <input type="file" class="form-control" id="image" name="image" data-validation="required file file1">
-                        <div class="error" id="imageError"></div>
+                        <label for="slider_image" class="form-label fw-semibold">Image</label>
+                        <input type="file" class="form-control" id="slider_image" name="slider_image" data-validation="required file file1">
+                        <div class="error" id="slider_imageError"></div>
                     </div>
                     <div class="mb-3">
                         <label for="status" class="form-label fw-semibold">Status</label>

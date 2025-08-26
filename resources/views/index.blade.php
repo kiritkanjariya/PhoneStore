@@ -1,7 +1,6 @@
 @extends('master_view')
-
-
 @section('files')
+
     <style>
         .section-heading-v2 {
             display: flex;
@@ -86,34 +85,20 @@
     <div id="demo" class="carousel slide" data-bs-ride="carousel">
 
         <div class="carousel-indicators">
-            <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
-            <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
-            <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
-            <button type="button" data-bs-target="#demo" data-bs-slide-to="3"></button>
-            <button type="button" data-bs-target="#demo" data-bs-slide-to="4"></button>
+            @foreach($sliders as $key => $slider)
+                <button type="button" data-bs-target="#demo" data-bs-slide-to="{{ $key }}"
+                    class="{{ $key == 0 ? 'active' : '' }}">
+                </button>
+            @endforeach
         </div>
 
         <div class="carousel-inner p-5">
-            <div class="carousel-item active">
-                <img src="{{ asset('img/sliders/Oppo-page-banner.jpg') }}" alt="Oppo Banner" class="d-block"
-                    style="width:100%; height: 500px; object-fit: cover;">
-            </div>
-            <div class="carousel-item">
-                <img src="{{ asset('img/sliders/pcbanner2.jpg') }}" alt="PC Banner" class="d-block"
-                    style="width:100%; height: 500px; object-fit: cover;">
-            </div>
-            <div class="carousel-item">
-                <img src="{{ asset('img/sliders/maxresdefault.jpg') }}" alt="Phone Banner" class="d-block"
-                    style="width:100%; height: 500px; object-fit: cover;">
-            </div>
-            <div class="carousel-item">
-                <img src="{{ asset('img/sliders/realme-14x.webp') }}" alt="Realme Banner" class="d-block"
-                    style="width:100%; height: 500px; object-fit: cover;">
-            </div>
-            <div class="carousel-item">
-                <img src="{{ asset('img/sliders/iphone-16.webp') }}" alt="iPhone Banner" class="d-block"
-                    style="width:100%; height: 500px; object-fit: cover;">
-            </div>
+            @foreach($sliders as $key => $slider)
+                <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                    <img src="{{ asset('img/sliders/' . $slider->image) }}" alt="{{ $slider->title ?? 'Slider Image' }}"
+                        class="d-block" style="width:100%; height: 500px; object-fit: cover;">
+                </div>
+            @endforeach
         </div>
 
         <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
@@ -125,58 +110,135 @@
 
     </div>
 
+
     <div class="container mb-4">
 
         <div class="section-heading-v2">
             <h2>iPhone <span class="highlight-green">@ Best Deal</span></h2>
         </div>
+
         <div class="row justify-content-center">
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 fade-in-section">
-                <div class="card product-card-v2 h-100">
-                    <div class="deal-badge-v2">12% OFF</div>
 
-                    <div class="product-img-wrapper-v2">
-                        <a href="#">
-                            <img src="{{ asset('img/product-images/iphone-15.webp') }}" class="product-img-v2"
-                                alt="Apple iPhone 15 Black">
-                        </a>
-                    </div>
+            @forelse ($products as $product)
+                @php
+                    $today = now()->toDateString();
+                    $hasActiveDiscount = $product->discount_status === 'active'
+                        && (!$product->start_date || $product->start_date <= $today)
+                        && (!$product->end_date || $product->end_date >= $today);
 
-                    <div class="card-body-v2">
-                        <a href="#" class="product-title-v2">
-                            Apple iPhone 15 (128 GB) - Black
-                        </a>
+                    $discountedPrice = $product->price;
+                    if ($hasActiveDiscount && $product->discount_type === 'percentage') {
+                        $discountedPrice -= ($product->price * $product->discount) / 100;
+                    } elseif ($hasActiveDiscount && $product->discount_type === 'fixed') {
+                        $discountedPrice -= $product->discount;
+                    }
+                @endphp
 
-                        <div class="rating-wrapper-v2">
-                            <div class="rating-stars-v2">
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-half"></i>
+                @if ($product->status === 'active')
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 fade-in-section">
+                        <div class="card product-card-v2 h-100">
+
+                            @if ($hasActiveDiscount)
+                                @if ($product->discount_type === 'percentage')
+                                    <div class="deal-badge-v2">{{ number_format($product->discount) }}% Off</div>
+                                @elseif ($product->discount_type === 'fixed')
+                                    <div class="deal-badge-v2">₹{{ number_format($product->discount) }} Off</div>
+                                @endif
+
+                                <div class="product-img-wrapper-v2">
+                                    <a href="#">
+                                        <img src="{{ asset('img/product-images/' . $product->image) }}" class="product-img-v2"
+                                            alt="{{ $product->name }}">
+                                    </a>
+                                </div>
+
+                                <div class="card-body-v2">
+                                    <a href="#" class="product-title-v2">
+                                        {{ $product->name }} ({{ $product->storage }}GB) - Black
+                                    </a>
+
+                                    <div class="rating-wrapper-v2">
+                                        <div class="rating-stars-v2">
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-half"></i>
+                                        </div>
+                                        <span class="review-count-v2">(234 reviews)</span>
+                                    </div>
+
+                                    <div class="price-wrapper-v2">
+                                        <span class="current-price-v2">₹{{ number_format($discountedPrice) }}</span>
+                                        <span class="original-price-v2">
+                                            M.R.P: <del>₹{{ number_format($product->price) }}</del>
+                                        </span>
+                                    </div>
+
+                                    @if ($product->deal_tag)
+                                        <div class="deal-text-v2">{{ $product->deal_tag }}</div>
+                                    @endif
+                                    @if ($product->discount_feature_highlight)
+                                        <p class="prime-note-v2">{{ $product->discount_feature_highlight }}</p>
+                                    @elseif ($product->feature_highlight)
+                                        <p class="prime-note-v2">{{ $product->feature_highlight }}</p>
+                                    @endif
+                                </div>
+
+                            @else
+                                @if ($product->badge_text)
+                                    <div class="deal-badge-v2">{{ $product->badge_text }}</div>
+                                @endif
+                                <div class="product-img-wrapper-v2">
+                                    <a href="#">
+                                        <img src="{{ asset('img/product-images/' . $product->image) }}" class="product-img-v2"
+                                            alt="{{ $product->name }}">
+                                    </a>
+                                </div>
+
+                                <div class="card-body-v2">
+                                    <a href="#" class="product-title-v2">
+                                        {{ $product->name }} ({{ $product->storage }}GB) - Black
+                                    </a>
+
+                                    <div class="rating-wrapper-v2">
+                                        <div class="rating-stars-v2">
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-half"></i>
+                                        </div>
+                                        <span class="review-count-v2">(234 reviews)</span>
+                                    </div>
+
+                                    <div class="price-wrapper-v2">
+                                        <span class="current-price-v2">₹{{ number_format($product->price) }}</span>
+                                    </div>
+
+                                    @if ($product->deal_tag)
+                                        <div class="deal-text-v2">{{ $product->deal_tag }}</div>
+                                    @endif
+                                    @if ($product->feature_highlight)
+                                        <p class="prime-note-v2">{{ $product->feature_highlight }}</p>
+                                    @endif
+                                </div>
+                            @endif
+
+                            <div class="card-action-button-v2">
+                                <a href="#" class="btn btn-add-to-cart w-100">
+                                    <i class="bi bi-cart-fill me-1"></i> Add to Cart
+                                </a>
                             </div>
-                            <span class="review-count-v2">(234 reviews)</span>
-                        </div>
 
-                        <div class="price-wrapper-v2">
-                            <span class="current-price-v2">₹69,999</span>
-                            <span class="original-price-v2">M.R.P: <del>₹79,900</del></span>
                         </div>
-                        <div class="deal-text-v2">
-                            Early Bird Offer
-                        </div>
-                        <p class="prime-note-v2">Exclusively for Prime Members</p>
                     </div>
+                @endif
+            @empty
+                <p>No products found.</p>
+            @endforelse
 
-                    <div class="card-action-button-v2">
-                        <a href="#" class="btn btn-add-to-cart w-100">
-                            <i class="bi bi-cart-fill me-1"></i> Add to Cart
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 fade-in-section">
+            {{-- <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 fade-in-section">
                 <div class="card product-card-v2 h-100">
                     <div class="deal-badge-v2">12% OFF</div>
 
@@ -303,7 +365,8 @@
                         </a>
                     </div>
                 </div>
-            </div>
+            </div> --}}
+
         </div>
     </div>
 
@@ -320,8 +383,7 @@
                 <div class="card product-card-v2 h-100">
                     <div class="deal-badge-v2">AI Powerhouse</div>
                     <div class="product-img-wrapper-v2">
-                        <a href="#"><img
-                                src="https://m.media-amazon.com/images/I/71uqj6BKnRL._AC_UY327_FMwebp_QL65_.jpg"
+                        <a href="#"><img src="https://m.media-amazon.com/images/I/71uqj6BKnRL._AC_UY327_FMwebp_QL65_.jpg"
                                 class="product-img-v2" alt="Samsung Galaxy S25 Ultra"></a>
                     </div>
                     <div class="card-body-v2">
@@ -348,8 +410,7 @@
                 <div class="card product-card-v2 h-100">
                     <div class="deal-badge-v2">Pixel Perfect</div>
                     <div class="product-img-wrapper-v2">
-                        <a href="#"><img
-                                src="https://m.media-amazon.com/images/I/51Ibtg1KESL._AC_UY327_FMwebp_QL65_.jpg"
+                        <a href="#"><img src="https://m.media-amazon.com/images/I/51Ibtg1KESL._AC_UY327_FMwebp_QL65_.jpg"
                                 class="product-img-v2" alt="Google Pixel 10 Pro"></a>
                     </div>
                     <div class="card-body-v2">
@@ -376,8 +437,7 @@
                 <div class="card product-card-v2 h-100">
                     <div class="deal-badge-v2">Speed Demon</div>
                     <div class="product-img-wrapper-v2">
-                        <a href="#"><img
-                                src="https://m.media-amazon.com/images/I/71N4hshhfNL._AC_UY327_FMwebp_QL65_.jpg"
+                        <a href="#"><img src="https://m.media-amazon.com/images/I/71N4hshhfNL._AC_UY327_FMwebp_QL65_.jpg"
                                 class="product-img-v2" alt="OnePlus 13"></a>
                     </div>
                     <div class="card-body-v2">

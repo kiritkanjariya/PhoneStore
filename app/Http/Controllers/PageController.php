@@ -2,65 +2,72 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Products;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
-    public function home(){
-        return view('index');
-    }
 
-    public function showLoginForm(){
+    public function showLoginForm()
+    {
         return view('login');
     }
 
-    public function showRegisterForm(){
+    public function showRegisterForm()
+    {
         return view('registration');
     }
-    
-    public function about(){
+
+    public function about()
+    {
         return view('about_us');
     }
 
-    public function contact(){
-        return view('contact_us');
-    }
-    
-    public function service(){
+
+    public function service()
+    {
         return view('service');
     }
 
-    public function shop(){
+    public function shop()
+    {
         return view('shop');
     }
 
-    public function phone_details(){
+    public function phone_details()
+    {
         return view('phone_detail');
     }
 
-    public function forgot_password(){
+    public function forgot_password()
+    {
         return view('forgot_pass');
     }
 
-    public function cart(){
+    public function cart()
+    {
         return view('add_to_cart');
     }
 
 
     // login User
 
-    public function showProfile() {
+    public function showProfile()
+    {
         return view('profile');
     }
-    public function showCheckOut() {
+    public function showCheckOut()
+    {
         return view('checkout');
-    }   
+    }
 
-    public function showReview() {
+    public function showReview()
+    {
         return view('review');
     }
 
-    public function order(){
+    public function order()
+    {
         return view('order');
     }
 
@@ -86,19 +93,12 @@ class PageController extends Controller
     {
         return view('admin/add_user');
     }
-    public function redicrect_slider()
-    {
-        return view('admin/admin_slider');
-    }
+
     public function user_added()
     {
         return view('admin/admin_users');
     }
 
-    public function add_slider()
-    {
-        return view('admin/add_slider');
-    }
     public function slider_updated()
     {
         return view('admin/admin_slider');
@@ -106,11 +106,6 @@ class PageController extends Controller
     public function edit_slider()
     {
         return view('admin/edit_slider');
-    }
-
-    public function slider_added()
-    {
-        return view('admin/admin_slider');
     }
 
     public function edit_product()
@@ -180,19 +175,12 @@ class PageController extends Controller
     {
         return view('admin/admin_offers');
     }
-    public function add_discount()
-    {
-        return view('admin/add_discount');
-    }
-    public function discount_added()
-    {
-        return view('admin/admin_offers');
-    }
+
     public function redirect_brand()
     {
         return view('admin/admin_brand');
     }
-  
+
     public function edit_brand()
     {
         return view('admin/edit_brand');
@@ -209,10 +197,7 @@ class PageController extends Controller
     {
         return view('admin/admin_service');
     }
-    public function contact_updated()
-    {
-        return view('admin/admin_contact_about');
-    }
+    
     public function about_updated()
     {
         return view('admin/admin_contact_about');
