@@ -136,20 +136,22 @@
                 </tr>
             </thead>
             <tbody>
+                @if (isset($users))
+                @foreach ($users as $user)
                 <tr class="align-middle">
-                    <td>1</td>
-                    <td>Kirit</td>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $user->name }}</td>
                     <td>
-                        <img src="{{ asset('image/profile.png') }}" class="img-fluid">
+                        <img src="{{ asset('uploads/profile/'. $user->profile) }}" class="img-fluid" alt="Profile">
                     </td>
-                    <td>kknajariya630@rku.ac.in</td>
-                    <td>6352822005</td>
-                    <td>Raiya Road, Rajkot</td>
-                    <td>Admin</td>
-                    <td><button class="btn btn-success">Active</button></td>
-                    <td>23-04-2025</td>
+                    <td>{{ $user->email }}</td>
+                    <td>{{ $user->phone }}</td>
+                    <td>{{ $user->address }}</td>
+                    <td>{{ $user->role }}</td>
+                    <td><button class="btn {{ $user->status == 'active' ? 'btn-success' : 'btn-danger' }}">{{ ucfirst($user->status) }}</button></td>
+                    <td>{{ $user->created_at->format('d-m-Y') }}</td>
                     <td>
-                        <a href="{{ route('edit_user') }}" class="btn btn-warning me-1">
+                        <a href="{{ route('edit_user',$user->id) }}" class="btn btn-warning me-1">
                             <i class="bi bi-pencil"></i>
                         </a>
                         <button class="btn btn-danger">
@@ -157,27 +159,8 @@
                         </button>
                     </td>
                 </tr>
-                <tr class="align-middle">
-                    <td>2</td>
-                    <td>Kirit</td>
-                    <td>
-                        <img src="{{ asset('image/profile.png') }}" class="img-fluid">
-                    </td>
-                    <td>kknajariya630@rku.ac.in</td>
-                    <td>6352822005</td>
-                    <td>Raiya Road, Rajkot</td>
-                    <td>Admin</td>
-                    <td><button class="btn btn-success">Active</button></td>
-                    <td>23-04-2025</td>
-                    <td>
-                        <a href="{{ route('edit_user') }}" class="btn btn-warning me-1">
-                            <i class="bi bi-pencil"></i>
-                        </a>
-                        <button class="btn btn-danger">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </td>
-                </tr>
+                @endforeach
+                @endif
             </tbody>
         </table>
     </div>

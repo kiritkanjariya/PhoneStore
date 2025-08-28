@@ -10,7 +10,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\UserController;
 use App\Models\Brand;
-
+use App\Models\User;
 
 Route::get('/login', [PageController::class, 'showLoginForm'])->name('login');
 Route::get('/registration', [PageController::class, 'showRegisterForm'])->name('register');
@@ -44,11 +44,11 @@ Route::post('/contact_updated',[ContactController::class, 'contact_updated'])->n
 Route::post('/contact/submit', [Contact_query_Controller::class, 'submitQuery'])->name('contact.submit');
 
 Route::get('/dashboard',[PageController::class, 'redicrect_dashboard'])->name('admin_dashboard');
-Route::get('/users',[PageController::class, 'redicrect_users'])->name('admin_users');
-Route::get('/edit_users',[PageController::class, 'edit_users'])->name('edit_user');
-Route::post('/users_updated',[PageController::class, 'user_updated'])->name('user_updated');
-Route::get('/add_user',[PageController::class, 'user_add'])->name('add_user');
-Route::post('/added_user',[PageController::class, 'user_added'])->name('user_added');
+Route::get('/users',[UserController::class, 'redicrect_users'])->name('admin_users');
+Route::get('/edit_users/{id}', [UserController::class, 'edit_users'])->name('edit_user');
+Route::post('/users_updated',[UserController::class, 'user_updated'])->name('user_updated');
+Route::get('/add_user',[UserController::class, 'user_add'])->name('add_user');
+Route::post('/added_user',[UserController::class, 'user_added'])->name('user_added');
 Route::get('/edit_slider',[PageController::class, 'edit_slider'])->name('edit_slider');
 Route::post('/updated_slider',[PageController::class, 'slider_updated'])->name('slider_updated');
 Route::get('/edit_product',[PageController::class, 'edit_product'])->name('edit_product');

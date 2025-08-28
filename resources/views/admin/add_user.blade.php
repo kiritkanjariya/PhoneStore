@@ -33,6 +33,12 @@
                     </div>
 
                     <div class="mb-3">
+                        <label for="password" class="form-label fw-semibold">Password</label>
+                        <input type="text" class="form-control" id="password" name="password" data-validation="required strongPassword" placeholder="Enter Password">
+                        <div class="error" id="passwordError"></div>
+                    </div>
+
+                    <div class="mb-3">
                         <label for="address" class="form-label fw-semibold">Address</label>
                         <input type="text" class="form-control" id="address" name="address" data-validation="required" placeholder="Enter address">
                         <div class="error" id="addressError"></div>

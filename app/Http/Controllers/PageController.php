@@ -77,27 +77,6 @@ class PageController extends Controller
     {
         return view('admin/admin_dashboard');
     }
-    public function redicrect_users()
-    {
-        return view('admin/admin_users');
-    }
-    public function user_updated()
-    {
-        return view('admin/admin_users');
-    }
-    public function edit_users()
-    {
-        return view('admin/edit_user');
-    }
-    public function user_add()
-    {
-        return view('admin/add_user');
-    }
-
-    public function user_added()
-    {
-        return view('admin/admin_users');
-    }
 
     public function slider_updated()
     {
