@@ -120,6 +120,14 @@
                 <i class="bi bi-plus-lg"></i> Add
             </a>
         </div>
+
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
         <div class="table-responsive table-responsive-md table-responsive-sm" style="z-index: 1;">
             <div class="container mt-3">
                 <table id="discountTable" class="table table-striped table-bordered text-center" style="min-width: 1600px;">
@@ -174,14 +182,14 @@
                                     <td>
                                         @if ($discount->badge_text)
                                             <span class="badge" style="
-                                                                background-color: #3A5A40;
-                                                                color: white;
-                                                                padding: 5px 10px;
-                                                                border-radius: 12px;
-                                                                font-size: 12px;
-                                                                font-weight: bold;
-                                                                display: inline-block;
-                                                                ">
+                                                                                                background-color: #3A5A40;
+                                                                                                color: white;
+                                                                                                padding: 5px 10px;
+                                                                                                border-radius: 12px;
+                                                                                                font-size: 12px;
+                                                                                                font-weight: bold;
+                                                                                                display: inline-block;
+                                                                                            ">
                                                 {{ $discount->badge_text }}
                                         @else
                                                 -
@@ -229,9 +237,17 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="{{ route('edit_discount') }}" class="btn btn-warning"><i
-                                                class="bi bi-pencil"></i></a>
-                                        <button class="btn btn-danger"><i class="bi bi-trash"></i></button>
+                                        <a href="{{ route('edit_discount', $discount->id) }}" class="btn btn-warning">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <form action="{{ route('discount.destroy', $discount->id) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger"
+                                                onclick="return confirm('Are you sure you want to delete this discount?')">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach

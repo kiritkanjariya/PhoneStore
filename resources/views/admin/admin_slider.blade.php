@@ -84,6 +84,13 @@
             </a>
         </div>
 
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
         <div class="table-responsive-lg mt-3" style="z-index: 1;">
             <div class="container">
                 <table class="table table-striped table-bordered text-center align-middle">
@@ -115,9 +122,15 @@
                                         <a href="{{ route('edit_slider') }}" class="btn btn-warning me-1">
                                             <i class="bi bi-pencil"></i>
                                         </a>
-                                        <a href="#" class="btn btn-danger">
-                                            <i class="bi bi-trash"></i>
-                                        </a>
+                                        <form action="{{ route('slider.destroy', $slider->id) }}" method="POST"
+                                            style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger"
+                                                onclick="return confirm('Are you sure you want to delete this slider?')">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach

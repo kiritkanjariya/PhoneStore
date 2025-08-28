@@ -29,15 +29,20 @@ Route::get('/', [ProductsController::class, 'home'])->name('home');
 Route::get('/add_product',[ProductsController::class, 'add_product'])->name('add_product');
 Route::post('/added_product',[ProductsController::class, 'product_added'])->name('product_added');
 Route::get('/admin_product',[ProductsController::class, 'redicrect_product'])->name('admin_product');
+// Route::put('/product/{id}', [ProductsController::class, 'update'])->name('product.update');
+Route::delete('/product/{id}', [ProductsController::class, 'destroy'])->name('product.destroy');
 Route::post('/register_submit', [UserController::class, 'register_submit'])->name('register_submit');
 Route::get('/add_brand',[BrandController::class, 'add_brand'])->name('add_brand');
 Route::post('/brand_added',[BrandController::class, 'brand_added'])->name('brand_added');
 Route::get('/add_discount',[DiscountController::class, 'add_discount'])->name('add_discount');
 Route::post('/added_discount',[DiscountController::class, 'discount_added'])->name('discount_added');
 Route::get('/admin_offers',[DiscountController::class, 'redicrect_offers'])->name('admin_offers');
+Route::delete('/discount/{id}', [DiscountController::class, 'destroy'])->name('discount.destroy');
 Route::get('/slider',[SliderController::class, 'redicrect_slider'])->name('admin_slider');
 Route::get('/add_slider',[SliderController::class, 'add_slider'])->name('add_slider');
 Route::post('/added_slider',[SliderController::class, 'slider_added'])->name('slider_added');
+Route::delete('/slider/{id}', [SliderController::class, 'destroy'])->name('slider.destroy');
+
 
 Route::get('/contact', [ContactController::class, 'contact'])->name('contact');
 Route::post('/contact_updated',[ContactController::class, 'contact_updated'])->name('contact_updated');

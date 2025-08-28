@@ -27,14 +27,27 @@ class SliderController extends Controller
         if ($request->hasFile('slider_image')) {
             $file = $request->file('slider_image');
             $originalName = $file->getClientOriginalName();
-            $file->move(public_path('img/sliders'), $originalName); 
-            $slider->image = $originalName; 
+            $file->move(public_path('img/sliders'), $originalName);
+            $slider->image = $originalName;
         }
 
         $slider->save();
         return $this->redicrect_slider();
     }
 
+    public function destroy($id)
+    {
+        $slider = Slider::findOrFail($id);
+
+
+        if ($slider->image && file_exists(public_path('img/sliders/' . $slider->image))) {
+            unlink(public_path('img/sliders/' . $slider->image));
+        }
+
+        $slider->delete();
+
+        return redirect()->back()->with('success', 'Slider deleted successfully!');
+    }
     /**
      * Display a listing of the resource.
      */
@@ -83,11 +96,4 @@ class SliderController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Slider $slider)
-    {
-        //
-    }
 }

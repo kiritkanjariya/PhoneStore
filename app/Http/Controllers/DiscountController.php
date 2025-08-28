@@ -52,4 +52,14 @@ class DiscountController extends Controller
     }
 
 
+    public function destroy($id)
+    {
+        $discount = Discount::findOrFail($id);
+        $discount->delete();
+
+        return redirect()->back()->with('success', 'Discount deleted successfully!');
+    }
+
+
+
 }

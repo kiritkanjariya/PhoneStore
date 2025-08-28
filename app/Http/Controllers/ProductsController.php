@@ -72,10 +72,25 @@ class ProductsController extends Controller
                 'discounts.status as discount_status',
             )->get();
 
-        $sliders = Slider::where('status', 'active')->get();    
-        return view('index', compact('products','sliders'));
+        $sliders = Slider::where('status', 'active')->get();
+        return view('index', compact('products', 'sliders'));
     }
 
+    public function destroy($id)
+    {
+        $product = Products::findOrFail($id);
+        $product->delete();
+
+        return redirect()->back()->with('success', 'Product deleted successfully!');
+    }
+
+    // public function update(Request $request, $id)
+    // {
+    //     $product = Products::findOrFail($id);
+    //     $product->update($request->all());
+
+    //     return redirect()->route('product.index')->with('success', 'Product updated successfully!');
+    // }
 
     public function index()
     {
@@ -112,19 +127,6 @@ class ProductsController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Products $products)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Products $products)
-    {
-        //
-    }
+
 }
