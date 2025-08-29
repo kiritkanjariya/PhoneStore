@@ -12,23 +12,25 @@
                     <h4 class="mb-0"> Edit Slider</h4>
                 </div>
 
-                <form action="{{ route('slider_updated') }}" method="POST" enctype="multipart/form-data" class="p-4">
+                @if (isset($sliders))
+                @foreach($sliders as $slider)
+                <form action="{{ route('slider_updated',$slider->id) }}" method="POST" enctype="multipart/form-data" class="p-4">
                     @csrf
 
-                     <div class="d-flex justify-content-center">
-                        <img src="{{ asset('img/sliders/Oppo-page-banner.jpg') }} " class="img-fluid" style="height: 270px; width: 70%;">
+                    <div class="d-flex justify-content-center">
+                        <img src="{{ asset('img/sliders/'.$slider->image) }} " class="img-fluid" style="height: 270px; width: 70%;">
                     </div>
 
                     <div class="mb-3">
                         <label for="image" class="form-label fw-semibold">Image</label>
-                        <input type="file" class="form-control" id="image" name="image" data-validation="required file file1">
+                        <input type="file" class="form-control" id="image" name="image" data-validation="file file1">
                         <div class="error" id="imageError"></div>
                     </div>
                     <div class="mb-3">
                         <label for="status" class="form-label fw-semibold">Status</label>
                         <select class="form-select" id="status" name="status">
-                            <option value="active" selected>Active</option>
-                            <option value="inactive">Inactive</option>
+                            <option value="active" {{ $slider->status == 'active' ? 'selected' : '' }}>Active</option>
+                            <option value="inactive" {{ $slider->status == 'inactive' ? 'selected' : '' }}>Inactive</option>
                         </select>
                     </div>
                     <div class="mb-3">
@@ -39,6 +41,8 @@
                     </div>
 
                 </form>
+                @endforeach
+                @endif
             </div>
         </div>
     </div>

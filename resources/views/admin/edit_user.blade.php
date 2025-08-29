@@ -14,7 +14,7 @@
 
                 @if (isset($users_detail))
                 @foreach($users_detail as $user)
-                <form action="{{ route('user_updated') }}" method="POST" enctype="multipart/form-data" class="p-4">
+                <form action="{{ route('user_updated',$user->id) }}" method="POST" enctype="multipart/form-data" class="p-4">
                     @csrf
                     <div class="d-flex justify-content-center">
                         <img src="{{ asset('uploads/profile/'. $user->profile) }}" class="img-fluid rounded-circle" style="height: 270px; width: 40%;">
@@ -46,22 +46,23 @@
                     <div class="mb-3">
                         <label for="role" class="form-label fw-semibold">Role</label>
                         <select class="form-select" id="role" name="role">
-                            <option value="user" selected>User</option>
-                            <option value="admin">Admin</option>
+                            <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>User</option>
+                            <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
                         </select>
                     </div>
 
                     <div class="mb-3">
                         <label for="status" class="form-label fw-semibold">Status</label>
                         <select class="form-select" id="status" name="status">
-                            <option value="active" selected>Active</option>
-                            <option value="inactive">Inactive</option>
+                            <option value="active" {{ $user->status == 'active' ? 'selected' : '' }}>Active</option>
+                            <option value="inactive" {{ $user->status == 'inactive' ? 'selected' : '' }}>Inactive</option>
                         </select>
                     </div>
 
+
                     <div class="mb-4">
                         <label for="profile_image" class="form-label fw-semibold">Profile Image</label>
-                        <input type="file" class="form-control" id="profile_image" name="profile_image" data-validation="required file file1">
+                        <input type="file" class="form-control" id="profile_image" name="profile_image" data-validation="file file1">
                         <div class="error" id="profile_imageError"></div>
                     </div>
 

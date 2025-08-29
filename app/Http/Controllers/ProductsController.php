@@ -44,6 +44,43 @@ class ProductsController extends Controller
         return $this->redicrect_product();
     }
 
+    public function edit_product($id)
+    {
+        $brands = Brand::all();
+        $products = Products::where('id', $id)->get();
+        return view('admin/edit_product', compact('products','brands'));
+    }
+
+    public function product_updated(Request $request, $id)
+    {
+        $products = Products::findOrFail($id);
+
+        $products->name = $request->name;
+        $products->price = $request->price;
+        $products->brand_id = $request->brand;
+        $products->feature_highlight = $request->feature_highlight;
+        $products->stock_quantity = $request->stock;
+        $products->ram = $request->ram;
+        $products->storage = $request->storage;
+        $products->status = $request->status;
+
+        if ($request->hasFile('product_image')) {
+            if ($products->image && file_exists(public_path('img/product-images/' . $products->image))) {
+                unlink(public_path('img/product-images/' . $products->image));
+            }
+
+            $file = $request->file('product_image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('img/product-images/'), $filename);
+
+            $products->image = $filename;
+        }
+
+        $products->save();
+
+        return $this->redicrect_product();
+    }
+
 
     public function home()
     {
@@ -78,6 +115,7 @@ class ProductsController extends Controller
 
     public function destroy($id)
     {
+
         $product = Products::findOrFail($id);
         $product->delete();
 
@@ -126,7 +164,4 @@ class ProductsController extends Controller
     {
         //
     }
-
-
-
 }

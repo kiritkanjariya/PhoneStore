@@ -17,8 +17,32 @@ class BrandController extends Controller
         $brand->name = $form->brand_name;
         $brand->status = $form->status;
         $brand->save();
-        return view('admin/admin_brand');
+        return $this->redirect_brand();
     }
+     public function redirect_brand()
+    {
+        $brands = Brand::all();
+        return view('admin/admin_brand',compact('brands'));
+    }
+
+    public function edit_brand($id)
+    {
+        $brands = Brand::findOrFail($id);
+        
+        return view('admin/edit_brand',compact('brands'));
+    }
+
+    public function brand_updated(Request $request, $id)
+    {
+        $brand = Brand::findOrFail($id);
+
+        $brand->name = $request->brand_name;
+        $brand->status = $request->status;
+
+        $brand->save();
+        return $this->redirect_brand();
+    }
+
     public function index()
     {
         //

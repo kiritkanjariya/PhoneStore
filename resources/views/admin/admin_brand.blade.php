@@ -22,28 +22,27 @@
                     </tr>
                 </thead>
                 <tbody>
-                        <tr class="align-middle text-center">
-                            <td>1</td>
-                            <td>Oppo</td>
-                            <td><span class="btn btn-success">Active</span></td>
-                            <td>
-                                <a href="{{ route('edit_brand') }}" class="btn btn-warning"><i class="bi bi-pencil"></i></a>
-                                <a href="#" class="btn btn-danger shadow">
-                                    <i class="bi bi-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr class="align-middle text-center">
-                            <td>2</td>
-                            <td>Vivo</td>
-                            <td><span class="btn btn-success">Active</span></td>
-                            <td>
-                                <a href="{{ route('edit_brand') }}" class="btn btn-warning"><i class="bi bi-pencil"></i></a>
-                                <a href="#" class="btn btn-danger shadow">
-                                    <i class="bi bi-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
+                    @if (isset($brands))
+                    @foreach($brands as $brand)
+                    <tr class="align-middle text-center">
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $brand->name }}</td>
+                        <td>
+                            @if($brand->status === 'active')
+                            <span class="btn btn-success">Active</span>
+                            @else
+                            <span class="btn btn-danger">Inactive</span>
+                            @endif
+                        </td>
+                        <td>
+                            <a href="{{ route('edit_brand',$brand->id) }}" class="btn btn-warning"><i class="bi bi-pencil"></i></a>
+                            <a href="#" class="btn btn-danger shadow">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>

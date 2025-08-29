@@ -63,7 +63,7 @@ class PageController extends Controller
 
     public function showReview()
     {
-        return view('review');
+        return view('review&rating');
     }
 
     public function order()
@@ -76,24 +76,6 @@ class PageController extends Controller
     public function redicrect_dashboard()
     {
         return view('admin/admin_dashboard');
-    }
-
-    public function slider_updated()
-    {
-        return view('admin/admin_slider');
-    }
-    public function edit_slider()
-    {
-        return view('admin/edit_slider');
-    }
-
-    public function edit_product()
-    {
-        return view('admin/edit_product');
-    }
-    public function product_updated()
-    {
-        return view('admin/admin_product');
     }
 
     public function admin_changed_profile()
@@ -154,20 +136,7 @@ class PageController extends Controller
     {
         return view('admin/admin_offers');
     }
-
-    public function redirect_brand()
-    {
-        return view('admin/admin_brand');
-    }
-
-    public function edit_brand()
-    {
-        return view('admin/edit_brand');
-    }
-    public function brand_updated()
-    {
-        return view('admin/admin_brand');
-    }
+    
     public function redirect_contact_about()
     {
         return view('admin/admin_contact_about');

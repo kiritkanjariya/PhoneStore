@@ -54,11 +54,35 @@ class UserController extends Controller
             $user->profile = $originalName;
         }
         $user->save();
+        return view('login');
     }
 
-    public function user_updated()
+    public function user_updated(Request $request, $id)
     {
-        return view('admin/admin_users');
+        $user = User::findOrFail($id);
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->address = $request->address;
+        $user->role = $request->role;
+        $user->status = $request->status;
+
+        if ($request->hasFile('profile_image')) {
+            if ($user->profile && file_exists(public_path('uploads/profile/' . $user->profile))) {
+                unlink(public_path('uploads/profile/' . $user->profile));
+            }
+
+            $file = $request->file('profile_image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads/profile'), $filename);
+
+            $user->profile = $filename;
+        }
+
+        $user->save();
+
+        return $this->redicrect_users()->with('success', 'User Updated successfully!');
     }
     public function edit_users($id)
     {

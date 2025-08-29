@@ -34,6 +34,35 @@ class SliderController extends Controller
         $slider->save();
         return $this->redicrect_slider();
     }
+    public function edit_slider($id)
+    {
+        $sliders = Slider::where('id', $id)->get();
+
+        return view('admin/edit_slider', compact('sliders'));
+    }
+
+    public function slider_updated(Request $request, $id)
+    {
+        $slider = Slider::findOrFail($id);
+
+        $slider->status = $request->status;
+
+        if ($request->hasFile('image')) {
+            if ($slider->image && file_exists(public_path('img/sliders/' . $slider->image))) {
+                unlink(public_path('img/sliders/' . $slider->image));
+            }
+
+            $file = $request->file('image');
+            $filename = $file->getClientOriginalName();
+            $file->move(public_path('img/sliders/'), $filename);
+
+            $slider->image = $filename;
+        }
+
+        $slider->save();
+
+        return $this->redicrect_slider()->with('success', 'User Updated successfully!');
+    }
 
     public function destroy($id)
     {

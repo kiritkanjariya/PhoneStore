@@ -12,19 +12,20 @@
                     <h4 class="mb-0">Edit Brand</h4>
                 </div>
 
-                <form action="{{ route('brand_updated') }}" method="POST" class="p-4">
+                @if (isset($brands))
+                <form action="{{ route('brand_updated',$brands->id) }}" method="POST" class="p-4">
                     @csrf
                     <div class="mb-4">
                         <label for="brand_name" class="form-label fw-semibold">Brand Name</label>
-                        <input type="text" class="form-control" id="brand_name" name="brand_name" data-validation="required" placeholder="Oppo">
+                        <input type="text" class="form-control" id="brand_name" name="brand_name" data-validation="required" placeholder="Enter Brand name" value='{{ $brands->name }}'>
                         <div class="error" id="brand_nameError"></div>
                     </div>
 
-                    <div class="mb-3">
+                     <div class="mb-3">
                         <label for="status" class="form-label fw-semibold">Status</label>
                         <select class="form-select" id="status" name="status">
-                            <option value="active" selected>Active</option>
-                            <option value="inactive">Inactive</option>
+                            <option value="active" {{ $brands->status == 'active' ? 'selected' : '' }}>Active</option>
+                            <option value="inactive" {{ $brands->status == 'inactive' ? 'selected' : '' }}>Inactive</option>
                         </select>
                     </div>
 
@@ -33,6 +34,7 @@
                         <button type="submit" class="btn btn-success px-4">Update Brand</button>
                     </div>
                 </form>
+                @endif
             </div>
         </div>
     </div>

@@ -10,6 +10,8 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\UserController;
 use App\Models\Brand;
+use App\Models\Products;
+use App\Models\Slider;
 use App\Models\User;
 
 Route::get('/login', [PageController::class, 'showLoginForm'])->name('login');
@@ -42,7 +44,7 @@ Route::get('/slider',[SliderController::class, 'redicrect_slider'])->name('admin
 Route::get('/add_slider',[SliderController::class, 'add_slider'])->name('add_slider');
 Route::post('/added_slider',[SliderController::class, 'slider_added'])->name('slider_added');
 Route::delete('/slider/{id}', [SliderController::class, 'destroy'])->name('slider.destroy');
-
+Route::get('/review',[PageController::class, 'showReview']);
 
 Route::get('/contact', [ContactController::class, 'contact'])->name('contact');
 Route::post('/contact_updated',[ContactController::class, 'contact_updated'])->name('contact_updated');
@@ -51,13 +53,13 @@ Route::post('/contact/submit', [Contact_query_Controller::class, 'submitQuery'])
 Route::get('/dashboard',[PageController::class, 'redicrect_dashboard'])->name('admin_dashboard');
 Route::get('/users',[UserController::class, 'redicrect_users'])->name('admin_users');
 Route::get('/edit_users/{id}', [UserController::class, 'edit_users'])->name('edit_user');
-Route::post('/users_updated',[UserController::class, 'user_updated'])->name('user_updated');
+Route::post('/users_updated/{id}',[UserController::class, 'user_updated'])->name('user_updated');
 Route::get('/add_user',[UserController::class, 'user_add'])->name('add_user');
 Route::post('/added_user',[UserController::class, 'user_added'])->name('user_added');
-Route::get('/edit_slider',[PageController::class, 'edit_slider'])->name('edit_slider');
-Route::post('/updated_slider',[PageController::class, 'slider_updated'])->name('slider_updated');
-Route::get('/edit_product',[PageController::class, 'edit_product'])->name('edit_product');
-Route::post('/updated_product',[PageController::class, 'product_updated'])->name('product_updated');
+Route::get('/edit_slider/{id}',[SliderController::class, 'edit_slider'])->name('edit_slider');
+Route::post('/updated_slider/{id}',[SliderController::class, 'slider_updated'])->name('slider_updated');
+Route::get('/edit_product/{id}',[ProductsController::class, 'edit_product'])->name('edit_product');
+Route::post('/updated_product/{id}',[ProductsController::class, 'product_updated'])->name('product_updated');
 Route::get('/admin_profile',[PageController::class, 'admin_profile'])->name('admin_profile');
 Route::post('/admin_changed_profile',[PageController::class,'admin_changed_profile'])->name('admin_changed_profile');
 Route::post('/admin_changed_password',[PageController::class,'admin_changed_password'])->name('admin_changed_password');
@@ -71,9 +73,9 @@ Route::get('/edit_offer',[PageController::class, 'edit_offer'])->name('edit_offe
 Route::post('/updated_offer',[PageController::class, 'offer_updated'])->name('offer_updated');
 Route::get('/edit_discount',[PageController::class, 'edit_discount'])->name('edit_discount');
 Route::post('/updated_discount',[PageController::class, 'discount_updated'])->name('discount_updated');
-Route::get('/admin_brand',[PageController::class, 'redirect_brand'])->name('admin_brand');
-Route::get('/edit_brand',[PageController::class, 'edit_brand'])->name('edit_brand');
-Route::post('/brand_updated',[PageController::class, 'brand_updated'])->name('brand_updated');
+Route::get('/admin_brand',[BrandController::class, 'redirect_brand'])->name('admin_brand');
+Route::get('/edit_brand/{id}',[BrandController::class, 'edit_brand'])->name('edit_brand');
+Route::post('/brand_updated/{id}',[BrandController::class, 'brand_updated'])->name('brand_updated');
 Route::get('/admin_contact_about',[PageController::class, 'redirect_contact_about'])->name('admin_contact_about');
 Route::get('/admin_service',[PageController::class, 'redirect_service'])->name('admin_service');
 Route::post('/about_updated',[PageController::class, 'about_updated'])->name('about_updated');
