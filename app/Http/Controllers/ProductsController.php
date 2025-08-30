@@ -31,7 +31,7 @@ class ProductsController extends Controller
         $products->ram = $formdata->ram;
         $products->storage = $formdata->storage;
         $products->screen_size = $formdata->screen_size;
-        $products->Feature_highlight = $formdata->feature_highlight;
+        $products->feature_highlight = $formdata->feature_highlight;
         $products->stock_quantity = $formdata->stock;
         $products->brand_id = $formdata->brand;
         if ($formdata->hasFile('product_image')) {
@@ -117,18 +117,16 @@ class ProductsController extends Controller
     {
 
         $product = Products::findOrFail($id);
+
+        
+        if ($product->image && file_exists(public_path('img/product-images/' . $product->image))) {
+            unlink(public_path('img/product-images/' . $product->image));
+        }
+
         $product->delete();
 
         return redirect()->back()->with('success', 'Product deleted successfully!');
     }
-
-    // public function update(Request $request, $id)
-    // {
-    //     $product = Products::findOrFail($id);
-    //     $product->update($request->all());
-
-    //     return redirect()->route('product.index')->with('success', 'Product updated successfully!');
-    // }
 
     public function index()
     {

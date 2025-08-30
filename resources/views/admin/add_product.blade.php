@@ -66,9 +66,9 @@
                             <div class="error" id="screen_sizeError"></div>
                         </div>
                         <div class="mb-3">
-                            <label for="Feature-highlight" class="form-label fw-semibold">Feature-highlight</label>
-                            <input type="text" class="form-control" id="Feature-highlight" name="Feature-highlight"
-                                placeholder="Enter Feature-highlight">
+                            <label for="feature_highlight" class="form-label fw-semibold">Feature-highlight</label>
+                            <input type="text" class="form-control" id="feature_highlight" name="feature_highlight"
+                                placeholder="Enter feature_highlight">
                         </div>
                         <div class="mb-3">
                             <label for="stock" class="form-label fw-semibold">Stock</label>

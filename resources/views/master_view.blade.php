@@ -58,6 +58,47 @@
                         <i class="bi bi-person-circle"></i>
                         <span>Account</span>
                     </a>
+                    {{-- <div class="dropdown profile-dropdown">
+                        <a href="#" class="dropdown-toggle d-flex align-items-center text-decoration-none"
+                            id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="{{ asset('img/sliders/Default-Avatar.jpg') }}" alt="User Avatar" width="40"
+                                height="40" class="rounded-circle">
+                            <span class="d-none d-sm-inline mx-2 fw-bold text-dark">John Doe</span>
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="dropdownUser">
+
+                            <li class="dropdown-header text-center">
+                                <h6 class="mb-0">John Doe</h6>
+                                <small class="text-muted">john.doe@example.com</small>
+                            </li>
+
+                            <li>
+                                <hr class="dropdown-divider my-0">
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="user-profile.php">
+                                    <i class="bi bi-person-circle me-2"></i> My Profile
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="history.php">
+                                    <i class="bi bi-receipt me-2"></i> Order History
+                                </a>
+                            </li>
+
+                            <li>
+                                <hr class="dropdown-divider my-0">
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center text-danger" href="logout.php">
+                                    <i class="bi bi-box-arrow-right me-2"></i> Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -174,6 +215,44 @@
 
         .navbar-toggler-icon {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        .profile-dropdown{
+            background-color: #ffffff;
+            border-radius: 7px;
+            box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+            border: none;
+            padding: 0 4px;
+            margin-left: 15px;
+
+            
+        }
+        .profile-dropdown .dropdown-menu {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+            border: none;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        .profile-dropdown .dropdown-item {
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .profile-dropdown .dropdown-item i {
+            font-size: 1.1rem;
+            vertical-align: middle;
+        }
+
+        .profile-dropdown .dropdown-header {
+            padding: 1rem 1.5rem;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+            border-top-left-radius: 0.75rem;
+            border-top-right-radius: 0.75rem;
         }
     </style>
 
@@ -349,7 +428,7 @@
 
     <script>
         // SCRIPT FOR NAVBAR SCROLL EFFECT
-        window.addEventListener('scroll', function() {
+        window.addEventListener('scroll', function () {
             const navbar = document.querySelector('.navbar');
             if (window.scrollY > 20) {
                 navbar.classList.add('scrolled');
@@ -359,7 +438,7 @@
         });
 
         // SCRIPT FOR FADE-IN ANIMATION ON SCROLL
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const sections = document.querySelectorAll('.fade-in-section');
 
             const observer = new IntersectionObserver((entries) => {
@@ -378,7 +457,7 @@
         });
 
 
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
             const currentPath = window.location.pathname;
 

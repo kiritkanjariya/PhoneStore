@@ -31,7 +31,6 @@ Route::get('/', [ProductsController::class, 'home'])->name('home');
 Route::get('/add_product',[ProductsController::class, 'add_product'])->name('add_product');
 Route::post('/added_product',[ProductsController::class, 'product_added'])->name('product_added');
 Route::get('/admin_product',[ProductsController::class, 'redicrect_product'])->name('admin_product');
-// Route::put('/product/{id}', [ProductsController::class, 'update'])->name('product.update');
 Route::delete('/product/{id}', [ProductsController::class, 'destroy'])->name('product.destroy');
 Route::post('/register_submit', [UserController::class, 'register_submit'])->name('register_submit');
 Route::get('/add_brand',[BrandController::class, 'add_brand'])->name('add_brand');
@@ -53,7 +52,7 @@ Route::post('/contact/submit', [Contact_query_Controller::class, 'submitQuery'])
 Route::get('/dashboard',[PageController::class, 'redicrect_dashboard'])->name('admin_dashboard');
 Route::get('/users',[UserController::class, 'redicrect_users'])->name('admin_users');
 Route::get('/edit_users/{id}', [UserController::class, 'edit_users'])->name('edit_user');
-Route::post('/users_updated/{id}',[UserController::class, 'user_updated'])->name('user_updated');
+Route::post('/users_updated',[UserController::class, 'user_updated'])->name('user_updated');
 Route::get('/add_user',[UserController::class, 'user_add'])->name('add_user');
 Route::post('/added_user',[UserController::class, 'user_added'])->name('user_added');
 Route::get('/edit_slider/{id}',[SliderController::class, 'edit_slider'])->name('edit_slider');
