@@ -191,46 +191,46 @@
                             <label for="fullname" class="form-label">Full Name</label>
                             <input type="text" class="form-control" id="fullname" placeholder="Enter your full name"
                                 name="fullname" id="full_name" data-validation="required alpha min max" data-min="2"
-                                data-max="50" value="Kirit">
+                                data-max="50">
                             <div class="error" id="fullnameError"></div>
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email Address</label>
                             <input type="text" class="form-control" id="email" name="email"
-                                data-validation="required email" placeholder="Enter your email" value="kkanjariya630@rku.ac.in">
+                                data-validation="required email" placeholder="Enter your email">
                             <div class="error" id="emailError"></div>
                         </div>
                         <div class="mb-3">
                             <label for="phone" class="form-label">Phone Number</label>
                             <input type="text" class="form-control" id="phone" name="phone"
                                 data-validation="required min max numeric" data-max="10" data-min="10"
-                                placeholder="Enter your phone number" value="1234567890">
+                                placeholder="Enter your phone number">
                             <div class="error" id="phoneError"></div>
                         </div>
 
                         <div class="mb-3">
                             <label for="address" class="form-label">Address</label>
                             <textarea class="form-control" id="address" name="address" rows="2" placeholder="Enter your address"
-                                data-validation="required min max" data-min="5" data-max="100">R.K.University</textarea>
+                                data-validation="required min max" data-min="5" data-max="100"></textarea>
                             <div class="error" id="addressError"></div>
                         </div>
                         <div class="mb-3">
                             <label for="profile" class="form-label">Profile Picture</label>
                             <input type="file" class="form-control" id="profile" name="profile_picture"
-                                data-validation="required file file1">
+                                data-validation="file file1">
                             <div class="error" id="profile_pictureError"></div>
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
                             <input type="password" class="form-control" name="password" id="password"
-                                data-validation="required strongPassword" placeholder="Create a password" value="KIri23@#">
+                                data-validation="required strongPassword" placeholder="Create a password">
                             <div class="error" id="passwordError"></div>
                         </div>
                         <div class="mb-3">
                             <label for="confirm-password" class="form-label">Confirm Password</label>
                             <input type="password" class="form-control" id="confirm-password"
                                 placeholder="Confirm password" name="c_password"
-                                data-validation="required confirmPassword" data-password-id="password" value="KIri23@#">
+                                data-validation="required confirmPassword" data-password-id="password">
                             <div class="error" id="c_passwordError"></div>
                         </div>
 

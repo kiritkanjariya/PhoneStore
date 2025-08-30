@@ -58,6 +58,7 @@ class ProductsController extends Controller
         $products->name = $request->name;
         $products->price = $request->price;
         $products->brand_id = $request->brand;
+        $products->screen_size = $request->screen_size;
         $products->feature_highlight = $request->feature_highlight;
         $products->stock_quantity = $request->stock;
         $products->ram = $request->ram;

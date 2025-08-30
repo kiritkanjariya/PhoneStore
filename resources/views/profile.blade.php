@@ -13,37 +13,37 @@
 
                     <div class="profile-header">
                         <div class="profile-picture-wrapper">
-                            <img src="{{ asset('img/sliders/Default-Avatar.jpg') }}" alt="User Profile Picture">
+                            <img src="{{ $user->profile ? asset('uploads/profile/' . $user->profile) : asset('img/sliders/Default-Avatar.jpg') }}"
+                                alt="User Profile Picture" width="120" height="120" class="rounded-circle">
                         </div>
-                        <h5 class="profile-name">John Doe</h5>
-                        <p class="profile-email text-muted">john.doe@example.com</p>
+                        <h5 class="profile-name">{{ $user->name }}</h5>
+                        <p class="profile-email text-muted">{{ $user->email }}</p>
                     </div>
 
                     <hr>
 
                     <div class="profile-body">
                         <h4 class="section-title">Basic Information</h4>
-                        <form id="info_form">
+                        <form action="{{ route('profile.update', $user->id) }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
+
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Full Name</label>
-                                    <input type="text" class="form-control" value="John Doe" name="fullname" data-validation="required alpha min max" data-min="2" data-max="50">
-                                    <div class="error" id="fullnameError"></div>
+                                    <input type="text" class="form-control" value="{{ $user->name }}" name="fullname">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Phone Number</label>
-                                    <input type="text" class="form-control" name="phone" value="9876543210" data-validation="required numeric min max" data-min="10" data-max="10">
-                                    <div class="error" id="phoneError"></div>
+                                    <input type="text" class="form-control" name="phone" value="{{ $user->phone }}">
                                 </div>
                                 <div class="col-12 mb-3">
                                     <label class="form-label">Address</label>
-                                    <textarea class="form-control" rows="3" name="address" data-validation="required min max" data-min="5" data-max="50">123 Tech Avenue, Mumbai, India</textarea>
-                                    <div class="error" id="addressError"></div>
+                                    <textarea class="form-control" rows="3" name="address">{{ $user->address }}</textarea>
                                 </div>
                                 <div class="col-12 mb-3">
                                     <label class="form-label">Profile Picture</label>
-                                    <input type="file" class="form-control" name="profilr_pic" data-validation="required file file1" >
-                                    <div class="error" id="profilr_picError"></div>
+                                    <input type="file" class="form-control" name="profile_pic">
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-profile-save mt-2">Save Changes</button>
@@ -135,7 +135,7 @@
             border-radius: 8px;
             transition: all 0.3s ease;
         }
-        
+
         .btn-profile-save:hover {
             background-color: #2c4431;
             color: white;

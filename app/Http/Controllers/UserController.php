@@ -57,6 +57,15 @@ class UserController extends Controller
         return view('login');
     }
 
+
+    public function edit_users($id)
+    {
+        $users_detail = User::where('id', $id)->get();
+
+        return view('admin/edit_user', compact('users_detail'));
+    }
+
+
     public function user_updated(Request $request, $id)
     {
         $user = User::findOrFail($id);
@@ -84,10 +93,18 @@ class UserController extends Controller
 
         return $this->redicrect_users()->with('success', 'User Updated successfully!');
     }
-    public function edit_users($id)
-    {
-        $users_detail = User::where('id', $id)->get();
 
-        return view('admin/edit_user', compact('users_detail'));
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+
+        if ($user->profile && file_exists(public_path('uploads/profile/' . $user->profile))) {
+            unlink(public_path('uploads/profile/' . $user->profile));
+        }
+
+        $user->delete();
+
+        return redirect()->back()->with('success', 'User deleted successfully!');
     }
+
 }

@@ -54,54 +54,61 @@
                         <i class="bi bi-bag"></i>
                         <span>Cart</span>
                     </a>
-                    <a href="{{ route('login') }}" class="header-icon-link">
-                        <i class="bi bi-person-circle"></i>
-                        <span>Account</span>
-                    </a>
-                    {{-- <div class="dropdown profile-dropdown">
-                        <a href="#" class="dropdown-toggle d-flex align-items-center text-decoration-none"
-                            id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="{{ asset('img/sliders/Default-Avatar.jpg') }}" alt="User Avatar" width="40"
-                                height="40" class="rounded-circle">
-                            <span class="d-none d-sm-inline mx-2 fw-bold text-dark">John Doe</span>
-                        </a>
 
-                        <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="dropdownUser">
+                    @if (session()->has('user'))
+                    @php
+                        $user = session('user');
+                    @endphp
+                        <div class="dropdown profile-dropdown">
+                            <a href="#" class="dropdown-toggle d-flex align-items-center text-decoration-none"
+                                id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="{{ $user->profile ? asset('uploads/profile/' . $user->profile) : asset('img/sliders/Default-Avatar.jpg') }}"
+                                    alt="User Avatar" width="40" height="30" class="rounded-circle">
+                                <span class="d-none d-sm-inline mx-2 fw-bold text-dark">{{ session('user')->name }}</span>
+                            </a>
 
-                            <li class="dropdown-header text-center">
-                                <h6 class="mb-0">John Doe</h6>
-                                <small class="text-muted">john.doe@example.com</small>
-                            </li>
+                            <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="dropdownUser">
 
-                            <li>
-                                <hr class="dropdown-divider my-0">
-                            </li>
+                                <li class="dropdown-header text-center">
+                                        <h6 class=" mb-0">{{ session('user')->name }}</h6>
+                                    <small class="text-muted">{{ session('user')->email }}</small>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider my-0">
+                                </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center"
+                                        href="{{ route('profile', session('user')->id) }}">
+                                        <i class="bi bi-person-circle me-2"></i> My Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center" href="{{ route('order') }}">
+                                        <i class="bi bi-receipt me-2"></i> Order History
+                                    </a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider my-0">
+                                </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center text-danger"
+                                        href="{{ route('logout') }}">
+                                        <i class="bi bi-box-arrow-right me-2"></i> Logout
+                                    </a>
+                                </li>
+                            </ul>
+                                </div>
+                    @else
+                            <a href="{{ route('login') }}" class="header-icon-link">
+                                <i class="bi bi-person-circle"></i>
+                                <span>Account</span>
+                                    </a>
+                        @endif
+                    </div>
 
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center" href="user-profile.php">
-                                    <i class="bi bi-person-circle me-2"></i> My Profile
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center" href="history.php">
-                                    <i class="bi bi-receipt me-2"></i> Order History
-                                </a>
-                            </li>
 
-                            <li>
-                                <hr class="dropdown-divider my-0">
-                            </li>
-
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center text-danger" href="logout.php">
-                                    <i class="bi bi-box-arrow-right me-2"></i> Logout
-                                </a>
-                            </li>
-                        </ul>
-                    </div> --}}
                 </div>
             </div>
-        </div>
     </nav>
 
     {{-- header styles --}}
@@ -217,16 +224,17 @@
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
         }
 
-        .profile-dropdown{
-            background-color: #ffffff;
+        .profile-dropdown {
+            background-color: #e5eae5;
             border-radius: 7px;
             box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
             border: none;
-            padding: 0 4px;
+            padding: 4px 5px;
             margin-left: 15px;
 
-            
+
         }
+
         .profile-dropdown .dropdown-menu {
             background-color: #ffffff;
             border-radius: 0.75rem;
@@ -369,8 +377,8 @@
 
                     <div class="col-lg-4 col-md-6 mb-4">
                         <div class="nextphone-logo">
-                            <img src="{{ asset('img/sliders/NP_Logo-removebg-preview.png') }}" alt="Logo"
-                                style="height: 80px;">
+                            <img src=" {{ asset('img/sliders/NP_Logo-removebg-preview.png') }}" alt="Logo"
+                            style="height: 80px;">
                             Next<span>Phone</span>
                         </div>
                         <p class="footer-description">
@@ -384,7 +392,7 @@
                         <ul class="list-unstyled footer-links">
                             <li><a href="{{ route('home') }}">Home</a></li>
                             <li><a href="{{ route('shop') }}">Shop</a></li>
-                            <li><a href="{{ route('service') }}">Service</a></li>
+                            <li><a href=" {{ route('service') }}">Service</a></li>
                             <li><a href="{{ route('contact') }}">Contact</a></li>
                             <li><a href="{{ route('about') }}">About</a></li>
                         </ul>

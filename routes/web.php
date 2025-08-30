@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\Contact_query_Controller;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DiscountController;    
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SliderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
@@ -11,10 +13,12 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\UserController;
 use App\Models\Brand;
 use App\Models\Products;
-use App\Models\Slider;
+use App\Models\Slider;  
 use App\Models\User;
 
-Route::get('/login', [PageController::class, 'showLoginForm'])->name('login');
+Route::get('/login_form', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class,'login'])->name('loginProcess');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/registration', [PageController::class, 'showRegisterForm'])->name('register');
 Route::get('/about', [PageController::class, 'about'])->name('about');
 Route::get('/service', [PageController::class, 'service'])->name('service');
@@ -22,8 +26,10 @@ Route::get('/cart', [PageController::class, 'cart'])->name('cart_detail');
 Route::get('/shop', [PageController::class, 'shop'])->name('shop');
 Route::get('/details', [PageController::class, 'phone_details'])->name('phone_details');
 Route::get('/forgot_password', [PageController::class, 'forgot_password'])->name('forgot_pass');
-Route::get('/profile', [PageController::class, 'showProfile'])->name('profile');
-Route::get('/orders', [PageController::class, 'showOrders'])->name('order');
+Route::get('/profile{id}', [ProfileController::class, 'showProfile'])->name('profile');
+Route::put('/profile/{id}', [ProfileController::class, 'update'])->name('profile.update');
+
+Route::get('/orders', [PageController::class, 'order'])->name('order');
 Route::get('/Checkout', [PageController::class, 'showCheckOut'])->name('Checkout');
 Route::get('/review-rating', [PageController::class, 'review_rating'])->name('review_rating');
 
@@ -52,7 +58,8 @@ Route::post('/contact/submit', [Contact_query_Controller::class, 'submitQuery'])
 Route::get('/dashboard',[PageController::class, 'redicrect_dashboard'])->name('admin_dashboard');
 Route::get('/users',[UserController::class, 'redicrect_users'])->name('admin_users');
 Route::get('/edit_users/{id}', [UserController::class, 'edit_users'])->name('edit_user');
-Route::post('/users_updated',[UserController::class, 'user_updated'])->name('user_updated');
+Route::post('/users_updated{id}',[UserController::class, 'user_updated'])->name('user_updated');
+Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 Route::get('/add_user',[UserController::class, 'user_add'])->name('add_user');
 Route::post('/added_user',[UserController::class, 'user_added'])->name('user_added');
 Route::get('/edit_slider/{id}',[SliderController::class, 'edit_slider'])->name('edit_slider');

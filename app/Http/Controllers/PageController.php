@@ -8,11 +8,6 @@ use Illuminate\Http\Request;
 class PageController extends Controller
 {
 
-    public function showLoginForm()
-    {
-        return view('login');
-    }
-
     public function showRegisterForm()
     {
         return view('registration');
@@ -52,10 +47,7 @@ class PageController extends Controller
 
     // login User
 
-    public function showProfile()
-    {
-        return view('profile');
-    }
+    
     public function showCheckOut()
     {
         return view('checkout');
@@ -68,7 +60,7 @@ class PageController extends Controller
 
     public function order()
     {
-        return view('order');
+        return view('orders');
     }
 
     // admin controller 

@@ -14,9 +14,15 @@
 
                 <div class="col-lg-6 d-flex align-items-center justify-content-center login-form-side">
                     <div class="w-100" style="max-width: 450px;">
+                        @if(session('error'))
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                {{ session('error') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        @endif
                         <h3 class="form-title">Login to Your Account</h3>
-                        <p class="form-subtitle">Enter your credentials to access your profile.</p>
-                        <form method="POST">
+                        <p class=" form-subtitle">Enter your credentials to access your profile.</p>
+                        <form action="{{ route('loginProcess') }}" method="POST">
                             @csrf
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email Address : </label>
