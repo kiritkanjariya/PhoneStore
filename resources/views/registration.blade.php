@@ -223,16 +223,31 @@
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
                             <input type="password" class="form-control" name="password" id="password"
-                                data-validation="required strongPassword" placeholder="Create a password">
+                                data-validation="required strongPassword" placeholder="Create a password" value="KIri23@#">
                             <div class="error" id="passwordError"></div>
                         </div>
+
                         <div class="mb-3">
                             <label for="confirm-password" class="form-label">Confirm Password</label>
                             <input type="password" class="form-control" id="confirm-password"
                                 placeholder="Confirm password" name="c_password"
-                                data-validation="required confirmPassword" data-password-id="password">
+                                data-validation="required confirmPassword" data-password-id="password" value="KIri23@#">
                             <div class="error" id="c_passwordError"></div>
                         </div>
+
+                        <style>
+                            .big-checkbox {
+                                transform: scale(1.3);
+                                cursor: pointer;
+                            }
+
+                            .input-group-text {
+                                display: flex;
+                                align-items: center;
+                                gap: 5px;
+                            }
+                        </style>
+
 
                         <div class="d-flex justify-content-between mt-4">
                             <button type="submit" class="btn w-100 btn-register-v2 ms-auto">Register

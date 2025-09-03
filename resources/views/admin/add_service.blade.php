@@ -20,22 +20,9 @@
                     </div>
 
                     <div class="mb-4">
-                        <label for="image" class="form-label fw-semibold">Image</label>
-                        <input type="file" class="form-control" id="image" name="image" data-validation="required file file1">
-                        <div class="error" id="imageError"></div>
-                    </div>
-
-                    <div class="mb-4">
                         <label for="description" class="form-label fw-semibold">Description</label>
                         <textarea class="form-control" id="description" name="description" rows="5" data-validation="required" placeholder="Enter Description"></textarea>
                         <div class="error" id="descriptionError"></div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="status" class="form-label fw-semibold">Status</label>
-                        <select class="form-select" id="status" name="status">
-                            <option value="active" selected>Active</option>
-                            <option value="inactive">Inactive</option>
-                        </select>
                     </div>
                     <div class="d-flex justify-content-end">
                         <a href="{{ route('admin_service') }}" class="btn btn-secondary me-2 px-4">Cancel</a>

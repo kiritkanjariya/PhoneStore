@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdvantageController;
+use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\Contact_query_Controller;
@@ -11,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DrawbackController;
+use App\Http\Controllers\ServiceController;
 use App\Models\Brand;
 use App\Models\Products;
 use App\Models\Slider;  
@@ -82,14 +86,19 @@ Route::post('/updated_discount',[PageController::class, 'discount_updated'])->na
 Route::get('/admin_brand',[BrandController::class, 'redirect_brand'])->name('admin_brand');
 Route::get('/edit_brand/{id}',[BrandController::class, 'edit_brand'])->name('edit_brand');
 Route::post('/brand_updated/{id}',[BrandController::class, 'brand_updated'])->name('brand_updated');
-Route::get('/admin_contact_about',[PageController::class, 'redirect_contact_about'])->name('admin_contact_about');
-Route::get('/admin_service',[PageController::class, 'redirect_service'])->name('admin_service');
-Route::post('/about_updated',[PageController::class, 'about_updated'])->name('about_updated');
-Route::get('/add_drawback',[PageController::class, 'add_drawback'])->name('add_drawback');
-Route::post('/drawback_added',[PageController::class, 'drawback_added'])->name('drawback_added');
-Route::get('/edit_drawback',[PageController::class, 'edit_drawback'])->name('edit_drawback');
-Route::post('/drawback_updated',[PageController::class, 'drawback_updated'])->name('drawback_updated');
-Route::get('/add_service',[PageController::class, 'add_service'])->name('add_service');
-Route::post('/service_added',[PageController::class, 'service_added'])->name('service_added');
-Route::get('/edit_service',[PageController::class, 'edit_service'])->name('edit_service');
-Route::post('/service_updated',[PageController::class, 'service_updated'])->name('service_updated');
+Route::get('/admin_service',[ServiceController::class, 'redirect_service'])->name('admin_service');
+Route::get('/admin_contact_about',[AboutController::class, 'redirect_contact_about'])->name('admin_contact_about');
+Route::post('/about_updated',[AboutController::class, 'about_updated'])->name('about_updated');
+Route::get('/add_drawback',[DrawbackController::class, 'add_drawback'])->name('add_drawback');
+Route::post('/drawback_added',[DrawbackController::class, 'drawback_added'])->name('drawback_added');
+Route::get('/edit_drawback/{id}',[DrawbackController::class, 'edit_drawback'])->name('edit_drawback');
+Route::post('/drawback_updated/{id}',[DrawbackController::class, 'drawback_updated'])->name('drawback_updated');
+Route::get('/add_service',[ServiceController::class, 'add_service'])->name('add_service');
+Route::post('/service_added',[ServiceController::class, 'service_added'])->name('service_added');
+Route::get('/edit_service/{id}',[ServiceController::class, 'edit_service'])->name('edit_service');
+Route::post('/service_updated/{id}',[ServiceController::class, 'service_updated'])->name('service_updated');
+
+Route::get('/add_advantage',[AdvantageController::class, 'add_advantage'])->name('add_advantage');
+Route::post('/advantage_added',[AdvantageController::class, 'advantage_added'])->name('advantage_added');
+Route::get('/edit_advantage/{id}',[AdvantageController::class, 'edit_advantage'])->name('edit_advantage');
+Route::post('/advantage_updated/{id}',[AdvantageController::class, 'advantage_updated'])->name('advanatage_updated');

@@ -13,9 +13,9 @@
                         <h4 class="mb-0">Edit Product</h4>
                     </div>
 
-                    @if (isset($products))
+                @if (isset($products))
 
-                        @foreach ($products as $product)
+                @foreach ($products as $product)
 
                         @endforeach
                         <form action="{{ route('product_updated', $product->id) }}" method="POST" enctype="multipart/form-data"

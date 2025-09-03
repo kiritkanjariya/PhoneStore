@@ -12,26 +12,20 @@
                     <h4 class="mb-0">Edit Drawback</h4>
                 </div>
 
-                <form action="{{ route('drawback_updated') }}" method="POST" class="p-4">
+                @if (isset($drawback))
+                
+                <form action="{{ route('drawback_updated',$drawback->id) }}" method="POST" class="p-4">
                     @csrf
                     <div class="mb-4">
                         <label for="drawback_name" class="form-label fw-semibold">Drawback Name</label>
-                        <input type="text" class="form-control" id="drawback_name" name="drawback_name" data-validation="required" placeholder="Easy Return">
+                        <input type="text" class="form-control" id="drawback_name" name="drawback_name" data-validation="required" placeholder="Enter Drawback Name" value="{{ $drawback->drawback }}">
                         <div class="error" id="drawback_nameError"></div>
                     </div>
 
                     <div class="mb-4">
                         <label for="description" class="form-label fw-semibold">Description</label>
-                        <textarea class="form-control" id="description" name="description" data-validation="required" placeholder="Hassle-free returns within 30 days"></textarea>
+                        <textarea class="form-control" id="description" name="description" data-validation="required" placeholder="Enter Description">{{ $drawback->description }}</textarea>
                         <div class="error" id="descriptionError"></div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="status" class="form-label fw-semibold">Status</label>
-                        <select class="form-select" id="status" name="status">
-                            <option value="active" selected>Active</option>
-                            <option value="inactive">Inactive</option>
-                        </select>
                     </div>
 
                     <div class="d-flex justify-content-end">
@@ -39,6 +33,7 @@
                         <button type="submit" class="btn btn-success px-4">Update Drawback</button>
                     </div>
                 </form>
+                @endif
             </div>
         </div>
     </div>

@@ -127,52 +127,6 @@ class PageController extends Controller
     public function discount_updated()
     {
         return view('admin/admin_offers');
-    }
-    
-    public function redirect_contact_about()
-    {
-        return view('admin/admin_contact_about');
-    }
-    public function redirect_service()
-    {
-        return view('admin/admin_service');
-    }
-    
-    public function about_updated()
-    {
-        return view('admin/admin_contact_about');
-    }
-    public function add_drawback()
-    {
-        return view('admin/add_drawback');
-    }
-    public function drawback_added()
-    {
-        return view('admin/admin_contact_about');
-    }
-    public function edit_drawback()
-    {
-        return view('admin/edit_drawback');
-    }
-    public function drawback_updated()
-    {
-        return view('admin/admin_contact_about');
-    }
-    public function add_service()
-    {
-        return view('admin/add_service');
-    }
-    public function service_added()
-    {
-        return view('admin/admin_service');
-    }
-    public function edit_service()
-    {
-        return view('admin/edit_service');
-    }
-    public function service_updated()
-    {
-        return view('admin/admin_service');
-    }
+    } 
 
 }

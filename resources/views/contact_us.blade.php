@@ -136,17 +136,20 @@
                     <h3 class="info-card-title">Contact Information</h3>
                     <p class="info-card-subtitle">Fill up the form and our team will get back to you within 24 hours.</p>
 
+                    @if (isset($contactInfo))
+                    
+                    @endif
                     <div class="contact-info-item">
                         <div class="contact-icon-wrapper"><i class="bi bi-telephone-fill"></i></div>
-                        <span>+91 {{ $cantactInfo->phone }}</span>
+                        <span>+91 {{ $contactInfo->phone }}</span>
                     </div>
                     <div class="contact-info-item">
                         <div class="contact-icon-wrapper"><i class="bi bi-envelope-fill"></i></div>
-                        <span>{{ $cantactInfo->email }}</span>
+                        <span>{{ $contactInfo->email }}</span>
                     </div>
                     <div class="contact-info-item">
                         <div class="contact-icon-wrapper"><i class="bi bi-geo-alt-fill"></i></div>
-                        <span>{{ $cantactInfo->location }}</span>
+                        <span>{{ $contactInfo->location }}</span>
                     </div>
 
                     <div class="map-container mt-4">
