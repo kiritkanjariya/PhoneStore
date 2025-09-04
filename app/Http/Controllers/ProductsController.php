@@ -41,7 +41,7 @@ class ProductsController extends Controller
             $products->image = $originalName;
         }
         $products->save();
-        return $this->redicrect_product();
+        return redirect()->route('admin_product')->with('success', 'Product Added successfully ✅');
     }
 
     public function edit_product($id)
@@ -79,7 +79,7 @@ class ProductsController extends Controller
 
         $products->save();
 
-        return $this->redicrect_product();
+        return redirect()->route('admin_product')->with('success', 'Product Updated successfully ✅');
     }
 
 
@@ -127,7 +127,7 @@ class ProductsController extends Controller
 
         $product->delete();
 
-        return redirect()->back()->with('success', 'Product deleted successfully!');
+        return redirect()->route('admin_product')->with('error', 'Product Deleted successfully ✅');
     }
 
     public function index()

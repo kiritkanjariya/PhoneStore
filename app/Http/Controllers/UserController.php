@@ -21,7 +21,10 @@ class UserController extends Controller
         $user->email = $formdata->email;
         $user->address = $formdata->address;
         $user->phone = $formdata->phone;
+        $user->role = $formdata->role;
         $user->password = $formdata->password;
+        $user->status = $formdata->status;
+
 
         if ($formdata->hasFile('profile_image')) {
             $file = $formdata->file('profile_image');
@@ -30,7 +33,7 @@ class UserController extends Controller
             $user->profile = $originalName;
         }
         $user->save();
-        return $this->redicrect_users();
+        return redirect()->route('admin_users')->with('success', 'User Added successfully ✅');
     }
 
     public function user_add()
@@ -52,6 +55,9 @@ class UserController extends Controller
             $originalName = $file->getClientOriginalName();
             $file->move(public_path('uploads/profile'), $originalName);
             $user->profile = $originalName;
+        }
+        else{
+            $user->profile = 'logo.png';
         }
         $user->save();
         return view('login');
@@ -91,7 +97,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return $this->redicrect_users()->with('success', 'User Updated successfully!');
+        return redirect()->route('admin_users')->with('success', 'User Updated successfully ✅');
     }
 
     public function destroy($id)
@@ -104,7 +110,6 @@ class UserController extends Controller
 
         $user->delete();
 
-        return redirect()->back()->with('success', 'User deleted successfully!');
+        return redirect()->route('admin_users')->with('error', 'User Deleted successfully ✅');
     }
-
 }

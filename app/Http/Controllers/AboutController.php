@@ -38,7 +38,7 @@ class AboutController extends Controller
 
         $about->save();
 
-        return $this->redirect_contact_about();
+        return redirect()->route('admin_contact_about')->with('success', 'About Updated successfully ✅');
     }
 
     public function index()

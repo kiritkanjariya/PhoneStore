@@ -8,6 +8,13 @@ use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
+
+    public function service()
+    {
+        $services = service::all();
+        return view('service', compact('services'));
+    }
+
     public function redirect_service()
     {
         $services = service::all();
@@ -25,7 +32,7 @@ class ServiceController extends Controller
         $service->service_title = $request->service_name;
         $service->service_description = $request->description;
         $service->save();
-        return $this->redirect_service();
+        return redirect()->route('admin_service')->with('success', 'Service Added successfully ✅');
     }
     public function edit_service($id)
     {
@@ -38,7 +45,7 @@ class ServiceController extends Controller
         $service->service_title = $request->service_name;
         $service->service_description = $request->description;
         $service->save();
-        return $this->redirect_service();
+        return redirect()->route('admin_service')->with('success', 'Service Updated successfully ✅');
     }
     
     public function index()

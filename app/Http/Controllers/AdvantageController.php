@@ -25,7 +25,7 @@ class AdvantageController extends Controller
         $advanatage->advantage_title = $request->advantage_title;
         $advanatage->advantage_description = $request->description;
         $advanatage->save();
-        return $this->redirect_advanatage();
+        return redirect()->route('admin_service')->with('success', 'Advantage Added successfully ✅');
     }
     public function edit_advantage($id)
     {
@@ -38,7 +38,7 @@ class AdvantageController extends Controller
         $advanatge->advantage_title = $request->advantage_title;
         $advanatge->advantage_description = $request->description;
         $advanatge->save();
-        return $this->redirect_advanatage();
+        return redirect()->route('admin_service')->with('success', 'Advantage Updated successfully ✅');
     }
 
     public function index()

@@ -25,19 +25,21 @@ Route::post('/login', [AuthController::class,'login'])->name('loginProcess');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/registration', [PageController::class, 'showRegisterForm'])->name('register');
 Route::get('/about', [PageController::class, 'about'])->name('about');
-Route::get('/service', [PageController::class, 'service'])->name('service');
+Route::get('/service', [ServiceController::class, 'service'])->name('service');
 Route::get('/cart', [PageController::class, 'cart'])->name('cart_detail');
 Route::get('/shop', [PageController::class, 'shop'])->name('shop');
 Route::get('/details', [PageController::class, 'phone_details'])->name('phone_details');
 Route::get('/forgot_password', [PageController::class, 'forgot_password'])->name('forgot_pass');
 Route::get('/profile', [ProfileController::class, 'showProfile'])->name('profile');
 Route::put('/profile/{id}', [ProfileController::class, 'update'])->name('profile.update');
+Route::post('/changed_password/{id}',[ProfileController::class,'changed_password'])->name('changed_password');
 
 Route::get('/orders', [PageController::class, 'order'])->name('order');
 Route::get('/Checkout', [PageController::class, 'showCheckOut'])->name('Checkout');
 Route::get('/review-rating', [PageController::class, 'review_rating'])->name('review_rating');
 
 Route::get('/', [ProductsController::class, 'home'])->name('home');
+Route::get('/admin_logout', [AuthController::class, 'admin_logout'])->name('admin_logout');
 Route::get('/add_product',[ProductsController::class, 'add_product'])->name('add_product');
 Route::post('/added_product',[ProductsController::class, 'product_added'])->name('product_added');
 Route::get('/admin_product',[ProductsController::class, 'redicrect_product'])->name('admin_product');
@@ -62,7 +64,7 @@ Route::post('/contact/submit', [Contact_query_Controller::class, 'submitQuery'])
 Route::get('/dashboard',[PageController::class, 'redicrect_dashboard'])->name('admin_dashboard');
 Route::get('/users',[UserController::class, 'redicrect_users'])->name('admin_users');
 Route::get('/edit_users/{id}', [UserController::class, 'edit_users'])->name('edit_user');
-Route::post('/users_updated{id}',[UserController::class, 'user_updated'])->name('user_updated');
+Route::post('/users_updated/{id}',[UserController::class, 'user_updated'])->name('user_updated');
 Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 Route::get('/add_user',[UserController::class, 'user_add'])->name('add_user');
 Route::post('/added_user',[UserController::class, 'user_added'])->name('user_added');
@@ -70,9 +72,9 @@ Route::get('/edit_slider/{id}',[SliderController::class, 'edit_slider'])->name('
 Route::post('/updated_slider/{id}',[SliderController::class, 'slider_updated'])->name('slider_updated');
 Route::get('/edit_product/{id}',[ProductsController::class, 'edit_product'])->name('edit_product');
 Route::post('/updated_product/{id}',[ProductsController::class, 'product_updated'])->name('product_updated');
-Route::get('/admin_profile',[PageController::class, 'admin_profile'])->name('admin_profile');
-Route::post('/admin_changed_profile',[PageController::class,'admin_changed_profile'])->name('admin_changed_profile');
-Route::post('/admin_changed_password',[PageController::class,'admin_changed_password'])->name('admin_changed_password');
+Route::get('/admin_profile',[ProfileController::class, 'admin_profile'])->name('admin_profile');
+Route::post('/admin_changed_profile/{id}',[ProfileController::class,'admin_changed_profile'])->name('admin_changed_profile');
+Route::post('/admin_changed_password/{id}',[ProfileController::class,'admin_changed_password'])->name('admin_changed_password');
 Route::get('/admin_review_rating',[PageController::class, 'redicrect_review_rating'])->name('admin_review_rating');
 Route::get('/admin_order',[PageController::class, 'redicrect_order'])->name('admin_order');
 Route::get('/edit_order',[PageController::class, 'edit_order'])->name('edit_order');

@@ -76,6 +76,8 @@
     }
 </style>
 
+@if (isset($user))
+
 <div class="container my-5">
     <div class="row d-flex justify-content-center">
         <div class="col-xl-10 col-lg-12">
@@ -87,11 +89,11 @@
                 </div>
 
                 <div class="d-flex justify-content-center profile-avatar-1-wrapper">
-                    <img src="{{ asset('img/sliders/Default-Avatar.jpg') }}" class="profile-avatar-1" alt="Profile Picture">
+                    <img src="{{ asset('uploads/profile/'.$user->profile) }}" class="profile-avatar-1" alt="Profile Picture">
                 </div>
                 <div class="text-center mb-4">
-                    <h4 class="fw-bold mb-0">Kanjariya Kirit</h4>
-                    <span class="text-muted">kkanjariya630@rku.ac.in</span>
+                    <h4 class="fw-bold mb-0">{{ $user->name }}</h4>
+                    <span class="text-muted">{{ $user->email }}</span>
                 </div>
 
                 <ul class="nav nav-tabs nav-fill px-4" id="myTab" role="tablist">
@@ -111,28 +113,28 @@
                     <div class="tab-content" id="myTabContent">
 
                         <div class="tab-pane fade show active" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
-                            <form action="admin_changed_profile" method="post" enctype="multipart/form-data" class="mt-3">
+                            <form action="{{ route('admin_changed_profile',$user->id) }}" method="post" enctype="multipart/form-data" class="mt-3">
                                 @csrf
                                 <h5 class="mb-4 fw-bold">Basic Information</h5>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label" for="name">Full Name</label>
-                                        <input type="text" class="form-control shadow-none" id="name" name="name" data-validation="required alpha min" data-min="2" placeholder="Kanjariya kirit">
+                                        <input type="text" class="form-control shadow-none" id="name" name="name" data-validation="required alpha min" data-min="2" placeholder="Enter Your name : " value="{{ $user->name }}">
                                         <div class="error" id="nameError"></div>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label" for="phone">Phone Number</label>
-                                        <input type="text" name="phone" id="phone" data-validation="required numeric min max" data-min="10" data-max="10" class="form-control shadow-none" placeholder="9723035284">
+                                        <input type="text" name="phone" id="phone" data-validation="required numeric min max" data-min="10" data-max="10" class="form-control shadow-none" placeholder="Enter your Mobile number : " value="{{ $user->phone }}">
                                         <div class="error" id="phoneError"></div>
                                     </div>
                                     <div class="col-12 mb-3">
                                         <label for="address" class="form-label">Address</label>
-                                        <textarea class="form-control shadow-none" id="address" name="address" data-validation="required" placeholder="Enter your full address" rows="3"></textarea>
+                                        <textarea class="form-control shadow-none" id="address" name="address" data-validation="required" placeholder="Enter your full address" rows="3">{{ $user->address }}</textarea>
                                         <div class="error" id="addressError"></div>
                                     </div>
                                     <div class="col-12 mb-4">
                                         <label for="edit_pic" class="form-label">Update Profile Picture</label>
-                                        <input type="file" name="edit_pic" class="form-control shadow-none" id="edit_pic" data-validation="required file">
+                                        <input type="file" name="edit_pic" class="form-control shadow-none" id="edit_pic" data-validation="file file2">
                                         <div class="error" id="edit_picError"></div>
                                     </div>
                                 </div>
@@ -143,7 +145,7 @@
                         </div>
 
                         <div class="tab-pane fade" id="password-tab-pane" role="tabpanel" aria-labelledby="password-tab" tabindex="0">
-                            <form action="admin_changed_password" method="post" class="mt-3">
+                            <form action="{{ route('admin_changed_password',$user->id) }}" method="post" class="mt-3">
                                 @csrf
                                 <h5 class="mb-4 fw-bold">Change Your Password</h5>
                                 <div class="row">
@@ -176,5 +178,7 @@
         </div>
     </div>
 </div>
+
+@endif
 
 @endsection

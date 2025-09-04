@@ -32,7 +32,7 @@ class SliderController extends Controller
         }
 
         $slider->save();
-        return $this->redicrect_slider();
+        return redirect()->route('admin_slider')->with('success', 'Slider Added successfully ✅');
     }
     public function edit_slider($id)
     {
@@ -61,7 +61,7 @@ class SliderController extends Controller
 
         $slider->save();
 
-        return $this->redicrect_slider()->with('success', 'User Updated successfully!');
+        return redirect()->route('admin_slider')->with('success', 'Slider Updated successfully ✅');
     }
 
     public function destroy($id)
@@ -75,11 +75,9 @@ class SliderController extends Controller
 
         $slider->delete();
 
-        return redirect()->back()->with('success', 'Slider deleted successfully!');
+        return redirect()->route('admin_slider')->with('error', 'Slider Deleted successfully ✅');
     }
-    /**
-     * Display a listing of the resource.
-     */
+    
     public function index()
     {
         //

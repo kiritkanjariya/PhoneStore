@@ -32,7 +32,7 @@ class ContactController extends Controller
         $contact->email = $request->email;
         $contact->phone = $request->phone;
         $contact->save();
-        return $this->redirect_contact_about();
+        return redirect()->route('admin_contact_about')->with('success', 'Contact Updated successfully ✅');
     }
 
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Products;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -18,11 +19,6 @@ class PageController extends Controller
         return view('about_us');
     }
 
-
-    public function service()
-    {
-        return view('service');
-    }
 
     public function shop()
     {
@@ -47,7 +43,7 @@ class PageController extends Controller
 
     // login User
 
-    
+
     public function showCheckOut()
     {
         return view('checkout');
@@ -67,20 +63,10 @@ class PageController extends Controller
 
     public function redicrect_dashboard()
     {
+        if (!Session::has('user')) {
+            return redirect()->route('login');
+        }
         return view('admin/admin_dashboard');
-    }
-
-    public function admin_changed_profile()
-    {
-        return view('admin/admin_profile');
-    }
-    public function admin_changed_password()
-    {
-        return view('admin/admin_profile');
-    }
-    public function admin_profile()
-    {
-        return view('admin/admin_profile');
     }
 
     public function redicrect_review_rating()
@@ -120,7 +106,4 @@ class PageController extends Controller
     {
         return view('admin/admin_offers');
     }
-
-    
-
 }

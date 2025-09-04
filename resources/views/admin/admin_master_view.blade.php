@@ -18,6 +18,11 @@
 </head>
 
 <body>
+    @if (!session()->has('user'))
+    <script>
+        window.location.href = "{{ route('login') }}";
+    </script>
+    @endif
     <div class="wrapper">
         <aside id="sidebar">
             <div class="d-flex justify-content-between p-4">
@@ -97,17 +102,14 @@
 
                 <div class="d-flex align-items-center gap-3">
 
-                    <form class="search-form d-none d-md-flex">
-                        <i class="bi bi-search search-icon"></i>
-                        <input class="form-control search-input" type="search" placeholder="Search...">
-                    </form>
+                    @if (session()->has('user'))
 
                     <div class="dropdown">
                         <button class="btn profile-dropdown-btn d-flex align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="{{ asset('img/sliders/Default-Avatar.jpg') }}" class="profile-avatar" alt="Admin">
+                            <img src="{{ asset('uploads/profile/'.session('user')->profile ) }}" class="profile-avatar" alt="Admin">
                             <div class="d-none d-sm-block text-start">
-                                <div class="profile-name">Admin Name</div>
-                                <div class="profile-role">Administrator</div>
+                                <div class="profile-name">{{ session('user')->name }}</div>
+                                <div class="profile-role">{{ session('user')->email }}</div>
                             </div>
                             <i class="bi bi-chevron-down d-none d-sm-block ms-2"></i>
                         </button>
@@ -119,9 +121,10 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+                            <li><a class="dropdown-item text-danger" href="{{ route('admin_logout') }}"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
                         </ul>
                     </div>
+                    @endif
                 </div>
             </nav>
             <style>
@@ -138,7 +141,7 @@
                     position: sticky;
                     top: 0;
                     z-index: 1000;
-                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+                    box-shadow: 0 6px 12px -3px rgba(33, 37, 41, 0.3);
                 }
 
                 .navbar-brand-text {
@@ -148,36 +151,6 @@
                     text-decoration: none;
                 }
 
-                .search-form {
-                    position: relative;
-                    min-width: 300px;
-                }
-
-                .search-icon {
-                    position: absolute;
-                    left: 15px;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    color: #95a5a6;
-                    font-size: 1.1rem;
-                }
-
-                .search-input {
-                    border-radius: 2rem;
-                    background-color: #f4f7fc;
-                    border: 1px solid #e0e5ec;
-                    padding-left: 45px;
-                    height: 44px;
-                    font-size: 0.95rem;
-                    transition: all 0.3s ease;
-                }
-
-                .search-input:focus {
-                    background-color: #ffffff;
-                    border-color: #3b7ddd;
-                    box-shadow: 0 0 0 3px rgba(59, 125, 221, 0.1);
-                }
-
                 .profile-dropdown-btn {
                     background: transparent;
                     border: none;
@@ -185,7 +158,6 @@
                     min-height: 44px;
                 }
 
-                /* Override Bootstrap's default hover for the transparent button */
                 .profile-dropdown-btn:hover {
                     background-color: transparent;
                 }
@@ -213,7 +185,6 @@
                     line-height: 1.2;
                 }
 
-                /* --- General Dropdown Menu Styling --- */
                 .dropdown-menu {
                     border-radius: 0.75rem;
                     border: 1px solid #e0e5ec;
@@ -262,6 +233,13 @@
                 @if(session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @endif
+
+                @if(session('error'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ session('error') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 @endif

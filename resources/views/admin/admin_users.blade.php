@@ -147,7 +147,7 @@
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->phone }}</td>
                                 <td>{{ $user->address }}</td>
-                                <td>{{ $user->role }}</td>
+                                <td>{{ ucfirst($user->role) }}</td>
                                 <td><button
                                         class="btn {{ $user->status == 'active' ? 'btn-success' : 'btn-danger' }}">{{ ucfirst($user->status) }}</button>
                                 </td>

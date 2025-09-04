@@ -118,19 +118,6 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
 
-        /* Form Styles */
-        /* .form-control {
-            background-color: #f8f9fa;
-            border-color: #dee2e6;
-            padding: 10px 15px;
-            border-radius: 8px;
-        } */
-
-        /* .form-control:focus {
-            background-color: #fff;
-            border-color: var(--primary-green, #3A5A40);
-            box-shadow: 0 0 0 0.2rem rgba(58, 90, 64, 0.15);
-        } */
 
         /* Summary Box Styles (reusing from cart) */
         .summary-title {

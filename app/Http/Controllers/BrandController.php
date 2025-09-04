@@ -17,7 +17,7 @@ class BrandController extends Controller
         $brand->name = $form->brand_name;
         $brand->status = $form->status;
         $brand->save();
-        return $this->redirect_brand();
+        return redirect()->route('admin_brand')->with('success', 'Brand Added successfully ✅');
     }
      public function redirect_brand()
     {
@@ -40,7 +40,7 @@ class BrandController extends Controller
         $brand->status = $request->status;
 
         $brand->save();
-        return $this->redirect_brand();
+        return redirect()->route('admin_brand')->with('success', 'Brand Updated successfully ✅');
     }
 
     public function index()

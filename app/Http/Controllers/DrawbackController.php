@@ -27,7 +27,7 @@ class DrawbackController extends Controller
         $drawback->drawback = $request->drawback_name;
         $drawback->description = $request->description;
         $drawback->save();
-        return $this->redirect_contact_about();
+        return redirect()->route('admin_contact_about')->with('success', 'Drawback Added successfully ✅');
     }
     public function edit_drawback($id)
     {
@@ -40,7 +40,7 @@ class DrawbackController extends Controller
         $drawback->drawback = $request->drawback_name;
         $drawback->description = $request->description;
         $drawback->save();
-        return $this->redirect_contact_about();
+        return redirect()->route('admin_contact_about')->with('success', 'Drawback Updated successfully ✅');
     }
     public function index()
     {

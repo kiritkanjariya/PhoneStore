@@ -18,6 +18,7 @@
                         <th scope="col" class="bg-dark text-white">Total</th>
                         <th scope="col" class="bg-dark text-white">Status</th>
                         <th scope="col" class="bg-dark text-white">Order Date</th>
+                        <th scope="col" class="bg-dark text-white">Delivered Date</th>
                         <th scope="col" class="bg-dark text-white">Action</th>
                     </tr>
                 </thead>
@@ -30,6 +31,7 @@
                         <td>$799</td>
                         <td>Pending</td>
                         <td>12-06-2025</td>
+                        <td>15-06-2025</td>
                         <td>
                             <a href="{{ route('edit_order') }}" class="btn btn-warning"><i class="bi bi-pencil"></i></a>
                             <button class="btn btn-danger"><i class="bi bi-trash"></i></button>

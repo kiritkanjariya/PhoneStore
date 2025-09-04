@@ -21,7 +21,11 @@ class AuthController extends Controller
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
                 $request->session()->put('user', $user);
-                return redirect('/')->with('success', 'Logged in successfully');
+                if ($user->role == 'user') {
+                    return redirect('/')->with('success', 'Logged in successfully');
+                } else {
+                    return redirect('/dashboard')->with('success', 'Logged in successfully');
+                }
             } else {
                 return back()->with('error', 'Invalid password');
             }
@@ -31,6 +35,11 @@ class AuthController extends Controller
     }
 
     public function logout(Request $request)
+    {
+        $request->session()->forget('user');
+        return redirect()->route('login')->with('success', 'Logged out successfully');
+    }
+    public function admin_logout(Request $request)
     {
         $request->session()->forget('user');
         return redirect()->route('login')->with('success', 'Logged out successfully');
