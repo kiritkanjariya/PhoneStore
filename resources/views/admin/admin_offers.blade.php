@@ -112,7 +112,6 @@
         </div>
     </div>
 
-    <!-- Product Discounts Section -->
     <div class="card container mt-5 p-4 border-2 mb-4">
         <div class="card-header d-flex align-items-center justify-content-between">
             Product Discounts
@@ -120,13 +119,6 @@
                 <i class="bi bi-plus-lg"></i> Add
             </a>
         </div>
-
-        @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
 
         <div class="table-responsive table-responsive-md table-responsive-sm" style="z-index: 1;">
             <div class="container mt-3">
@@ -170,26 +162,30 @@
                                         @endif
                                     </td>
                                     <td>
-                                        @if ($discount->discount_type == 'percentage')
-                                            @php
-                                                $discountedPrice = $discount->product->price;
-                                            @endphp
-                                            {{ number_format($discountedPrice -= ($discount->product->price * $discount->discount) / 100) }}
+                                        @if ($discount->discount_type)
+                                            @if ($discount->discount_type == 'percentage')
+                                                @php
+                                                    $discountedPrice = $discount->product->price;
+                                                @endphp
+                                                {{ number_format($discountedPrice -= ($discount->product->price * $discount->discount) / 100) }}
+                                            @else
+                                                {{ number_format($discount->product->price - $discount->discount) }}
+                                            @endif
                                         @else
-                                            {{ number_format($discount->product->price - $discount->discount) }}
+                                            -    
                                         @endif
                                     </td>
                                     <td>
                                         @if ($discount->badge_text)
                                             <span class="badge" style="
-                                                                                                background-color: #3A5A40;
-                                                                                                color: white;
-                                                                                                padding: 5px 10px;
-                                                                                                border-radius: 12px;
-                                                                                                font-size: 12px;
-                                                                                                font-weight: bold;
-                                                                                                display: inline-block;
-                                                                                            ">
+                                                background-color: #3A5A40;
+                                                color: white;
+                                                padding: 5px 10px;
+                                                border-radius: 12px;
+                                                font-size: 12px;
+                                                font-weight: bold;
+                                                display: inline-block;
+                                                ">
                                                 {{ $discount->badge_text }}
                                         @else
                                                 -
@@ -240,7 +236,8 @@
                                         <a href="{{ route('edit_discount', $discount->id) }}" class="btn btn-warning">
                                             <i class="bi bi-pencil"></i>
                                         </a>
-                                        <form action="{{ route('discount.destroy', $discount->id) }}" method="POST" style="display:inline;">
+                                        <form action="{{ route('discount.destroy', $discount->id) }}" method="POST"
+                                            style="display:inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger"

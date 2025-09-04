@@ -1,19 +1,27 @@
 @extends('master_view')
 
 @section('files')
+
+
     <div class="container my-5">
 
         <div class="section-heading-v2">
             <h2>My <span class="highlight-green">Profile</span></h2>
         </div>
 
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert" style="width: 70%; margin: auto; margin-bottom: 10px;">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
         <div class="row d-flex justify-content-center">
             <div class="col-lg-8">
                 <div class="profile-card-v2">
-
                     <div class="profile-header">
                         <div class="profile-picture-wrapper">
-                            <img src="{{ $user->profile ? asset('uploads/profile/' . $user->profile) : asset('img/sliders/Default-Avatar.jpg') }}"
+                            <img src="{{ $user->profile ? asset('uploads/profile/' . $user->profile) : asset('img/sliders/logo.png') }}"
                                 alt="User Profile Picture" width="120" height="120" class="rounded-circle">
                         </div>
                         <h5 class="profile-name">{{ $user->name }}</h5>

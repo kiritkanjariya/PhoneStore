@@ -30,7 +30,7 @@ Route::get('/cart', [PageController::class, 'cart'])->name('cart_detail');
 Route::get('/shop', [PageController::class, 'shop'])->name('shop');
 Route::get('/details', [PageController::class, 'phone_details'])->name('phone_details');
 Route::get('/forgot_password', [PageController::class, 'forgot_password'])->name('forgot_pass');
-Route::get('/profile{id}', [ProfileController::class, 'showProfile'])->name('profile');
+Route::get('/profile', [ProfileController::class, 'showProfile'])->name('profile');
 Route::put('/profile/{id}', [ProfileController::class, 'update'])->name('profile.update');
 
 Route::get('/orders', [PageController::class, 'order'])->name('order');
@@ -81,8 +81,8 @@ Route::get('/add_offer',[PageController::class, 'add_offer'])->name('add_offer')
 Route::post('/added_offer',[PageController::class, 'offer_added'])->name('offer_added');
 Route::get('/edit_offer',[PageController::class, 'edit_offer'])->name('edit_offer');
 Route::post('/updated_offer',[PageController::class, 'offer_updated'])->name('offer_updated');
-Route::get('/edit_discount',[PageController::class, 'edit_discount'])->name('edit_discount');
-Route::post('/updated_discount',[PageController::class, 'discount_updated'])->name('discount_updated');
+Route::get('/edit_discount{id}',[DiscountController::class, 'edit_discount'])->name('edit_discount');
+Route::post('/updated_discount{id}',[DiscountController::class, 'discount_updated'])->name('discount_updated');
 Route::get('/admin_brand',[BrandController::class, 'redirect_brand'])->name('admin_brand');
 Route::get('/edit_brand/{id}',[BrandController::class, 'edit_brand'])->name('edit_brand');
 Route::post('/brand_updated/{id}',[BrandController::class, 'brand_updated'])->name('brand_updated');

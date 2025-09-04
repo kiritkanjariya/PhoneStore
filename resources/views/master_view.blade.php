@@ -62,7 +62,7 @@
                         <div class="dropdown profile-dropdown">
                             <a href="#" class="dropdown-toggle d-flex align-items-center text-decoration-none"
                                 id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="{{ $user->profile ? asset('uploads/profile/' . $user->profile) : asset('img/sliders/Default-Avatar.jpg') }}"
+                                <img src="{{ $user->profile ? asset('uploads/profile/' . $user->profile) : asset('img/sliders/logo.png') }}"
                                     alt="User Avatar" width="40" height="30" class="rounded-circle">
                                 <span class="d-none d-sm-inline mx-2 fw-bold text-dark">{{ session('user')->name }}</span>
                             </a>
@@ -78,7 +78,7 @@
                                 </li>
                                 <li>
                                     <a class="dropdown-item d-flex align-items-center"
-                                        href="{{ route('profile', session('user')->id) }}">
+                                        href="{{ route('profile') }}">
                                         <i class="bi bi-person-circle me-2"></i> My Profile
                                     </a>
                                 </li>

@@ -2,17 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use App\Models\User;
 
 
 class ProfileController extends Controller
 {
-    public function showProfile($id)
+    public function showProfile()
     {
-        $user = User::findOrFail($id);
+
+        if (!Session::has('user')) {
+            return redirect()->route('login');
+        }
+
+        $user = User::find(Session::get('user')->id);
         return view('profile', compact('user'));
     }
+
 
     public function update(Request $request, $id)
     {
@@ -36,6 +43,12 @@ class ProfileController extends Controller
 
         $user->save();
 
-        return redirect()->route('profile', $user->id)->with('success', 'Profile updated successfully');
+        Session::put('user', $user);
+
+        if ($request->hasFile('profile_pic')) {
+            return redirect()->route('profile')->with('success', 'Profile picture updated successfully');
+        }else{
+            return redirect()->route('profile')->with('success', 'Profile updated successfully');
+        }
     }
 }

@@ -120,13 +120,7 @@ class PageController extends Controller
     {
         return view('admin/admin_offers');
     }
-    public function edit_discount()
-    {
-        return view('admin/edit_discount');
-    }
-    public function discount_updated()
-    {
-        return view('admin/admin_offers');
-    } 
+
+    
 
 }

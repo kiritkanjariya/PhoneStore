@@ -93,7 +93,8 @@ class ProductsController extends Controller
             ->where('status', '!=', 'inactive')
             ->update([
                 'status' => 'inactive',
-                'deal_tag' => 'Sale Ended'
+                'deal_tag' => 'Sale Ended',
+                'badge_text' => 'Sale Ended'
             ]);
 
         $products = DB::table('products')

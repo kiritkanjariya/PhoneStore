@@ -35,7 +35,7 @@
 
                         <div class="mb-3">
                             <label for="discount_type" class="form-label fw-semibold">Discount-type</label>
-                            <select class="form-select" id="discount_type" name="discount_type">
+                            <select class="form-select" id="discount_type" name="discount_type" value="{{ old('discount_type') }}">
                                 <option value="" disabled selected>-- Select Discount Type --</option>
                                 <option value="percentage">Percentage</option>
                                 <option value="fixed">Fixed</option>
@@ -45,46 +45,46 @@
                         <div class="mb-3">
                             <label for="discount" class="form-label fw-semibold">Discount</label>
                             <input type="text" class="form-control" id="discount" name="discount"
-                                placeholder="Enter Discount Percentage">
+                                placeholder="Enter Discount Percentage" value="{{ old('discount') }}">
                             @error('discount') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
 
                         <div class="mb-3">
                             <label for="badge-text" class="form-label fw-semibold">Badge-text</label>
                             <input type="text" class="form-control" id="badge_text" name="badge_text"
-                                placeholder="Enter Discount Label">
+                                placeholder="Enter Discount Label" value="{{ old('badge_text') }}">
                             @error('badge_text') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
 
                         <div class="mb-3">
                             <label for="deal-tag" class="form-label fw-semibold">Deal-tag</label>
                             <input type="text" class="form-control" id="deal_tag" name="deal_tag"
-                                placeholder="Enter Discount Label">
+                                placeholder="Enter Discount Label" value="{{ old('deal_tag') }}">
                             @error('deal_tag') <span class="text-danger"> {{ $message }} </span> @enderror
                         </div>
 
                         <div class="mb-3">
                             <label for="feature-highlight" class="form-label fw-semibold">Feature-highlight</label>
                             <input type="text" class="form-control" id="feature_highlight" name="feature_highlight"
-                                placeholder="Enter Discount Label">
+                                placeholder="Enter Discount Label" value="{{ old('feature_highlight') }}">
                             @error('feature_highlight') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
 
                         <div class="mb-3">
                             <label for="start_date" class="form-label fw-semibold">Start Date</label>
-                            <input type="date" class="form-control" id="start_date" name="start_date">
+                            <input type="date" class="form-control" id="start_date" name="start_date" value="{{ old('start_date') }}">
                             @error('start_date') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
 
                         <div class="mb-3">
                             <label for="end_date" class="form-label fw-semibold">End Date</label>
-                            <input type="date" class="form-control" id="end_date" name="end_date">
+                            <input type="date" class="form-control" id="end_date" name="end_date" value="{{ old('end_date') }}">
                             @error('end_date') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
 
                         <div class="mb-3">
                             <label for="status" class="form-label fw-semibold">Status</label>
-                            <select class="form-select" id="status" name="status">
+                            <select class="form-select" id="status" name="status" value="{{ old('status') }}">
                                 <option value="active" selected>Active</option>
                                 <option value="inactive">Inactive</option>
                             </select>

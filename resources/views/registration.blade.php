@@ -217,7 +217,7 @@
                         <div class="mb-3">
                             <label for="profile" class="form-label">Profile Picture</label>
                             <input type="file" class="form-control" id="profile" name="profile_picture"
-                                data-validation="required file file1">
+                                data-validation="file file1">
                             <div class="error" id="profile_pictureError"></div>
                         </div>
                         <div class="mb-3">
