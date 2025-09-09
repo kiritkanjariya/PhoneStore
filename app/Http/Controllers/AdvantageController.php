@@ -24,6 +24,7 @@ class AdvantageController extends Controller
         $advanatage = new advantage();
         $advanatage->advantage_title = $request->advantage_title;
         $advanatage->advantage_description = $request->description;
+        $advanatage->advantage_icon = $request->icon;
         $advanatage->save();
         return redirect()->route('admin_service')->with('success', 'Advantage Added successfully ✅');
     }
@@ -37,6 +38,7 @@ class AdvantageController extends Controller
         $advanatge = advantage::find($id);
         $advanatge->advantage_title = $request->advantage_title;
         $advanatge->advantage_description = $request->description;
+        $advanatge->advantage_icon = $request->icon;
         $advanatge->save();
         return redirect()->route('admin_service')->with('success', 'Advantage Updated successfully ✅');
     }

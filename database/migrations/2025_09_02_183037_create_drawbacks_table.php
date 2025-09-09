@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('drawbacks', function (Blueprint $table) {
             $table->id();
             $table->string('drawback');
+            $table->string('drawback_icon');
             $table->text('description');
             $table->timestamps();
         });

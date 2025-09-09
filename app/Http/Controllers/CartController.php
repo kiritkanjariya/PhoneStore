@@ -41,8 +41,12 @@ class CartController extends Controller
                 ->first();
 
             if ($cartItem) {
+                if ($cartItem->quantity < $product->stock_quantity) {
                 $cartItem->quantity++;
                 $cartItem->save();
+            } else {
+                return redirect()->route('cart_detail')->with('error', 'You already added maximum stock available ❌');
+            }
             } else {
                 $cart = new cart();
                 $cart->user_id = $user;

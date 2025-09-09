@@ -9,6 +9,12 @@ use Illuminate\Http\Request;
 
 class AboutController extends Controller
 {
+     public function about()
+    {
+        $drawbacks = drawback::all();
+        $abouts = about::all();
+        return view('about_us', compact('abouts','drawbacks'));
+    }
     public function redirect_contact_about()
     {
         $contactInfo  = Contacts::all();

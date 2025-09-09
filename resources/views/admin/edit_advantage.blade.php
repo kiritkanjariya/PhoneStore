@@ -22,6 +22,12 @@
                     </div>
 
                     <div class="mb-4">
+                        <label for="icon" class="form-label fw-semibold">Icon Class</label>
+                        <input type="text" class="form-control" id="icon" name="icon" rows="5" data-validation="required" placeholder="Enter Icon class" value="{{ $advantage->advantage_icon }}">
+                        <div class="error" id="iconError"></div>
+                    </div>
+
+                    <div class="mb-4">
                         <label for="description" class="form-label fw-semibold">Description</label>
                         <textarea class="form-control" id="description" name="description" rows="5" data-validation="required" placeholder="Enter Description">{{ $advantage->advantage_description }}</textarea>
                         <div class="error" id="descriptionError"></div>

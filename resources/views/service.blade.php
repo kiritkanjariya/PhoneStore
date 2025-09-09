@@ -161,7 +161,7 @@
             @foreach ($services as $service)
             <div class="col-lg-4 col-md-6 fade-in-section">
                 <div class="service-card-v2">
-                    <div class="service-icon-wrapper"><i class="bi bi-tools"></i></div>
+                    <div class="service-icon-wrapper"><i class="{{ $service->service_icon }}"></i></div>
                     <h5 class="service-title">{{ $service->service_title }}</h5>
                     <p class="service-text">{{ $service->service_description }}</p>
                 </div>
@@ -176,34 +176,17 @@
     <div class="container text-center">
         <h2 class="section-title-v2 mb-5">The NextPhone Advantage</h2>
         <div class="row g-4">
+            @if (isset($advantages))
+            @foreach ($advantages as $advantage)
             <div class="col-md-3 fade-in-section">
                 <div class="advantage-item">
-                    <div class="advantage-icon"><i class="bi bi-person-check-fill"></i></div>
-                    <h5 class="advantage-title">Expert Team</h5>
-                    <p class="text-muted">Highly skilled and certified professionals.</p>
+                    <div class="advantage-icon"><i class="{{ $advantage->advantage_icon }}"></i></div>
+                    <h5 class="advantage-title">{{ $advantage->advanatage_title }}</h5>
+                    <p class="text-muted">{{ $advantage->advantage_description }}</p>
                 </div>
             </div>
-            <div class="col-md-3 fade-in-section">
-                <div class="advantage-item">
-                    <div class="advantage-icon"><i class="bi bi-check-circle-fill"></i></div>
-                    <h5 class="advantage-title">Genuine Parts</h5>
-                    <p class="text-muted">We use only 100% original parts for repairs.</p>
-                </div>
-            </div>
-            <div class="col-md-3 fade-in-section">
-                <div class="advantage-item">
-                    <div class="advantage-icon"><i class="bi bi-piggy-bank-fill"></i></div>
-                    <h5 class="advantage-title">Transparent Pricing</h5>
-                    <p class="text-muted">No hidden fees. Get clear, upfront quotes.</p>
-                </div>
-            </div>
-            <div class="col-md-3 fade-in-section">
-                <div class="advantage-item">
-                    <div class="advantage-icon"><i class="bi bi-clock-history"></i></div>
-                    <h5 class="advantage-title">Quick Turnaround</h5>
-                    <p class="text-muted">Most services completed the same day.</p>
-                </div>
-            </div>
+            @endforeach
+            @endif
         </div>
     </div>
 </section>

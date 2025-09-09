@@ -12,7 +12,8 @@ class ServiceController extends Controller
     public function service()
     {
         $services = service::all();
-        return view('service', compact('services'));
+        $advantages = advantage::all();
+        return view('service', compact('services', 'advantages'));
     }
 
     public function redirect_service()
@@ -31,6 +32,7 @@ class ServiceController extends Controller
         $service = new service();
         $service->service_title = $request->service_name;
         $service->service_description = $request->description;
+        $service->service_icon = $request->icon;
         $service->save();
         return redirect()->route('admin_service')->with('success', 'Service Added successfully ✅');
     }
@@ -44,10 +46,11 @@ class ServiceController extends Controller
         $service = service::find($id);
         $service->service_title = $request->service_name;
         $service->service_description = $request->description;
+        $service->service_icon = $request->icon;
         $service->save();
         return redirect()->route('admin_service')->with('success', 'Service Updated successfully ✅');
     }
-    
+
     public function index()
     {
         //

@@ -34,6 +34,7 @@ class ProductsController extends Controller
         $products->feature_highlight = $formdata->feature_highlight;
         $products->stock_quantity = $formdata->stock;
         $products->brand_id = $formdata->brand;
+        $products->status = $formdata->status;
         if ($formdata->hasFile('product_image')) {
             $file = $formdata->file('product_image');
             $originalName = $file->getClientOriginalName();

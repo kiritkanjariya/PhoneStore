@@ -106,10 +106,11 @@
             <table class="table table-striped table-bordered">
                 <thead class="sticky-top">
                     <tr class="text-center">
-                        <th scope="col" class="bg-dark text-white">Sr no.</th>
-                        <th scope="col" class="bg-dark text-white">Name</th>
-                        <th scope="col" class="bg-dark text-white">Description</th>
-                        <th scope="col" class="bg-dark text-white">Action</th>
+                        <th scope="col" width="5%" class="bg-dark text-white">Sr no.</th>
+                        <th scope="col" width="20%" class="bg-dark text-white">Name</th>
+                        <th scope="col" width="20%" class="bg-dark text-white">Icon</th>
+                        <th scope="col" width="40%" class="bg-dark text-white">Description</th>
+                        <th scope="col" width="15%" class="bg-dark text-white">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -118,6 +119,7 @@
                     <tr class="align-middle text-center">
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $drawback->drawback }}</td>
+                        <td><i class="{{ $drawback->drawback_icon }}"></i></td>
                         <td>{{ $drawback->description }}</td>
                         <td>
                             <a href="{{ route('edit_drawback', $drawback->id) }}" class="btn btn-warning"><i class="bi bi-pencil"></i></a>

@@ -102,22 +102,16 @@
 <section class="container py-5">
     <div class="row align-items-center g-5">
         <div class="col-lg-6 fade-in-section">
-            <img src="{{ asset('img\sliders\about.png') }}"
+            @if (isset($abouts))
+            @foreach ($abouts as $about)
+
+            <img src="{{ asset('img/sliders/'.$about->image) }}"
                 alt="A person holding a modern smartphone in a bright, clean environment"
                 class="img-fluid rounded-4 shadow-lg">
         </div>
         <div class="col-lg-6 fade-in-section">
             <h2 class="section-title-v2">Our Story</h2>
-            <p class="text-muted">
-                Founded in the heart of India's bustling tech scene, <strong class="highlight-green">NextPhone</strong>
-                was born from a simple passion: to make the latest mobile technology accessible to everyone. We saw a
-                gap between high-end devices and everyday users and set out to bridge it with a commitment to fair
-                pricing, transparent service, and genuine products.
-            </p>
-            <p class="text-muted">
-                Today, we are proud to be a leading destination for smartphone enthusiasts across the country,
-                redefining the mobile shopping experience one customer at a time.
-            </p>
+            <p class="text-muted">{{ $about->about_description }}</p>
         </div>
     </div>
 </section>
@@ -125,12 +119,11 @@
 <section class="mission-section">
     <div class="container text-center">
         <h2 class="section-title-v2">Our Mission</h2>
-        <p class="lead text-muted mx-auto" style="max-width: 800px;">
-            To empower our customers by providing seamless access to the world's best mobile technology, backed by
-            expert support and a commitment to trust, value, and unparalleled service.
-        </p>
+        <p class="lead text-muted mx-auto" style="max-width: 800px;">{{ $about->mission }}</p>
     </div>
 </section>
+@endforeach
+@endif
 
 <section class="container py-5">
     <div class="text-center mb-5">
@@ -139,59 +132,17 @@
     </div>
     <div class="row g-4">
 
+        @if (isset($drawbacks))
+        @foreach ($drawbacks as $drawback)
         <div class="col-lg-4 col-md-6 fade-in-section">
             <div class="feature-card-v2">
-                <div class="feature-icon-wrapper"><i class="bi bi-patch-check-fill"></i></div>
-                <h5 class="feature-title">100% Genuine Products</h5>
-                <p class="feature-text">Every device is sourced directly from manufacturers, ensuring authenticity and a
-                    full warranty.</p>
+                <div class="feature-icon-wrapper"><i class="{{ $drawback->drawback_icon }}"></i></div>
+                <h5 class="feature-title">{{ $drawback->drawback }}</h5>
+                <p class="feature-text">{{ $drawback->description }}</p>
             </div>
         </div>
-
-        <div class="col-lg-4 col-md-6 fade-in-section">
-            <div class="feature-card-v2">
-                <div class="feature-icon-wrapper"><i class="bi bi-tags-fill"></i></div>
-                <h5 class="feature-title">Best Price Guarantee</h5>
-                <p class="feature-text">We offer competitive prices and exclusive deals you won’t find anywhere else.
-                </p>
-            </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 fade-in-section">
-            <div class="feature-card-v2">
-                <div class="feature-icon-wrapper"><i class="bi bi-truck"></i></div>
-                <h5 class="feature-title">Fast & Secure Delivery</h5>
-                <p class="feature-text">Enjoy lightning-fast, insured shipping to get your new device in your hands
-                    safely.</p>
-            </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 fade-in-section">
-            <div class="feature-card-v2">
-                <div class="feature-icon-wrapper"><i class="bi bi-headset"></i></div>
-                <h5 class="feature-title">Expert Tech Support</h5>
-                <p class="feature-text">Our knowledgeable support team is here to assist you with any questions, from
-                    setup to troubleshooting.</p>
-            </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 fade-in-section">
-            <div class="feature-card-v2">
-                <div class="feature-icon-wrapper"><i class="bi bi-arrow-counterclockwise"></i></div>
-                <h5 class="feature-title">Easy & Fair Returns</h5>
-                <p class="feature-text">Shop worry-free with our simple and transparent return policy for a hassle-free
-                    experience.</p>
-            </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 fade-in-section">
-            <div class="feature-card-v2">
-                <div class="feature-icon-wrapper"><i class="bi bi-people-fill"></i></div>
-                <h5 class="feature-title">Trusted By Thousands</h5>
-                <p class="feature-text">Join our growing family of happy customers who trust NextPhone for quality and
-                    service.</p>
-            </div>
-        </div>
+        @endforeach
+        @endif
 
     </div>
 </section>

@@ -26,6 +26,7 @@ class DrawbackController extends Controller
 
         $drawback->drawback = $request->drawback_name;
         $drawback->description = $request->description;
+        $drawback->drawback_icon = $request->icon;
         $drawback->save();
         return redirect()->route('admin_contact_about')->with('success', 'Drawback Added successfully ✅');
     }
@@ -39,6 +40,7 @@ class DrawbackController extends Controller
         $drawback = drawback::find($id);
         $drawback->drawback = $request->drawback_name;
         $drawback->description = $request->description;
+        $drawback->drawback_icon = $request->icon;
         $drawback->save();
         return redirect()->route('admin_contact_about')->with('success', 'Drawback Updated successfully ✅');
     }

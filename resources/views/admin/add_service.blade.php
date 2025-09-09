@@ -24,6 +24,12 @@
                         <textarea class="form-control" id="description" name="description" rows="5" data-validation="required" placeholder="Enter Description"></textarea>
                         <div class="error" id="descriptionError"></div>
                     </div>
+
+                    <div class="mb-4">
+                        <label for="icon" class="form-label fw-semibold">Icon Class</label>
+                        <input type="text" class="form-control" id="icon" name="icon" rows="5" data-validation="required" placeholder="Enter Icon class">
+                        <div class="error" id="iconError"></div>
+                    </div>
                     <div class="d-flex justify-content-end">
                         <a href="{{ route('admin_service') }}" class="btn btn-secondary me-2 px-4">Cancel</a>
                         <button type="submit" class="btn btn-success px-4">Add Service</button>

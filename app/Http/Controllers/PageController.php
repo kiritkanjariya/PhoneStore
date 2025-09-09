@@ -14,11 +14,6 @@ class PageController extends Controller
         return view('registration');
     }
 
-    public function about()
-    {
-        return view('about_us');
-    }
-
     public function phone_details()
     {
         return view('phone_detail');
@@ -52,7 +47,7 @@ class PageController extends Controller
 
     public function redicrect_dashboard()
     {
-        if (!Session::has('user')) {
+        if (!Session::has('admin')) {
             return redirect()->route('login');
         }
         return view('admin/admin_dashboard');

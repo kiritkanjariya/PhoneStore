@@ -68,10 +68,10 @@ class ProfileController extends Controller
 
     public function admin_profile()
     {
-        if (!Session::has('user')) {
+        if (!Session::has('admin')) {
             return redirect()->route('login');
         }
-        $user = User::find(Session::get('user')->id);
+        $user = User::find(Session::get('admin')->id);
 
         return view('admin/admin_profile', compact('user'));
     }

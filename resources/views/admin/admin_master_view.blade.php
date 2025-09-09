@@ -18,7 +18,7 @@
 </head>
 
 <body>
-    @if (!session()->has('user'))
+    @if (!session()->has('admin'))
     <script>
         window.location.href = "{{ route('login') }}";
     </script>
@@ -102,14 +102,14 @@
 
                 <div class="d-flex align-items-center gap-3">
 
-                    @if (session()->has('user'))
+                    @if (session()->has('admin'))
 
                     <div class="dropdown">
                         <button class="btn profile-dropdown-btn d-flex align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="{{ asset('uploads/profile/'.session('user')->profile ) }}" class="profile-avatar" alt="Admin">
+                            <img src="{{ asset('uploads/profile/'.session('admin')->profile ) }}" class="profile-avatar" alt="Admin">
                             <div class="d-none d-sm-block text-start">
-                                <div class="profile-name">{{ session('user')->name }}</div>
-                                <div class="profile-role">{{ session('user')->email }}</div>
+                                <div class="profile-name">{{ session('admin')->name }}</div>
+                                <div class="profile-role">{{ session('admin')->email }}</div>
                             </div>
                             <i class="bi bi-chevron-down d-none d-sm-block ms-2"></i>
                         </button>
@@ -231,14 +231,14 @@
 
             <div class="main-content-scrollable">
                 @if(session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <div class="m-2 alert alert-success alert-dismissible fade show" role="alert">
                     {{ session('success') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 @endif
 
                 @if(session('error'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <div class="m-2 alert alert-danger alert-dismissible fade show" role="alert">
                     {{ session('error') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
