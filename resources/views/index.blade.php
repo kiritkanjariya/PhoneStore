@@ -226,7 +226,7 @@
                             @endif
 
                             <div class="card-action-button-v2">
-                                <a href="#" class="btn btn-add-to-cart w-100">
+                                <a href="{{ route('add_cart',$product->id) }}" class="btn btn-add-to-cart w-100">
                                     <i class="bi bi-cart-fill me-1"></i> Add to Cart
                                 </a>
                             </div>
@@ -238,134 +238,6 @@
                 <p>No products found.</p>
             @endforelse
 
-            {{-- <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 fade-in-section">
-                <div class="card product-card-v2 h-100">
-                    <div class="deal-badge-v2">12% OFF</div>
-
-                    <div class="product-img-wrapper-v2">
-                        <a href="#">
-                            <img src="https://m.media-amazon.com/images/I/71d7rfSl0wL._AC_UY327_FMwebp_QL65_.jpg"
-                                class="product-img-v2" alt="Apple iPhone 15 Blue">
-                        </a>
-                    </div>
-
-                    <div class="card-body-v2">
-                        <a href="#" class="product-title-v2">
-                            Apple iPhone 15 (256 GB) - Blue
-                        </a>
-
-                        <div class="rating-wrapper-v2">
-                            <div class="rating-stars-v2">
-                                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                    class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                    class="bi bi-star-half"></i>
-                            </div>
-                            <span class="review-count-v2">(312 reviews)</span>
-                        </div>
-
-                        <div class="price-wrapper-v2">
-                            <span class="current-price-v2">₹78,999</span>
-                            <span class="original-price-v2">M.R.P: <del>₹89,900</del></span>
-                        </div>
-                        <div class="deal-text-v2">
-                            Monsoon Sale
-                        </div>
-                        <p class="prime-note-v2">Available with No Cost EMI</p>
-                    </div>
-
-                    <div class="card-action-button-v2">
-                        <a href="#" class="btn btn-add-to-cart w-100">
-                            <i class="bi bi-cart-fill me-1"></i> Add to Cart
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 fade-in-section">
-                <div class="card product-card-v2 h-100">
-                    <div class="deal-badge-v2">New Arrival</div>
-
-                    <div class="product-img-wrapper-v2">
-                        <a href="#">
-                            <img src="https://m.media-amazon.com/images/I/61giwQtR1qL._AC_UY327_FMwebp_QL65_.jpg"
-                                class="product-img-v2" alt="Apple iPhone 16 Pro in Desert Titanium">
-                        </a>
-                    </div>
-
-                    <div class="card-body-v2">
-                        <a href="#" class="product-title-v2">
-                            Apple iPhone 16 Pro (256 GB) - Desert Titanium
-                        </a>
-
-                        <div class="rating-wrapper-v2">
-                            <div class="rating-stars-v2">
-                                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                    class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                    class="bi bi-star-half"></i>
-                            </div>
-                            <span class="review-count-v2">(155 reviews)</span>
-                        </div>
-
-                        <div class="price-wrapper-v2">
-                            <span class="current-price-v2">₹1,32,999</span>
-                            <span class="original-price-v2">M.R.P: <del>₹1,44,900</del></span>
-                        </div>
-                        <div class="deal-text-v2">
-                            Pro Performance Deal
-                        </div>
-                        <p class="prime-note-v2">Featuring the new Capture Button</p>
-                    </div>
-
-                    <div class="card-action-button-v2">
-                        <a href="#" class="btn btn-add-to-cart w-100">
-                            <i class="bi bi-cart-fill me-1"></i> Add to Cart
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 fade-in-section">
-                <div class="card product-card-v2 h-100">
-                    <div class="deal-badge-v2">Top Seller</div>
-
-                    <div class="product-img-wrapper-v2">
-                        <a href="#">
-                            <img src="https://m.media-amazon.com/images/I/619oqSJVY5L._AC_UY327_FMwebp_QL65_.jpg"
-                                class="product-img-v2" alt="Apple iPhone 16 Pro Max in Space Black">
-                        </a>
-                    </div>
-
-                    <div class="card-body-v2">
-                        <a href="#" class="product-title-v2">
-                            Apple iPhone 16 Pro Max (512 GB) - Space Black
-                        </a>
-
-                        <div class="rating-wrapper-v2">
-                            <div class="rating-stars-v2">
-                                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                    class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                    class="bi bi-star-fill"></i>
-                            </div>
-                            <span class="review-count-v2">(421 reviews)</span>
-                        </div>
-
-                        <div class="price-wrapper-v2">
-                            <span class="current-price-v2">₹1,64,999</span>
-                            <span class="original-price-v2">M.R.P: <del>₹1,79,900</del></span>
-                        </div>
-                        <div class="deal-text-v2">
-                            Ultimate Flagship Sale
-                        </div>
-                        <p class="prime-note-v2">Largest Display Ever</p>
-                    </div>
-
-                    <div class="card-action-button-v2">
-                        <a href="#" class="btn btn-add-to-cart w-100">
-                            <i class="bi bi-cart-fill me-1"></i> Add to Cart
-                        </a>
-                    </div>
-                </div>
-            </div> --}}
 
         </div>
     </div>

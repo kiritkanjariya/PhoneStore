@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->decimal('discount', 10, 2)->nullable();
             $table->string('badge_text')->nullable();
             $table->string('deal_tag')->nullable();
+            $table->enum('discount_type', ['percentage', 'fixed'])->nullable();
             $table->string('feature_highlight')->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();

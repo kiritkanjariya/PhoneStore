@@ -1,24 +1,22 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\AdvantageController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\Contact_query_Controller;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DiscountController;    
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SliderController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DrawbackController;
 use App\Http\Controllers\ServiceController;
-use App\Models\Brand;
-use App\Models\Products;
-use App\Models\Slider;  
-use App\Models\User;
 
 Route::get('/login_form', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class,'login'])->name('loginProcess');
@@ -26,7 +24,6 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/registration', [PageController::class, 'showRegisterForm'])->name('register');
 Route::get('/about', [PageController::class, 'about'])->name('about');
 Route::get('/service', [ServiceController::class, 'service'])->name('service');
-Route::get('/cart', [PageController::class, 'cart'])->name('cart_detail');
 Route::get('/shop', [PageController::class, 'shop'])->name('shop');
 Route::get('/details', [PageController::class, 'phone_details'])->name('phone_details');
 Route::get('/forgot_password', [PageController::class, 'forgot_password'])->name('forgot_pass');
@@ -55,7 +52,6 @@ Route::get('/slider',[SliderController::class, 'redicrect_slider'])->name('admin
 Route::get('/add_slider',[SliderController::class, 'add_slider'])->name('add_slider');
 Route::post('/added_slider',[SliderController::class, 'slider_added'])->name('slider_added');
 Route::delete('/slider/{id}', [SliderController::class, 'destroy'])->name('slider.destroy');
-Route::get('/review',[PageController::class, 'showReview']);
 
 Route::get('/contact', [ContactController::class, 'contact'])->name('contact');
 Route::post('/contact_updated',[ContactController::class, 'contact_updated'])->name('contact_updated');
@@ -104,3 +100,9 @@ Route::get('/add_advantage',[AdvantageController::class, 'add_advantage'])->name
 Route::post('/advantage_added',[AdvantageController::class, 'advantage_added'])->name('advantage_added');
 Route::get('/edit_advantage/{id}',[AdvantageController::class, 'edit_advantage'])->name('edit_advantage');
 Route::post('/advantage_updated/{id}',[AdvantageController::class, 'advantage_updated'])->name('advanatage_updated');
+
+Route::get('/cart', [CartController::class, 'cart'])->name('cart_detail');
+Route::get('/add_to_cart/{id}',[CartController::class,'add_cart'])->name('add_cart');
+Route::post('/cart/increase/{id}', [CartController::class, 'increaseQuantity'])->name('increase_quantity');
+Route::post('/cart/decrease/{id}', [CartController::class, 'decreaseQuantity'])->name('decrease_quantity');
+Route::post('/cart/{id}', [CartController::class, 'delete_cart_item'])->name('delete_cart_item');

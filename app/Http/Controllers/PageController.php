@@ -35,11 +35,6 @@ class PageController extends Controller
         return view('forgot_pass');
     }
 
-    public function cart()
-    {
-        return view('add_to_cart');
-    }
-
 
     // login User
 
@@ -49,7 +44,7 @@ class PageController extends Controller
         return view('checkout');
     }
 
-    public function showReview()
+    public function review_rating()
     {
         return view('review&rating');
     }

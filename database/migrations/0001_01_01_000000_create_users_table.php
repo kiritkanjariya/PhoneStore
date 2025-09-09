@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('phone')->unique();
             $table->string('status')->default('inactive');
             $table->text('password');
+            $table->string('role')->default('user');
             $table->text('profile');
             $table->timestamps();
         });
