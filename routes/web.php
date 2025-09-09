@@ -11,6 +11,7 @@ use App\Http\Controllers\Contact_query_Controller;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DiscountController;    
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ShopController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductsController;
@@ -25,6 +26,7 @@ Route::get('/registration', [PageController::class, 'showRegisterForm'])->name('
 Route::get('/about', [PageController::class, 'about'])->name('about');
 Route::get('/service', [ServiceController::class, 'service'])->name('service');
 Route::get('/shop', [PageController::class, 'shop'])->name('shop');
+Route::get('/cart', [PageController::class, 'cart'])->name('cart_detail');
 Route::get('/details', [PageController::class, 'phone_details'])->name('phone_details');
 Route::get('/forgot_password', [PageController::class, 'forgot_password'])->name('forgot_pass');
 Route::get('/profile', [ProfileController::class, 'showProfile'])->name('profile');
@@ -35,6 +37,7 @@ Route::get('/orders', [PageController::class, 'order'])->name('order');
 Route::get('/Checkout', [PageController::class, 'showCheckOut'])->name('Checkout');
 Route::get('/review-rating', [PageController::class, 'review_rating'])->name('review_rating');
 
+Route::get('/shop', [ShopController::class, 'shop'])->name('shop');
 Route::get('/', [ProductsController::class, 'home'])->name('home');
 Route::get('/admin_logout', [AuthController::class, 'admin_logout'])->name('admin_logout');
 Route::get('/add_product',[ProductsController::class, 'add_product'])->name('add_product');

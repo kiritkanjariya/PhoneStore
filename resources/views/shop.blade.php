@@ -161,16 +161,14 @@
                             <span>Price</span>
                             <i class="bi bi-chevron-down filter-caret"></i>
                         </div>
-                        <div class="collapse show" id="collapsePrice">
+                        <div class="collapse" id="collapsePrice">
                             <div class="filter-group-body">
-                                <select id="priceRange" class="form-select">
-                                    <option selected disabled>Select Price Range</option>
-                                    <option value="0-5000">Under ₹5,000</option>
-                                    <option value="5000-10000">₹5,000 - ₹10,000</option>
-                                    <option value="10000-20000">₹10,000 - ₹20,000</option>
-                                    <option value="20000-40000">₹20,000 - ₹40,000</option>
-                                    <option value="40000+">Above ₹40,000</option>
-                                </select>
+                                @foreach($priceRanges as $value => $label)
+                                    <label class="custom-checkbox"> {{ $label }}
+                                        <input type="checkbox" name="price[]" value="{{ $value }}">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -180,28 +178,14 @@
                             <span>Brand</span>
                             <i class="bi bi-chevron-down filter-caret"></i>
                         </div>
-                        <div class="collapse show" id="collapseBrand">
+                        <div class="collapse" id="collapseBrand">
                             <div class="filter-group-body">
-                                <label class="custom-checkbox"> Apple
-                                    <input type="checkbox" checked="checked">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="custom-checkbox"> Samsung
-                                    <input type="checkbox">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="custom-checkbox"> OnePlus
-                                    <input type="checkbox">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="custom-checkbox"> Realme
-                                    <input type="checkbox">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="custom-checkbox"> Xiaomi
-                                    <input type="checkbox">
-                                    <span class="checkmark"></span>
-                                </label>
+                                @foreach($brands as $brand)
+                                    <label class="custom-checkbox"> {{ $brand->name }}
+                                        <input type="checkbox" name="brand[]" value="{{ $brand->id }}">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -211,17 +195,24 @@
                             <span>Rating</span>
                             <i class="bi bi-chevron-down filter-caret"></i>
                         </div>
-                        <div class="collapse show" id="collapseRating">
+                        <div class="collapse" id="collapseRating">
                             <div class="filter-group-body">
-                                <select id="ratingSelect" class="form-select">
-                                    <option selected disabled>Select Rating</option>
-                                    <option value="4">4 ★ & above</option>
-                                    <option value="3">3 ★ & above</option>
-                                    <option value="2">2 ★ & above</option>
-                                </select>
+                                <label class="custom-checkbox"> 4 ★ & above
+                                    <input type="checkbox" name="rate[]">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="custom-checkbox"> 3 ★ & above
+                                    <input type="checkbox" name="rate[]">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="custom-checkbox"> 2 ★ & above
+                                    <input type="checkbox" name="rate[]">
+                                    <span class="checkmark"></span>
+                                </label>
                             </div>
                         </div>
                     </div>
+
                     <div class="filter-group">
                         <div class="filter-group-header" data-bs-toggle="collapse" data-bs-target="#collapseRam">
                             <span>RAM</span>
@@ -229,13 +220,12 @@
                         </div>
                         <div class="collapse" id="collapseRam">
                             <div class="filter-group-body">
-                                <select id="ramSort" class="form-select">
-                                    <option selected disabled>Select RAM</option>
-                                    <option value="4">4 GB</option>
-                                    <option value="6">6 GB</option>
-                                    <option value="8">8 GB</option>
-                                    <option value="12">12 GB & more</option>
-                                </select>
+                                @foreach($rams as $ram)
+                                    <label class="custom-checkbox"> {{ $ram }} GB
+                                        <input type="checkbox" name="ram[]" value="{{ $ram }}">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -323,10 +313,10 @@
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const headers = document.querySelectorAll('.filter-group-header');
             headers.forEach(header => {
-                header.addEventListener('click', function() {
+                header.addEventListener('click', function () {
                     const icon = this.querySelector('.filter-caret');
                     // The aria-expanded attribute is managed by Bootstrap's collapse plugin,
                     // this script just ensures the icon rotates correctly.
@@ -342,5 +332,5 @@
             });
         });
     </script>
-    
+
 @endsection

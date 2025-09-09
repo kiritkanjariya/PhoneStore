@@ -19,12 +19,6 @@ class PageController extends Controller
         return view('about_us');
     }
 
-
-    public function shop()
-    {
-        return view('shop');
-    }
-
     public function phone_details()
     {
         return view('phone_detail');
