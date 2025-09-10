@@ -28,11 +28,6 @@ class PageController extends Controller
     // login User
 
 
-    public function showCheckOut()
-    {
-        return view('checkout');
-    }
-
     public function review_rating()
     {
         return view('review&rating');

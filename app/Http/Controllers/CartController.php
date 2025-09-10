@@ -42,11 +42,11 @@ class CartController extends Controller
 
             if ($cartItem) {
                 if ($cartItem->quantity < $product->stock_quantity) {
-                $cartItem->quantity++;
-                $cartItem->save();
-            } else {
-                return redirect()->route('cart_detail')->with('error', 'You already added maximum stock available ❌');
-            }
+                    $cartItem->quantity++;
+                    $cartItem->save();
+                } else {
+                    return redirect()->route('cart_detail')->with('error', 'You already added maximum stock available ❌');
+                }
             } else {
                 $cart = new cart();
                 $cart->user_id = $user;
@@ -83,7 +83,6 @@ class CartController extends Controller
             $cart->quantity -= 1;
             $cart->save();
         } else {
-            // If quantity is 1, remove item completely
             $cart->delete();
             return back()->with('success', 'Item removed from cart');
         }
@@ -97,6 +96,23 @@ class CartController extends Controller
         $cart->delete();
 
         return redirect()->route('cart_detail')->with('error', 'Product Deleted to cart. ✅');
+    }
+
+    public function showCheckOut()
+    {
+        $user = Session::get('user');
+
+        if (!$user) {
+            return redirect()->route('login')->with("error", "Please login first...");
+        }
+
+        $cart_items = cart::where('user_id', $user->id)->get();
+
+        if ($cart_items->isEmpty()) {
+            return redirect()->route('cart.index')->with("error", "Your cart is empty!");
+        }
+
+        return view('checkout',compact('cart_items'));
     }
 
     public function index()

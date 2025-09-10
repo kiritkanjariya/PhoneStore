@@ -34,7 +34,7 @@ Route::put('/profile/{id}', [ProfileController::class, 'update'])->name('profile
 Route::post('/changed_password/{id}',[ProfileController::class,'changed_password'])->name('changed_password');
 
 Route::get('/orders', [PageController::class, 'order'])->name('order');
-Route::get('/Checkout', [PageController::class, 'showCheckOut'])->name('Checkout');
+Route::get('/Checkout', [CartController::class, 'showCheckOut'])->name('Checkout');
 Route::get('/review-rating', [PageController::class, 'review_rating'])->name('review_rating');
 
 Route::get('/shop', [ShopController::class, 'shop'])->name('shop');
