@@ -28,37 +28,31 @@ class CartController extends Controller
 
     public function add_cart($id)
     {
-        $product = Products::find($id);
+        $product = Products::findOrFail($id);
 
+        $userId = Session::get('user')->id;
 
-        if ($product->stock_quantity > 0) {
+        $cartItem = Cart::where('user_id', $userId)
+            ->where('product_id', $product->id)
+            ->first();
 
-            $user = Session::get('user')->id;
-            $product_id = $product->id;
-
-            $cartItem = Cart::where('user_id', $user)
-                ->where('product_id', $product_id)
-                ->first();
-
-            if ($cartItem) {
-                if ($cartItem->quantity < $product->stock_quantity) {
-                    $cartItem->quantity++;
-                    $cartItem->save();
-                } else {
-                    return redirect()->route('cart_detail')->with('error', 'You already added maximum stock available ❌');
-                }
+        if ($cartItem) {
+            if ($cartItem->quantity < $product->stock_quantity) {
+                $cartItem->quantity++;
+                $cartItem->save();
             } else {
-                $cart = new cart();
-                $cart->user_id = $user;
-                $cart->product_id = $product_id;
-                $cart->save();
+                return redirect()->route('cart_detail')->with('error', 'You already added maximum stock available ❌');
             }
-
-            return redirect()->route('cart_detail')->with('success', 'Product added to cart. ✅');
         } else {
-            return back()->with("error", "Stock not available...");
+            $cart = new cart();
+            $cart->user_id = $userId;
+            $cart->product_id = $product->id;
+            $cart->save();
         }
+
+        return redirect()->route('cart_detail')->with('success', 'Product added to cart ✅');
     }
+
 
     public function increaseQuantity($id)
     {

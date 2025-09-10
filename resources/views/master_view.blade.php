@@ -50,59 +50,95 @@
                 </form>
 
                 <div class="d-flex align-items-center header-icons-v2">
-                    <a href="{{ route('cart_detail') }}" class="header-icon-link">
-                        <i class="bi bi-bag"></i>
-                        <span>Cart</span>
+
+                    <a href="{{ route('cart_detail') }}"
+                        class="header-icon-link d-inline-flex align-items-center text-decoration-none position-relative">
+
+                        <div class="position-relative">
+                            <i class="bi bi-bag-check-fill fs-3 text-white"></i>
+
+                            @if(Session::has('user'))
+                                @php
+                                    $cartCount = \App\Models\Cart::where('user_id', Session::get('user')->id)->count();
+                                @endphp
+                                @if($cartCount > 0)
+                                    <span class="cart-count-badge">{{ $cartCount }}</span>
+                                @endif
+                            @endif
+                        </div>
+                        <span class="ms-2 fw-bold">Cart</span>
                     </a>
+
+                    <style>
+                        .header-icon-link {
+                            transition: 0.3s ease-in-out;
+                        }
+
+                        .header-icon-link:hover i {
+                            transform: scale(1.1);
+                        }
+
+                        .cart-count-badge {
+                            position: absolute;
+                            top: -6px;
+                            right: -8px;
+                            background: linear-gradient(135deg, #A3B18A, #588157);
+                            color: #fff;
+                            font-size: 8px;
+                            font-weight: bold;
+                            padding: 3px 7px;
+                            border-radius: 50%;
+                            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+                        }
+                    </style>
 
                     @if (session()->has('user'))
-                    @php
-                    $user = session('user');
-                    @endphp
-                    <div class="dropdown profile-dropdown">
-                        <a href="#" class="dropdown-toggle d-flex align-items-center text-decoration-none"
-                            id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="{{ asset('uploads/profile/' . $user->profile) }}"
-                                alt="User Avatar" width="40" height="30" class="rounded-circle">
-                            <span class="d-none d-sm-inline mx-2 fw-bold text-dark">{{ session('user')->name }}</span>
-                        </a>
+                        @php
+                            $user = session('user');
+                        @endphp
+                        <div class="dropdown profile-dropdown">
+                            <a href="#" class="dropdown-toggle d-flex align-items-center text-decoration-none"
+                                id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="{{ asset('uploads/profile/' . $user->profile) }}" alt="User Avatar" width="40"
+                                    height="30" class="rounded-circle">
+                                <span class="d-none d-sm-inline mx-2 fw-bold text-dark">{{ session('user')->name }}</span>
+                            </a>
 
-                        <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="dropdownUser">
+                            <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="dropdownUser">
 
-                            <li class="dropdown-header text-center">
-                                <h6 class=" mb-0">{{ session('user')->name }}</h6>
-                                <small class="text-muted">{{ session('user')->email }}</small>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider my-0">
-                            </li>
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center"
-                                    href="{{ route('profile') }}">
-                                    <i class="bi bi-person-circle me-2"></i> My Profile
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center" href="{{ route('order') }}">
-                                    <i class="bi bi-receipt me-2"></i> Order History
-                                </a>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider my-0">
-                            </li>
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center text-danger"
-                                    href="{{ route('logout') }}">
-                                    <i class="bi bi-box-arrow-right me-2"></i> Logout
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                                <li class="dropdown-header text-center">
+                                    <h6 class=" mb-0">{{ session('user')->name }}</h6>
+                                    <small class="text-muted">{{ session('user')->email }}</small>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider my-0">
+                                </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center" href="{{ route('profile') }}">
+                                        <i class="bi bi-person-circle me-2"></i> My Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center" href="{{ route('order') }}">
+                                        <i class="bi bi-receipt me-2"></i> Order History
+                                    </a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider my-0">
+                                </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center text-danger"
+                                        href="{{ route('logout') }}">
+                                        <i class="bi bi-box-arrow-right me-2"></i> Logout
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     @else
-                    <a href="{{ route('login') }}" class="header-icon-link">
-                        <i class="bi bi-person-circle"></i>
-                        <span>Account</span>
-                    </a>
+                        <a href="{{ route('login') }}" class="header-icon-link">
+                            <i class="bi bi-person-circle"></i>
+                            <span>Account</span>
+                        </a>
                     @endif
                 </div>
 
@@ -265,17 +301,17 @@
     </style>
 
     @if(session('success'))
-    <div class="m-2 alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+        <div class="m-2 alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     @endif
 
     @if(session('error'))
-    <div class="m-2 alert alert-danger alert-dismissible fade show" role="alert">
-        {{ session('error') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+        <div class="m-2 alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     @endif
 
     <style>
@@ -503,7 +539,7 @@
 
     <script>
         // SCRIPT FOR NAVBAR SCROLL EFFECT
-        window.addEventListener('scroll', function() {
+        window.addEventListener('scroll', function () {
             const navbar = document.querySelector('.navbar');
             if (window.scrollY > 20) {
                 navbar.classList.add('scrolled');
@@ -513,7 +549,7 @@
         });
 
         // SCRIPT FOR FADE-IN ANIMATION ON SCROLL
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const sections = document.querySelectorAll('.fade-in-section');
 
             const observer = new IntersectionObserver((entries) => {
@@ -532,7 +568,7 @@
         });
 
 
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
             const currentPath = window.location.pathname;
 

@@ -49,7 +49,7 @@ class ProductsController extends Controller
     {
         $brands = Brand::all();
         $products = Products::where('id', $id)->get();
-        return view('admin/edit_product', compact('products','brands'));
+        return view('admin/edit_product', compact('products', 'brands'));
     }
 
     public function product_updated(Request $request, $id)
@@ -86,17 +86,26 @@ class ProductsController extends Controller
 
     public function home()
     {
-
         $today = Carbon::today();
 
+        // Expire discounts where end_date passed
         DB::table('discounts')
+            ->whereNotNull('end_date')
             ->where('end_date', '<', $today)
             ->where('status', '!=', 'inactive')
             ->update([
                 'status' => 'inactive',
-                'deal_tag' => 'Sale Ended',
-                'badge_text' => 'Sale Ended'
+                'updated_at' => $today,
             ]);
+
+        // Activate discounts where start_date has arrived (and no end_date OR end_date >= today)
+        DB::table('discounts')
+            ->whereNotNull('start_date')
+            ->where('start_date', '<=', $today)
+            ->where(function ($query) use ($today) {
+                $query->whereNull('end_date')->orWhere('end_date', '>=', $today);
+            })->where('status', '=', 'active');
+            
 
         $products = DB::table('products')
             ->leftJoin('discounts', 'products.id', '=', 'discounts.product_id')
@@ -113,15 +122,17 @@ class ProductsController extends Controller
             )->get();
 
         $sliders = Slider::where('status', 'active')->get();
+
         return view('index', compact('products', 'sliders'));
     }
+
 
     public function destroy($id)
     {
 
         $product = Products::findOrFail($id);
 
-        
+
         if ($product->image && file_exists(public_path('img/product-images/' . $product->image))) {
             unlink(public_path('img/product-images/' . $product->image));
         }

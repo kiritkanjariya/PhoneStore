@@ -122,6 +122,7 @@
             @forelse ($products as $product)
                 @php
                     $today = now()->toDateString();
+
                     $hasActiveDiscount = $product->discount_status === 'active'
                         && (!$product->start_date || $product->start_date <= $today)
                         && (!$product->end_date || $product->end_date >= $today);
@@ -138,104 +139,112 @@
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 fade-in-section">
                         <div class="card product-card-v2 h-100">
 
+                            {{-- @if ($hasActiveDiscount)
+                            @if ($product->discount_type === 'percentage')
+                            <div class="deal-badge-v2">{{ number_format($product->discount) }}% Off</div>
+                            @elseif ($product->discount_type === 'fixed')
+                            <div class="deal-badge-v2">₹{{ number_format($product->discount) }} Off</div>
+                            @endif
+                            @endif
+
+                            @if ($product->discount_status == 'active' && $hasActiveDiscount)
+                            <div class="deal-badge-v2">{{ $product->badge_text }}</div>
+                            @else
+                            <div class="deal-badge-v2 bg-danger">Sale Ended</div>
+                            @endif --}}
+
                             @if ($hasActiveDiscount)
                                 @if ($product->discount_type === 'percentage')
                                     <div class="deal-badge-v2">{{ number_format($product->discount) }}% Off</div>
                                 @elseif ($product->discount_type === 'fixed')
                                     <div class="deal-badge-v2">₹{{ number_format($product->discount) }} Off</div>
                                 @endif
+                                @if ($product->badge_text)
+                                    <div class="deal-badge-v2">{{ $product->badge_text }}</div>
+                                @endif
+                            @elseif ($product->discount_status == 'inactive')
+                                <div class="deal-badge-v2 bg-danger">Sale Ended</div>
+                            @endif
 
-                                <div class="product-img-wrapper-v2">
-                                    <a href="#">
-                                        <img src="{{ asset('img/product-images/' . $product->image) }}" class="product-img-v2"
-                                            alt="{{ $product->name }}">
-                                    </a>
+
+                            <div class="product-img-wrapper-v2">
+                                <a href="#">
+                                    <img src="{{ asset('img/product-images/' . $product->image) }}" class="product-img-v2"
+                                        alt="{{ $product->name }}">
+                                </a>
+                            </div>
+
+                            <div class="card-body-v2">
+                                <a href="#" class="product-title-v2">
+                                    {{ $product->name }} ({{ $product->storage }}GB)
+                                </a>
+
+                                <div class="rating-wrapper-v2">
+                                    <div class="rating-stars-v2">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-half"></i>
+                                    </div>
+                                    <span class="review-count-v2">(234 reviews)</span>
                                 </div>
 
-                                <div class="card-body-v2">
-                                    <a href="#" class="product-title-v2">
-                                        {{ $product->name }} ({{ $product->storage }}GB) - Black
-                                    </a>
-
-                                    <div class="rating-wrapper-v2">
-                                        <div class="rating-stars-v2">
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-half"></i>
-                                        </div>
-                                        <span class="review-count-v2">(234 reviews)</span>
-                                    </div>
-
-                                    <div class="price-wrapper-v2">
+                                <div class="price-wrapper-v2">
+                                    @if ($hasActiveDiscount && $discountedPrice < $product->price)
                                         <span class="current-price-v2">₹{{ number_format($discountedPrice) }}</span>
                                         <span class="original-price-v2">
                                             M.R.P: <del>₹{{ number_format($product->price) }}</del>
                                         </span>
-                                    </div>
-
-                                    @if ($product->deal_tag)
-                                        <div class="deal-text-v2">{{ $product->deal_tag }}</div>
-                                    @endif
-                                    @if ($product->discount_feature_highlight)
-                                        <p class="prime-note-v2">{{ $product->discount_feature_highlight }}</p>
-                                    @elseif ($product->feature_highlight)
-                                        <p class="prime-note-v2">{{ $product->feature_highlight }}</p>
-                                    @endif
-                                </div>
-
-                            @else
-                                @if ($product->badge_text)
-                                    <div class="deal-badge-v2">{{ $product->badge_text }}</div>
-                                @endif
-                                <div class="product-img-wrapper-v2">
-                                    <a href="#">
-                                        <img src="{{ asset('img/product-images/' . $product->image) }}" class="product-img-v2"
-                                            alt="{{ $product->name }}">
-                                    </a>
-                                </div>
-
-                                <div class="card-body-v2">
-                                    <a href="#" class="product-title-v2">
-                                        {{ $product->name }} ({{ $product->storage }}GB) - Black
-                                    </a>
-
-                                    <div class="rating-wrapper-v2">
-                                        <div class="rating-stars-v2">
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-half"></i>
-                                        </div>
-                                        <span class="review-count-v2">(234 reviews)</span>
-                                    </div>
-
-                                    <div class="price-wrapper-v2">
+                                    @else
                                         <span class="current-price-v2">₹{{ number_format($product->price) }}</span>
-                                    </div>
+                                    @endif
+                                </div>
 
-                                    @if ($product->deal_tag)
-                                        <div class="deal-text-v2">{{ $product->deal_tag }}</div>
-                                    @endif
-                                    @if ($product->feature_highlight)
-                                        <p class="prime-note-v2">{{ $product->feature_highlight }}</p>
-                                    @endif
+                                @if ($product->discount_status === 'active')
+                                    <div class="deal-text-v2">{{ $product->deal_tag }}</div>
+                                @elseif ($product->discount_status === 'inactive')
+                                    <div><span class="text-danger bolder">Sale Ended</span></div>
+                                @endif
+
+                                @if ($hasActiveDiscount && $product->discount_feature_highlight)
+                                    <p class="prime-note-v2 mt-2">{{ $product->discount_feature_highlight }}</p>
+                                @elseif ($product->feature_highlight)
+                                    <p class="prime-note-v2 mt-2">{{ $product->feature_highlight }}</p>
+                                @endif
+                            </div>
+
+                            @if(Session::has('user'))
+                                @php
+                                    $cartQty = \App\Models\Cart::where('user_id', Session::get('user')->id)
+                                        ->where('product_id', $product->id)
+                                        ->value('quantity') ?? 0;
+                                @endphp
+
+                                @if($cartQty >= $product->stock_quantity)
+                                    <div class="card-action-button-v2">
+                                        <button class="btn btn-secondary w-100" disabled>Max quantity reached</button>
+                                    </div>
+                                @else
+                                    <div class="card-action-button-v2">
+                                        <a href="{{ route('add_cart', $product->id) }}" class="btn btn-add-to-cart w-100">
+                                            <i class="bi bi-cart-fill me-1"></i> Add to Cart
+                                        </a>
+                                    </div>
+                                @endif
+                            @else
+                                <div class="card-action-button-v2">
+                                    <a href="{{ route('cart_detail') }}" class="btn btn-add-to-cart w-100">
+                                        <i class="bi bi-cart-fill me-1"></i> Add to Cart
+                                    </a>
                                 </div>
                             @endif
-
-                            <div class="card-action-button-v2">
-                                <a href="{{ route('add_cart',$product->id) }}" class="btn btn-add-to-cart w-100">
-                                    <i class="bi bi-cart-fill me-1"></i> Add to Cart
-                                </a>
-                            </div>
 
                         </div>
                     </div>
                 @endif
             @empty
-                <p>No products found.</p>
+                <p class="text-center">No products found.</p>
             @endforelse
 
 
