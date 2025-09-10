@@ -109,7 +109,7 @@ class CartController extends Controller
         $cart_items = cart::where('user_id', $user->id)->get();
 
         if ($cart_items->isEmpty()) {
-            return redirect()->route('cart.index')->with("error", "Your cart is empty!");
+            return redirect()->route('cart_detail')->with("error", "Your cart is empty!");
         }
 
         return view('checkout',compact('cart_items'));
