@@ -2,50 +2,186 @@
 
 @section('file_content')
 
-<div class="card container mt-5 p-4 border-2 mb-4">
-    <div class="card-header fs-3 fw-bold h-font d-flex align-items-center justify-content-between"> Brand
-        <div>
-            <a href="{{ route('add_brand') }}" class="btn btn-success shadow-none">
-                <i class="bi bi-plus-lg"></i> Add
-            </a>
-        </div>
+<style>
+    /* Table wrapper */
+    .table-responsive {
+        margin-top: 20px;
+    }
+
+    /* Table styling */
+    .table {
+        border-collapse: separate;
+        border-spacing: 0;
+        width: 100%;
+        border: 1px solid #dee2e6;
+        border-radius: 0.75rem;
+        overflow: hidden;
+    }
+
+    /* Header row */
+    .table thead {
+        background: linear-gradient(90deg, #4e73df, #6610f2);
+        color: #fff;
+    }
+
+    .table thead th {
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        padding: 14px;
+        border: none;
+        letter-spacing: 0.5px;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+    }
+
+    /* Body rows */
+    .table tbody tr {
+        transition: all 0.2s ease-in-out;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f8f9fc;
+        transform: scale(1.01);
+    }
+
+    /* Zebra rows */
+    .table tbody tr:nth-child(even) {
+        background-color: #fafbfc;
+    }
+
+    .table tbody td {
+        vertical-align: middle;
+        font-size: 0.95rem;
+        padding: 12px;
+        border-top: 1px solid #dee2e6;
+    }
+
+    /* Badge for status */
+    .badge {
+        font-size: 0.8rem;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 50px;
+    }
+
+    /* Buttons */
+    .btn {
+        border-radius: 0.5rem !important;
+        padding: 6px 12px;
+        font-size: 0.85rem;
+        transition: all 0.2s ease;
+    }
+
+    .btn i {
+        font-size: 1rem;
+    }
+
+    .btn-warning {
+        background-color: #ffc107;
+        border: none;
+        color: #fff;
+    }
+
+    .btn-warning:hover {
+        background-color: #e0a800;
+        transform: translateY(-2px);
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border: none;
+        color: #fff;
+    }
+
+    .btn-danger:hover {
+        background-color: #c82333;
+        transform: translateY(-2px);
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border: none;
+        color: #fff;
+    }
+
+    .btn-success:hover {
+        background-color: #218838;
+        transform: translateY(-2px);
+    }
+
+    /* Responsive table (mobile view) */
+    @media (max-width: 768px) {
+        .table thead {
+            display: none;
+        }
+
+        .table tbody td {
+            display: block;
+            text-align: right;
+            border: none;
+            position: relative;
+            padding-left: 50%;
+        }
+
+        .table tbody td::before {
+            content: attr(data-label);
+            position: absolute;
+            left: 15px;
+            font-weight: 600;
+            text-align: left;
+        }
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>🏷️ Brand List</h3>
+        <a href="{{ route('add_brand') }}" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Add Brand
+        </a>
     </div>
-    <div class="table-responsive-lg table-responsive-lg" style="z-index: 1;">
-        <div class="container mt-3">
-            <table class="table table-striped table-bordered">
-                <thead class="sticky-top">
-                    <tr class="text-center">
-                        <th scope="col" class="bg-dark text-white">Sr no.</th>
-                        <th scope="col" class="bg-dark text-white">Name</th>
-                        <th scope="col" class="bg-dark text-white">Status</th>
-                        <th scope="col" class="bg-dark text-white">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (isset($brands))
-                    @foreach($brands as $brand)
-                    <tr class="align-middle text-center">
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $brand->name }}</td>
-                        <td>
-                            @if($brand->status === 'active')
-                            <span class="btn btn-success">Active</span>
-                            @else
-                            <span class="btn btn-danger">Inactive</span>
-                            @endif
-                        </td>
-                        <td>
-                            <a href="{{ route('edit_brand',$brand->id) }}" class="btn btn-warning"><i class="bi bi-pencil"></i></a>
+
+    <div class="table-responsive">
+        <table class="table text-center align-middle shadow-sm">
+            <thead>
+                <tr>
+                    <th>Sr no.</th>
+                    <th>Name</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (isset($brands))
+                @foreach($brands as $brand)
+                <tr>
+                    <td data-label="Sr no.">{{ $loop->iteration }}</td>
+                    <td data-label="Name">{{ $brand->name }}</td>
+                    <td data-label="Status">
+                        @if($brand->status === 'active')
+                        <span class="badge bg-success">Active</span>
+                        @else
+                        <span class="badge bg-danger">Inactive</span>
+                        @endif
+                    </td>
+                    <td data-label="Action">
+                        <div class="btn-group">
+                            <a href="{{ route('edit_brand',$brand->id) }}" class="btn btn-warning btn-sm me-1"
+                                title="Edit">
+                                <i class="bi bi-pencil"></i>
+                            </a>
                             <a href="#" class="btn btn-danger shadow">
                                 <i class="bi bi-trash"></i>
                             </a>
-                        </td>
-                    </tr>
-                    @endforeach
-                    @endif
-                </tbody>
-            </table>
-        </div>
+                        </div>
+                    </td>
+                </tr>
+                @endforeach
+                @endif
+            </tbody>
+        </table>
     </div>
 </div>
 

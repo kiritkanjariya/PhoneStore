@@ -226,12 +226,9 @@
                                 <input type="password" class="form-control" name="password" id="password"
                                     data-validation="required strongPassword" placeholder="Create a password" value="KIri23@#">
 
-                                <!-- Checkbox with label -->
-                                <div class="input-group-text bg-white border-start-0">
-                                    <input type="checkbox" class="form-check-input mt-0 me-2 big-checkbox"
-                                        onclick="password.type = this.checked ? 'text' : 'password'">
-                                    <label for="show_password" class="form-check-label small">Show</label>
-                                </div>
+                                <span class="input-group-text bg-white border-start-0" onclick="togglePassword('password', this)">
+                                    <i class="fa fa-eye"></i>
+                                </span>
                             </div>
                             <div class="error" id="passwordError"></div>
                         </div>
@@ -243,27 +240,37 @@
                                     placeholder="Confirm password" name="c_password"
                                     data-validation="required confirmPassword" data-password-id="password" value="KIri23@#">
 
-                                <div class="input-group-text bg-white border-start-0"   >
-                                    <input type="checkbox" class="form-check-input mt-0 me-2 big-checkbox"
-                                        onclick="confirm_password.type = this.checked ? 'text' : 'password'">
-                                    <label for="show_confirm_password" class="form-check-label small">Show</label>
-                                </div>
+                                <span class="input-group-text bg-white border-start-0" onclick="togglePassword('confirm_password', this)">
+                                    <i class="fa fa-eye"></i>
+                                </span>
                             </div>
                             <div class="error" id="c_passwordError"></div>
                         </div>
 
                         <style>
-                            .big-checkbox {
-                                transform: scale(1.3);
-                                cursor: pointer;
-                            }
-
                             .input-group-text {
+                                cursor: pointer;
                                 display: flex;
                                 align-items: center;
-                                gap: 5px;
                             }
                         </style>
+
+                        <script>
+                            function togglePassword(inputId, el) {
+                                const input = document.getElementById(inputId);
+                                const icon = el.querySelector("i");
+
+                                if (input.type === "password") {
+                                    input.type = "text";
+                                    icon.classList.remove("fa-eye");
+                                    icon.classList.add("fa-eye-slash");
+                                } else {
+                                    input.type = "password";
+                                    icon.classList.remove("fa-eye-slash");
+                                    icon.classList.add("fa-eye");
+                                }
+                            }
+                        </script>
 
 
                         <div class="d-flex justify-content-between mt-4">

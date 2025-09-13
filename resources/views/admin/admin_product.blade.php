@@ -3,70 +3,66 @@
 @section('file_content')
 
 <style>
-    .card {
-        border-radius: 1rem;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-        border: none;
-        background-color: #ffffff;
+    /* Table wrapper */
+    .table-responsive {
+        margin-top: 20px;
     }
 
-    .card-header {
-        background: linear-gradient(135deg, #007bff, #6610f2);
-        color: white;
-        border-radius: 0.75rem 0.75rem 0 0;
-        padding: 1rem 1.5rem;
-        font-size: 1.5rem;
+    /* Table styling */
+    .table {
+        border-collapse: separate;
+        border-spacing: 0;
+        width: 100%;
+        border: 1px solid #dee2e6;
+        border-radius: 0.75rem;
+        overflow: hidden;
     }
 
-    .table th {
-        vertical-align: middle;
-        font-size: 0.9rem;
+    /* Header row */
+    .table thead {
+        background: linear-gradient(90deg, #4e73df, #6610f2);
+        color: #fff;
+    }
+
+    .table thead th {
         font-weight: 600;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        padding: 14px;
+        border: none;
+        letter-spacing: 0.5px;
+        position: sticky;
+        /* ✅ Sticky header */
+        top: 0;
+        z-index: 2;
     }
 
-    .table td {
-        vertical-align: middle;
-        background-color: #ffffff;
+    /* Body rows */
+    .table tbody tr {
+        transition: all 0.2s ease-in-out;
     }
 
     .table tbody tr:hover {
-        background-color: #1500ffff;
-        transition: all 0.3s ease;
+        background-color: #f8f9fc;
         transform: scale(1.01);
     }
 
-    .btn {
-        border-radius: 0.5rem !important;
-        padding: 6px 12px;
-        font-size: 0.85rem;
-        font-weight: 600;
-        transition: all 0.2s ease;
+    /* ✅ Zebra rows */
+    .table tbody tr:nth-child(even) {
+        background-color: #fafbfc;
     }
 
-    .btn i {
-        font-size: 1rem;
+    .table tbody td {
+        vertical-align: middle;
+        font-size: 0.95rem;
+        padding: 12px;
+        border-top: 1px solid #dee2e6;
     }
 
-    .btn-success {
-        background-color: #28a745;
-        color: white;
-    }
-
-    .btn-success:hover {
-        background-color: #218838;
-    }
-
-    .btn-warning:hover {
-        background-color: #e0a800;
-    }
-
-    .btn-danger:hover {
-        background-color: #c82333;
-    }
-
+    /* Product Image */
     .img-fluid {
         border-radius: 0.5rem;
-        border: 2px solid #e0e0e0;
+        border: 1px solid #e9ecef;
         transition: transform 0.3s ease;
     }
 
@@ -74,92 +70,165 @@
         transform: scale(1.05);
     }
 
-    .table th,
-    .table td {
-        text-align: center;
+    /* Status & stock badge */
+    .badge {
+        font-size: 0.8rem;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 50px;
+    }
+
+    /* Buttons */
+    .btn {
+        border-radius: 0.5rem !important;
+        padding: 6px 12px;
+        font-size: 0.85rem;
+        transition: all 0.2s ease;
+    }
+
+    .btn i {
+        font-size: 1rem;
+    }
+
+    .btn-warning {
+        background-color: #ffc107;
+        border: none;
+        color: #fff;
+    }
+
+    .btn-warning:hover {
+        background-color: #e0a800;
+        transform: translateY(-2px);
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border: none;
+        color: #fff;
+    }
+
+    .btn-danger:hover {
+        background-color: #c82333;
+        transform: translateY(-2px);
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border: none;
+        color: #fff;
+    }
+
+    .btn-success:hover {
+        background-color: #218838;
+        transform: translateY(-2px);
+    }
+
+    /* ✅ Responsive table (mobile view) */
+    @media (max-width: 768px) {
+        .table thead {
+            display: none;
+        }
+
+        .table tbody td {
+            display: block;
+            text-align: right;
+            border: none;
+            position: relative;
+            padding-left: 50%;
+        }
+
+        .table tbody td::before {
+            content: attr(data-label);
+            position: absolute;
+            left: 15px;
+            font-weight: 600;
+            text-align: left;
+        }
     }
 </style>
 
-<div class="card container mt-5 p-4 border-2 mb-4">
-    <div class="card-header fs-3 fw-bold h-font d-flex align-items-center justify-content-between">
-        Product
-        <div>
-            <a href="{{ route('add_product') }}" class="btn btn-success shadow-none">
-                <i class="bi bi-plus-lg"></i> Add
-            </a>
-        </div>
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>📦 Product List</h3>
+        <!-- ✅ Add Product Button -->
+        <a href="{{ route('add_product') }}" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Add Product
+        </a>
     </div>
 
-    <div class="table-responsive table-responsive-md table-responsive-sm" style="z-index: 1;">
-        <div class="container mt-3">
-            <table id="user" class="table table-striped table-bordered text-center" style="min-width: 1100px;">
-                <thead class="sticky-top">
-                    <tr>
-                        <th scope="col" class="bg-dark text-white">Sr no.</th>
-                        <th scope="col" class="bg-dark text-white">Name</th>
-                        <th scope="col" class="bg-dark text-white">Image</th>
-                        <th scope="col" class="bg-dark text-white">Price</th>
-                        <th scope="col" class="bg-dark text-white">Brand</th>
-                        <th scope="col" class="bg-dark text-white">RAM</th>
-                        <th scope="col" class="bg-dark text-white">Storage</th>
-                        <th scope="col" class="bg-dark text-white">Screen size</th>
-                        <th scope="col" class="bg-dark text-white">Feature-highlight</th>
-                        <th scope="col" class="bg-dark text-white">Stock</th>
-                        <th scope="col" class="bg-dark text-white">Status</th>
-                        <th scope="col" class="bg-dark text-white">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if(isset($products))
-                    @foreach($products as $product)
-                    <tr class="align-middle">
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $product->name }}</td>
-                        <td>
-                            <img src="{{ asset('img/product-images/' . $product->image) }}" class="img-fluid"
-                                style="height: 100px; width: 100px;">
-                        </td>
-                        <td>{{ $product->price }}</td>
-                        <td>{{ $product->brand->name }}</td>
-                        <td>{{ $product->ram }}</td>
-                        <td>{{ $product->storage }}</td>
-                        <td>{{ $product->screen_size }}</td>
-                        <td>
-                            @if ($product->feature_highlight)
-                            {{$product->feature_highlight }}
-                            @else
-                            -
-                            @endif
-                        </td>
-                        <td>{{ $product->stock_quantity }}</td>
-                        <td>
-                            @if($product->status === 'active')
-                            <span class="btn btn-success">Active</span>
-                            @else
-                            <span class="btn btn-danger">Inactive</span>
-                            @endif
-                        </td>
-                        <td>
-                            <a href="{{ route('edit_product', $product->id) }}" class="btn btn-warning me-1">
+    <div class="table-responsive">
+        <table class="table text-center align-middle shadow-sm">
+            <thead>
+                <tr>
+                    <th>Sr no.</th>
+                    <th>Name</th>
+                    <th>Image</th>
+                    <th>Price</th>
+                    <th>Brand</th>
+                    <th>RAM</th>
+                    <th>Storage</th>
+                    <th>Screen size</th>
+                    <th>Feature-highlight</th>
+                    <th>Stock</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if(isset($products))
+                @foreach($products as $product)
+                <tr>
+                    <td data-label="Sr no.">{{ $loop->iteration }}</td>
+                    <td data-label="Name">{{ $product->name }}</td>
+                    <td data-label="Image">
+                        <img src="{{ asset('img/product-images/' . $product->image) }}" class="img-fluid"
+                            style="height: 60px; width: 60px;">
+                    </td>
+                    <!-- ✅ Price Badge -->
+                    <td data-label="Price"><span class="badge bg-primary">₹{{ number_format($product->price, 2) }}</span></td>
+                    <td data-label="Brand">{{ $product->brand->name }}</td>
+                    <td data-label="RAM">{{ $product->ram }} GB</td>
+                    <td data-label="Storage">{{ $product->storage }} GB</td>
+                    <td data-label="Screen size">{{ $product->screen_size }}"</td>
+                    <td data-label="Feature">{{ $product->feature_highlight ?? '-' }}</td>
+                    <!-- ✅ Stock Badge -->
+                    <td data-label="Stock">
+                        @if($product->stock_quantity > 20)
+                        <span class="badge bg-success">{{ $product->stock_quantity }}</span>
+                        @elseif($product->stock_quantity > 0)
+                        <span class="badge bg-warning text-dark">{{ $product->stock_quantity }}</span>
+                        @else
+                        <span class="badge bg-danger">Out of Stock</span>
+                        @endif
+                    </td>
+                    <td data-label="Status">
+                        @if($product->status === 'active')
+                        <span class="badge bg-success">Active</span>
+                        @else
+                        <span class="badge bg-danger">Inactive</span>
+                        @endif
+                    </td>
+                    <td data-label="Action">
+                        <div class="btn-group">
+                            <a href="{{ route('edit_product', $product->id) }}" class="btn btn-warning btn-sm me-1" title="Edit">
                                 <i class="bi bi-pencil"></i>
                             </a>
-
                             <form action="{{ route('product.destroy', $product->id) }}" method="POST"
                                 style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger"
+                                <button type="submit" class="btn btn-danger btn-sm"
                                     onclick="return confirm('Are you sure you want to delete this product?')">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </form>
-                        </td>
-                    </tr>
-                    @endforeach
-                    @endif
-                </tbody>
-            </table>
-        </div>
+                        </div>
+                    </td>
+                </tr>
+                @endforeach
+                @endif
+            </tbody>
+        </table>
     </div>
 </div>
 

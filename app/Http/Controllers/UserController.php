@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -48,6 +49,7 @@ class UserController extends Controller
         $user->email = $formdata->email;
         $user->address = $formdata->address;
         $user->phone = $formdata->phone;
+        $user->token = uniqid();
         $user->password = $formdata->password;
 
         if ($formdata->hasFile('profile_picture')) {
@@ -55,14 +57,51 @@ class UserController extends Controller
             $originalName = $file->getClientOriginalName();
             $file->move(public_path('uploads/profile'), $originalName);
             $user->profile = $originalName;
-        }
-        else{
+        } else {
             $user->profile = 'logo.png';
         }
-        $user->save();
-        return view('login');
+        $user1 = User::where("email", $formdata->email)->first();
+        if ($user1) {
+            return redirect()->route("register")->with("error", "This Email ia already Registerd");
+        } else {
+            $user->save();
+
+            $user = User::where("email", $user->email)->first();
+
+            $data = [
+                'name' => $user->name,
+                "email" => $user->email,
+                "token" => $user->token,
+            ];
+            Mail::send('mailer', $data, function ($message) use ($data) {
+                $message->subject('This mail is Activation Account Mail.');
+                $message->from('kiritkanjariya69@gmail.com', 'Kirit Kanjariya j.');
+                $message->to($data['email'], $data['name']);
+            });
+
+            return redirect()->route('register')->with('success', 'Eamil sent to your Email Please check your Email ... and Active your Account');
+        }
+        // return view('login');
     }
 
+    public function activation($token)
+    {
+
+        $user = User::where('token', $token)->first();
+        if ($user) {
+
+            if ($user->status == 'inactive') {
+                $user->status = 'active';
+                $user->save();
+
+                return redirect()->route('login')->with('success', 'Your Account is Activated...');
+            } else {
+                return redirect()->route('login')->with('error', 'Your Account is Allready Activated...');
+            }
+        } else {
+            return redirect()->route('login')->with('error', 'Invalid token, please try again.');
+        }
+    }
 
     public function edit_users($id)
     {

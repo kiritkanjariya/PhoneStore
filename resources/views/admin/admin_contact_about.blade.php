@@ -2,130 +2,267 @@
 
 @section('file_content')
 
-<div class="row">
-    <div class="col-lg-3"></div>
-    <div class="col-lg-6">
-        <div class="card container mt-5 p-4 border-2 mb-4">
-            <div class="card-header fs-3 fw-bold d-flex align-items-center justify-content-between"> Contact Us
-            </div>
-            <div class="table-responsive-lg table-responsive-lg" style="z-index: 1;">
-                <div class="container mt-3">
-                    @if (isset($contactInfo))
-                    @foreach ($contactInfo as $contact)
+<style>
+    /* General Card Styling */
+    .card {
+        border-radius: 0.75rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        border: none;
+    }
 
-                    <form action="{{ route('contact_updated') }}" method="POST" class="p-2">
-                        @csrf
-                        <div class="mb-4">
-                            <label for="address" class="form-label fw-semibold">Address</label>
-                            <input type="text" class="form-control" id="address" name="address" data-validation="required" value="{{ $contact->location }}" placeholder="Enter address">
-                            <div class="error" id="addressError"></div>
-                        </div>
+    .card-header {
+        background: linear-gradient(90deg, #4e73df, #6610f2);
+        color: #fff;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        border-radius: 0.75rem 0.75rem 0 0;
+    }
 
-                        <div class="mb-4">
-                            <label for="email" class="form-label fw-semibold">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" data-validation="required email" value="{{ $contact->email }}" placeholder="Enter email">
-                            <div class="error" id="emailError"></div>
-                        </div>
+    /* Form Controls */
+    .form-control, .form-select {
+        border-radius: 0.5rem;
+        padding: 10px 14px;
+    }
 
-                        <div class="mb-4">
-                            <label for="phone" class="form-label fw-semibold">Phone No.</label>
-                            <input type="text" class="form-control" id="phone" name="phone" data-validation="required numeric min max" data-max="10" data-min="10" value="{{ $contact->phone }}" placeholder="Enter 10-digit phone number">
-                            <div class="error" id="phoneError"></div>
-                        </div>
+    .form-control:focus, .form-select:focus {
+        border-color: #4e73df;
+        box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, .25);
+    }
 
-                        <div class="d-flex justify-content-end">
-                            <button type="submit" class="btn btn-success px-4">Update Address</button>
-                        </div>
-                    </form>
-                    @endforeach
+    /* Buttons */
+    .btn {
+        border-radius: 0.5rem !important;
+        padding: 8px 16px;
+        font-size: 0.9rem;
+        transition: all 0.2s ease;
+    }
 
-                    @endif
+    .btn i {
+        font-size: 1rem;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border: none;
+        color: #fff;
+    }
+
+    .btn-success:hover {
+        background-color: #218838;
+        transform: translateY(-2px);
+    }
+
+    .btn-warning {
+        background-color: #ffc107;
+        border: none;
+        color: #fff;
+    }
+
+    .btn-warning:hover {
+        background-color: #e0a800;
+        transform: translateY(-2px);
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border: none;
+        color: #fff;
+    }
+
+    .btn-danger:hover {
+        background-color: #c82333;
+        transform: translateY(-2px);
+    }
+
+    /* Table Styling */
+    .table {
+        border-collapse: separate;
+        border-spacing: 0;
+        width: 100%;
+        border: 1px solid #dee2e6;
+        border-radius: 0.75rem;
+        overflow: hidden;
+    }
+
+    .table thead {
+        background: linear-gradient(90deg, #4e73df, #6610f2);
+        color: #fff;
+    }
+
+    .table thead th {
+        padding: 14px;
+        border: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+    }
+
+    .table tbody tr {
+        transition: all 0.2s ease-in-out;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f8f9fc;
+        transform: scale(1.01);
+    }
+
+    .table tbody tr:nth-child(even) {
+        background-color: #fafbfc;
+    }
+
+    .table tbody td {
+        vertical-align: middle;
+        font-size: 0.95rem;
+        padding: 12px;
+        border-top: 1px solid #dee2e6;
+    }
+
+    /* Responsive Table */
+    @media (max-width: 768px) {
+        .table thead {
+            display: none;
+        }
+
+        .table tbody td {
+            display: block;
+            text-align: right;
+            border: none;
+            position: relative;
+            padding-left: 50%;
+        }
+
+        .table tbody td::before {
+            content: attr(data-label);
+            position: absolute;
+            left: 15px;
+            font-weight: 600;
+            text-align: left;
+        }
+    }
+</style>
+
+
+<div class="container mt-5">
+
+    <!-- Contact Section -->
+    <div class="card mb-5">
+        <div class="card-header fs-4">📞 Contact Us</div>
+        <div class="card-body">
+            @if (isset($contactInfo))
+            @foreach ($contactInfo as $contact)
+            <form action="{{ route('contact_updated') }}" method="POST" class="p-2">
+                @csrf
+                <div class="mb-3">
+                    <label for="address" class="form-label fw-semibold">Address</label>
+                    <input type="text" class="form-control" id="address" name="address"
+                        value="{{ $contact->location }}" placeholder="Enter address" data-validation="required">
                 </div>
-            </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label fw-semibold">Email</label>
+                    <input type="email" class="form-control" id="email" name="email"
+                        value="{{ $contact->email }}" placeholder="Enter email"
+                        data-validation="required email">
+                </div>
+
+                <div class="mb-3">
+                    <label for="phone" class="form-label fw-semibold">Phone No.</label>
+                    <input type="text" class="form-control" id="phone" name="phone"
+                        value="{{ $contact->phone }}" placeholder="Enter 10-digit phone number"
+                        maxlength="10" minlength="10" data-validation="required numeric">
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-success px-4">Update Contact</button>
+                </div>
+            </form>
+            @endforeach
+            @endif
         </div>
     </div>
-    <div class="col-lg-3"></div>
-</div>
 
 
-<div class="row">
-    <div class="col-lg-3"></div>
-    <div class="col-lg-6">
-        <div class="card container mt-5 p-2 border-2 mb-4">
-            <div class="card-header fs-3 fw-bold d-flex align-items-center justify-content-between"> About Us
-            </div>
-            <div class="table-responsive-lg table-responsive-lg" style="z-index: 1;">
-                <div class="container mt-3">
-                    @if (isset($abouts))
-                    @foreach ($abouts as $about)
-                    <form action="{{ route('about_updated') }}" method="POST" enctype="multipart/form-data" class="p-2">
-                        @csrf
-                        <div class="d-flex justify-content-center">
-                            <img src="{{ asset('img/sliders/'. $about->image) }}"
-                                class="img-fluid rounded-circle" style="height: 250px; width: 40%;">
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="about_image" class="form-label fw-semibold">About Image</label>
-                            <input type="file" class="form-control" id="about_image" name="about_image" data-validation="file file1">
-                            <div class="error" id="about_imageError"></div>
-                        </div>
-                        <div class="mb-4">
-                            <label for="about_text" class="form-label fw-semibold">About Us Text</label>
-                            <textarea class="form-control" id="about_text" name="about_text" rows="8" data-validation="required" placeholder="Enter about us text">{{ $about->about_description }}</textarea>
-                            <div class="error" id="about_textError"></div>
-                        </div>
-                        <div class="mb-4">
-                            <label for="mission" class="form-label fw-semibold">Our Mission</label>
-                            <textarea class="form-control" id="mission" name="mission" rows="4" data-validation="required" placeholder="Enter Our Mission">{{ $about->mission }}</textarea>
-                            <div class="error" id="missionError"></div>
-                        </div>
-                        <div class="d-flex justify-content-end mt-3">
-                            <button type="submit" class="btn btn-success px-4">Update About Us</button>
-                        </div>
-                    </form>
-                    @endforeach
-                    @endif
+    <!-- About Section -->
+    <div class="card mb-5">
+        <div class="card-header fs-4">ℹ️ About Us</div>
+        <div class="card-body">
+            @if (isset($abouts))
+            @foreach ($abouts as $about)
+            <form action="{{ route('about_updated') }}" method="POST" enctype="multipart/form-data" class="p-2">
+                @csrf
+                <div class="d-flex justify-content-center mb-4">
+                    <img src="{{ asset('img/sliders/' . $about->image) }}"
+                        class="img-fluid rounded-circle border border-3 border-dark"
+                        style="height: 200px; width: 200px; object-fit: cover;">
                 </div>
-            </div>
+
+                <div class="mb-3">
+                    <label for="about_image" class="form-label fw-semibold">About Image</label>
+                    <input type="file" class="form-control" id="about_image" name="about_image">
+                </div>
+
+                <div class="mb-3">
+                    <label for="about_text" class="form-label fw-semibold">About Us Text</label>
+                    <textarea class="form-control" id="about_text" name="about_text" rows="6"
+                        placeholder="Enter about us text" data-validation="required">{{ $about->about_description }}</textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="mission" class="form-label fw-semibold">Our Mission</label>
+                    <textarea class="form-control" id="mission" name="mission" rows="4"
+                        placeholder="Enter Our Mission" data-validation="required">{{ $about->mission }}</textarea>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-success px-4">Update About Us</button>
+                </div>
+            </form>
+            @endforeach
+            @endif
         </div>
     </div>
-    <div class="col-lg-3"></div>
-</div>
 
-<div class="card container mt-5 p-4 border-2 mb-4">
-    <div class="card-header fs-3 fw-bold h-font d-flex align-items-center justify-content-between"> Drawback
-        <div>
-            <a href="{{ route('add_drawback') }}" class="btn btn-success shadow-none">
-                <i class="bi bi-plus-lg"></i> Add
+
+    <!-- Drawback Section -->
+    <div class="card mb-5">
+        <div class="card-header fs-4 d-flex justify-content-between align-items-center">
+            ⚠️ Drawback
+            <a href="{{ route('add_drawback') }}" class="btn btn-success">
+                <i class="bi bi-plus-circle"></i> Add
             </a>
         </div>
-    </div>
-    <div class="table-responsive-lg table-responsive-lg" style="z-index: 1;">
-        <div class="container mt-3">
-            <table class="table table-striped table-bordered">
-                <thead class="sticky-top">
-                    <tr class="text-center">
-                        <th scope="col" width="5%" class="bg-dark text-white">Sr no.</th>
-                        <th scope="col" width="20%" class="bg-dark text-white">Name</th>
-                        <th scope="col" width="20%" class="bg-dark text-white">Icon</th>
-                        <th scope="col" width="40%" class="bg-dark text-white">Description</th>
-                        <th scope="col" width="15%" class="bg-dark text-white">Action</th>
+        <div class="table-responsive">
+            <table class="table text-center align-middle shadow-sm">
+                <thead>
+                    <tr>
+                        <th>Sr no.</th>
+                        <th>Name</th>
+                        <th>Icon</th>
+                        <th>Description</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     @if (isset($drawbacks))
                     @foreach ($drawbacks as $drawback)
-                    <tr class="align-middle text-center">
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $drawback->drawback }}</td>
-                        <td><i class="{{ $drawback->drawback_icon }}"></i></td>
-                        <td>{{ $drawback->description }}</td>
-                        <td>
-                            <a href="{{ route('edit_drawback', $drawback->id) }}" class="btn btn-warning"><i class="bi bi-pencil"></i></a>
-                            <a href="#" class="btn btn-danger shadow">
+                    <tr>
+                        <td data-label="Sr no.">{{ $loop->iteration }}</td>
+                        <td data-label="Name">{{ $drawback->drawback }}</td>
+                        <td data-label="Icon"><i class="{{ $drawback->drawback_icon }} fs-3 text-primary"></i></td>
+                        <td data-label="Description">{{ $drawback->description }}</td>
+                        <td data-label="Action">
+                            <div class="btn-group">
+                                <a href="{{ route('edit_drawback', $drawback->id) }}" class="btn btn-warning btn-sm me-1">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a href="#" class="btn btn-danger shadow">
                                 <i class="bi bi-trash"></i>
                             </a>
+                            </div>
                         </td>
                     </tr>
                     @endforeach
@@ -134,6 +271,7 @@
             </table>
         </div>
     </div>
+
 </div>
 
 @endsection

@@ -23,6 +23,7 @@ Route::get('/login_form', [AuthController::class, 'showLoginForm'])->name('login
 Route::post('/login', [AuthController::class,'login'])->name('loginProcess');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/registration', [PageController::class, 'showRegisterForm'])->name('register');
+Route::get('/activation/{token}',[UserController::class,'activation'])->name('activation');
 Route::get('/about', [AboutController::class, 'about'])->name('about');
 Route::get('/service', [ServiceController::class, 'service'])->name('service');
 Route::get('/shop', [PageController::class, 'shop'])->name('shop');

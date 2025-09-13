@@ -5,13 +5,13 @@
 <style>
     .card {
         border-radius: 1rem;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         border: none;
         background-color: #ffffff;
     }
 
     .card-header {
-        background: linear-gradient(135deg, #20c997, #0dcaf0);
+        background: linear-gradient(135deg, #1f6feb, #1db954);
         color: white;
         border-radius: 0.75rem 0.75rem 0 0;
         padding: 1rem 1.5rem;
@@ -19,18 +19,18 @@
     }
 
     .table th {
-        vertical-align: middle;
-        font-size: 0.9rem;
+        vertical-align: middle !important;
         font-weight: 600;
+        font-size: 0.95rem;
     }
 
     .table td {
-        vertical-align: middle;
-        background-color: #ffffff;
+        vertical-align: middle !important;
+        background-color: #fdfdfd;
     }
 
     .table tbody tr:hover {
-        background-color: #e8fafd;
+        background-color: #f1f9ff;
         transition: all 0.3s ease;
         transform: scale(1.01);
     }
@@ -40,47 +40,107 @@
         padding: 6px 12px;
         font-size: 0.85rem;
         font-weight: 600;
-        transition: all 0.2s ease;
+    }
+
+    .btn i {
+        font-size: 1rem;
     }
 
     .btn-danger:hover {
         background-color: #c82333;
     }
 
-    .table th,
-    .table td {
-        text-align: center;
+    .rating-badge {
+        background-color: #ffc107;
+        color: #000;
+        font-weight: 600;
+        padding: 4px 10px;
+        border-radius: 0.5rem;
+    }
+
+    .review-text {
+        max-width: 250px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 </style>
 
-<div class="card container mt-5 p-4 border-2 mb-4">
-    <div class="card-header fs-3 fw-bold h-font d-flex align-items-center justify-content-between">
-        Review & Rating
+<div class="card container mt-5 p-4 mb-4">
+    <div class="card-header d-flex align-items-center justify-content-between">
+        <span>Review & Rating</span>
     </div>
-    <div class="table-responsive table-responsive-md table-responsive-sm" style="z-index: 1;">
-        <div class="container mt-3">
-            <table id="user" class="table table-striped table-bordered text-center" style="min-width: 1100px;">
-                <thead class="sticky-top">
-                    <tr class="align-middle">
-                        <th scope="col" class="bg-dark text-white">Sr. No.</th>
-                        <th scope="col" class="bg-dark text-white">Product</th>
-                        <th scope="col" class="bg-dark text-white">User</th>
-                        <th scope="col" class="bg-dark text-white">Rating</th>
-                        <th scope="col" class="bg-dark text-white">Review</th>
-                        <th scope="col" class="bg-dark text-white">Date</th>
-                        <th scope="col" class="bg-dark text-white">Action</th>
+
+    <div class="table-responsive-lg mt-3" style="z-index: 1;">
+        <div class="container">
+            <table class="table table-striped table-bordered text-center align-middle">
+                <thead>
+                    <tr>
+                        <th width="5%" class="bg-dark text-white">Sr. No.</th>
+                        <th width="15%" class="bg-dark text-white">Product</th>
+                        <th width="15%" class="bg-dark text-white">User</th>
+                        <th width="10%" class="bg-dark text-white">Rating</th>
+                        <th width="30%" class="bg-dark text-white">Review</th>
+                        <th width="15%" class="bg-dark text-white">Date</th>
+                        <th width="10%" class="bg-dark text-white">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="align-middle">
+                    <tr>
                         <td>1</td>
                         <td>IPhone 13</td>
                         <td>John Doe</td>
-                        <td>4</td>
-                        <td>Great phone with excellent features!</td>
+                        <td>
+                            <span class="rating-badge">4 ★</span>
+                        </td>
+                        <td>
+                            <span class="review-text" title="Great phone with excellent features!">
+                                Great phone with excellent features!
+                            </span>
+                        </td>
                         <td>2023-10-01</td>
                         <td>
-                            <button class="btn btn-danger"><i class="bi bi-trash"></i></button>
+                            <button class="btn btn-danger" onclick="return confirm('Delete this review?')">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Samsung Galaxy S22</td>
+                        <td>Jane Smith</td>
+                        <td>
+                            <span class="rating-badge">5 ★</span>
+                        </td>
+                        <td>
+                            <span class="review-text" title="Absolutely love the display and performance.">
+                                Absolutely love the display and performance.
+                            </span>
+                        </td>
+                        <td>2023-10-05</td>
+                        <td>
+                            <button class="btn btn-danger" onclick="return confirm('Delete this review?')">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>OnePlus 10 Pro</td>
+                        <td>Mike Johnson</td>
+                        <td>
+                            <span class="rating-badge">3 ★</span>
+                        </td>
+                        <td>
+                            <span class="review-text" title="Good phone but battery drains quickly.">
+                                Good phone but battery drains quickly.
+                            </span>
+                        </td>
+                        <td>2023-10-08</td>
+                        <td>
+                            <button class="btn btn-danger" onclick="return confirm('Delete this review?')">
+                                <i class="bi bi-trash"></i>
+                            </button>
                         </td>
                     </tr>
                 </tbody>

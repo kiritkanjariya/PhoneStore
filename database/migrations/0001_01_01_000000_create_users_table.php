@@ -17,10 +17,11 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->text('address');
             $table->string('phone')->unique();
-            $table->string('status')->default('inactive');
             $table->text('password');
-            $table->string('role')->default('user');
             $table->text('profile');
+            $table->string('status')->default('inactive');
+            $table->string('role')->default('user');
+            $table->string('token');
             $table->timestamps();
         });
 

@@ -47,7 +47,6 @@
         padding: 60px 20px;
     }
 
-    /* Feature Card ("Why Choose Us") Styles */
     .feature-card-v2 {
         background-color: #fff;
         border: 1px solid #e9ecef;
@@ -90,7 +89,7 @@
     }
 </style>
 
-
+<!-- Hero Section -->
 <section class="about-hero-v2">
     <div class="hero-overlay"></div>
     <div class="container text-center text-white hero-content">
@@ -99,51 +98,53 @@
     </div>
 </section>
 
-<section class="container py-5">
-    <div class="row align-items-center g-5">
-        <div class="col-lg-6 fade-in-section">
-            @if (isset($abouts))
-            @foreach ($abouts as $about)
+<!-- About & Mission Section -->
+@if (isset($abouts))
+    @foreach ($abouts as $about)
+        <section class="container py-5">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6 fade-in-section">
+                    <img src="{{ asset('img/sliders/'.$about->image) }}"
+                         alt="A person holding a modern smartphone in a bright, clean environment"
+                         class="img-fluid rounded-4 shadow-lg">
+                </div>
+                <div class="col-lg-6 fade-in-section">
+                    <h2 class="section-title-v2">Our Story</h2>
+                    <p class="text-muted">{{ $about->about_description }}</p>
+                </div>
+            </div>
+        </section>
 
-            <img src="{{ asset('img/sliders/'.$about->image) }}"
-                alt="A person holding a modern smartphone in a bright, clean environment"
-                class="img-fluid rounded-4 shadow-lg">
-        </div>
-        <div class="col-lg-6 fade-in-section">
-            <h2 class="section-title-v2">Our Story</h2>
-            <p class="text-muted">{{ $about->about_description }}</p>
-        </div>
-    </div>
-</section>
-
-<section class="mission-section">
-    <div class="container text-center">
-        <h2 class="section-title-v2">Our Mission</h2>
-        <p class="lead text-muted mx-auto" style="max-width: 800px;">{{ $about->mission }}</p>
-    </div>
-</section>
-@endforeach
+        <section class="mission-section">
+            <div class="container text-center">
+                <h2 class="section-title-v2">Our Mission</h2>
+                <p class="lead text-muted mx-auto" style="max-width: 800px;">{{ $about->mission }}</p>
+            </div>
+        </section>
+    @endforeach
 @endif
 
+<!-- Why Choose Us Section -->
 <section class="container py-5">
     <div class="text-center mb-5">
         <h2 class="section-title-v2">Why <span class="highlight-green">Choose Us?</span></h2>
         <p class="text-muted">We go beyond just selling phones — we create value and long-term relationships.</p>
     </div>
-    <div class="row g-4">
-
-        @if (isset($drawbacks))
-        @foreach ($drawbacks as $drawback)
-        <div class="col-lg-4 col-md-6 fade-in-section">
-            <div class="feature-card-v2">
-                <div class="feature-icon-wrapper"><i class="{{ $drawback->drawback_icon }}"></i></div>
-                <h5 class="feature-title">{{ $drawback->drawback }}</h5>
-                <p class="feature-text">{{ $drawback->description }}</p>
-            </div>
+    
+    @if (isset($drawbacks))
+        <div class="row justify-content-center g-4">
+            @foreach ($drawbacks as $drawback)
+                <div class="col-lg-4 col-md-6 fade-in-section">
+                    <div class="feature-card-v2">
+                        <div class="feature-icon-wrapper">
+                            <i class="{{ $drawback->drawback_icon }}"></i>
+                        </div>
+                        <h5 class="feature-title">{{ $drawback->drawback }}</h5>
+                        <p class="feature-text">{{ $drawback->description }}</p>
+                    </div>
+                </div>
+            @endforeach
         </div>
-        @endforeach
-        @endif
-
-    </div>
+    @endif
 </section>
 @endsection
