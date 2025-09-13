@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Brand;
 use App\Models\Products;
+use App\Models\offers;
 
 class ShopController extends Controller
 {
     public function shop()
     {
 
+        $offer = Offers::where('status', 'active')->orderBy('id', 'desc')->first();
         $products = products::all();
         $brands = Brand::orderBy('name')->get();
 
@@ -23,6 +25,6 @@ class ShopController extends Controller
             '40000+' => 'Above ₹40,000',
         ];
 
-        return view('shop', compact('brands', 'products', 'priceRanges', 'rams'));
+        return view('shop', compact('brands', 'products', 'priceRanges', 'rams', 'offer'));
     }
 }

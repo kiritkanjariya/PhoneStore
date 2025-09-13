@@ -13,18 +13,46 @@ class CartController extends Controller
 
     public function cart()
     {
+        Session::forget(['appliedCoupon', 'discountAmount', 'newTotal']);
         $user = Session::get('user');
 
         if (!$user) {
             return redirect()->route('login')->with("error", "Please login to view cart.");
         }
 
-        $carts = cart::with('product')
+        $carts = Cart::with(['product.discount', 'product.brand'])
             ->where('user_id', $user->id)
             ->get();
 
-        return view('add_to_cart', compact('carts'));
+        $subtotal = 0;
+        $originalTotal = 0;
+        $totalDiscount = 0;
+
+        foreach ($carts as $cart) {
+            $product = $cart->product;
+            $discount = $product->discount ?? null;
+            $price = floatval($product->price ?? 0);
+            $finalPrice = $price;
+
+            if ($discount && !empty($discount->discount)) {
+                if ($discount->discount_type === 'percentage') {
+                    $finalPrice = $price - ($price * (float) $discount->discount / 100);
+                } else {
+                    $finalPrice = $price - (float) $discount->discount;
+                }
+            }
+
+            $lineTotal = $finalPrice * $cart->quantity;
+            $originalLineTotal = $price * $cart->quantity;
+
+            $subtotal += $lineTotal;
+            $originalTotal += $originalLineTotal;
+            $totalDiscount += ($originalLineTotal - $lineTotal);
+        }
+
+        return view('add_to_cart', compact('carts', 'subtotal', 'originalTotal', 'totalDiscount'));
     }
+
 
     public function add_cart($id)
     {
@@ -100,13 +128,9 @@ class CartController extends Controller
             return redirect()->route('login')->with("error", "Please login first...");
         }
 
-        $cart_items = cart::where('user_id', $user->id)->get();
+        $carts = cart::where('user_id', $user->id)->get();
 
-        if ($cart_items->isEmpty()) {
-            return redirect()->route('cart_detail')->with("error", "Your cart is empty!");
-        }
-
-        return view('checkout',compact('cart_items'));
+        return view('checkout', compact('carts'));
     }
 
     public function index()

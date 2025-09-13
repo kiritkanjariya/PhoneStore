@@ -69,20 +69,4 @@ class PageController extends Controller
     {
         return view('admin/admin_order');
     }
-    public function add_offer()
-    {
-        return view('admin/add_offer');
-    }
-    public function offer_added()
-    {
-        return view('admin/admin_offers');
-    }
-    public function edit_offer()
-    {
-        return view('admin/edit_offers');
-    }
-    public function offer_updated()
-    {
-        return view('admin/admin_offers');
-    }
 }

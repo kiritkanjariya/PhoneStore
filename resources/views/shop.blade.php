@@ -144,9 +144,11 @@
 
     <div class="offer-bar-v2">
         <i class="bi bi-tag-fill"></i>
-        <span>
-            <strong>Janmastami Offer:</strong> 20% OFF on All Phones! Use Code: <strong>JANMA20</strong>
-        </span>
+        @if (isset($offer))
+                <span>
+                    <strong>{{ $offer->title }}:</strong> Use Code: <strong>{{ $offer->code }}</strong>
+                </span>
+        @endif
     </div>
 
     <div class="container py-5">

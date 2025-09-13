@@ -37,6 +37,8 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        $request->session()->forget('used_coupons');
+        $request->session()->flush();
         $request->session()->forget('user');
         return redirect()->route('login')->with('success', 'Logged out successfully');
     }

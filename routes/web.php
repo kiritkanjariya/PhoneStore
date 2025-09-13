@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CheckoutController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AdvantageController;
@@ -36,6 +37,7 @@ Route::post('/changed_password/{id}',[ProfileController::class,'changed_password
 
 Route::get('/orders', [PageController::class, 'order'])->name('order');
 Route::get('/Checkout', [CartController::class, 'showCheckOut'])->name('Checkout');
+Route::post('/CheckoutProcess', [CheckoutController::class, 'checkout'])->name('Checkoutprocess');
 Route::get('/review-rating', [PageController::class, 'review_rating'])->name('review_rating');
 
 Route::get('/shop', [ShopController::class, 'shop'])->name('shop');
@@ -79,12 +81,13 @@ Route::get('/admin_review_rating',[PageController::class, 'redicrect_review_rati
 Route::get('/admin_order',[PageController::class, 'redicrect_order'])->name('admin_order');
 Route::get('/edit_order',[PageController::class, 'edit_order'])->name('edit_order');
 Route::post('/updated_order',[PageController::class, 'order_updated'])->name('order_updated');
-Route::get('/add_offer',[PageController::class, 'add_offer'])->name('add_offer');
-Route::post('/added_offer',[PageController::class, 'offer_added'])->name('offer_added');
-Route::get('/edit_offer',[PageController::class, 'edit_offer'])->name('edit_offer');
-Route::post('/updated_offer',[PageController::class, 'offer_updated'])->name('offer_updated');
+Route::get('/add_offer',[DiscountController::class, 'add_offer'])->name('add_offer');
+Route::post('/added_offer',[DiscountController::class, 'offer_added'])->name('offer_added');
+Route::get('/edit_offer{id}',[DiscountController::class, 'edit_offer'])->name('edit_offer');
+Route::post('/updated_offer{id}',[DiscountController::class, 'offer_updated'])->name('offer_updated');
 Route::get('/edit_discount{id}',[DiscountController::class, 'edit_discount'])->name('edit_discount');
 Route::post('/updated_discount{id}',[DiscountController::class, 'discount_updated'])->name('discount_updated');
+Route::post('/delete_offer{id}',[DiscountController::class, 'destory'])->name('offer.destroy');
 Route::get('/admin_brand',[BrandController::class, 'redirect_brand'])->name('admin_brand');
 Route::get('/edit_brand/{id}',[BrandController::class, 'edit_brand'])->name('edit_brand');
 Route::post('/brand_updated/{id}',[BrandController::class, 'brand_updated'])->name('brand_updated');
@@ -110,3 +113,5 @@ Route::get('/add_to_cart/{id}',[CartController::class,'add_cart'])->name('add_ca
 Route::post('/cart/increase/{id}', [CartController::class, 'increaseQuantity'])->name('increase_quantity');
 Route::post('/cart/decrease/{id}', [CartController::class, 'decreaseQuantity'])->name('decrease_quantity');
 Route::post('/cart/{id}', [CartController::class, 'delete_cart_item'])->name('delete_cart_item');
+
+Route::post('/coupon', [DiscountController::class, 'apply_coupon'])->name('coupon_apply');

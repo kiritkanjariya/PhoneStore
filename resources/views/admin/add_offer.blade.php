@@ -22,8 +22,12 @@
 
                     <div class="mb-4">
                         <label for="offer_code" class="form-label fw-semibold">Offer Code</label>
-                        <input type="text" class="form-control" id="offer_code" name="offer_code" data-validation="required" placeholder="Enter Offer Code">
-                        <div class="error" id="offer_codeError"></div>
+                        <input type="text" class="form-control" id="offer_code" name="offer_code" placeholder="Enter Offer Code">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="min_amount" class="form-label fw-semibold">minimum_amount</label>
+                        <input type="number" class="form-control" id="min_amount" name="min_amount" placeholder="Enter Offer Code">
                     </div>
 
                     <div class="mb-3">
