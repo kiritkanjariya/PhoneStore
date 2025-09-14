@@ -120,18 +120,6 @@ class CartController extends Controller
         return redirect()->route('cart_detail')->with('error', 'Product Deleted to cart. ✅');
     }
 
-    public function showCheckOut()
-    {
-        $user = Session::get('user');
-
-        if (!$user) {
-            return redirect()->route('login')->with("error", "Please login first...");
-        }
-
-        $carts = cart::where('user_id', $user->id)->get();
-
-        return view('checkout', compact('carts'));
-    }
 
     public function index()
     {

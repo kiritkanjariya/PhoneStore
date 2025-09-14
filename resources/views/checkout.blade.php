@@ -1,5 +1,3 @@
-
-
 @extends('master_view')
 
 @section('files')
@@ -9,12 +7,12 @@
             <h2>Secure <span class="highlight-green">Checkout</span></h2>
         </div>
 
-
         <div class="row g-5 mt-4">
             <div class="col-lg-8">
                 <div class="checkout-form-panel">
                     <h4 class="mb-4">Shipping Address</h4>
-                    <form action="{{ route('Checkoutprocess') }}" method="POST">
+
+                    <form id="checkout-form" action="{{ route('Checkoutprocess') }}" method="POST">
                         @csrf
                         <div class="row g-3">
                             <div class="col-12">
@@ -42,13 +40,18 @@
                             </div>
                         </div>
 
+                        <input type="hidden" name="razorpay_order_id" id="razorpay_order_id">
+                        <input type="hidden" name="razorpay_payment_id" id="razorpay_payment_id">
+                        <input type="hidden" name="razorpay_signature" id="razorpay_signature">
+
                         <hr class="my-4">
 
-                        <button class="w-100 btn btn-checkout-v2" type="submit">Place Order</button>
+                        <button class="w-100 btn btn-checkout-v2" id="rzp-button1" type="button">
+                            Place Order
+                        </button>
                     </form>
                 </div>
             </div>
-
 
             <div class="col-lg-4">
                 <div class="summary-box-v2">
@@ -130,13 +133,51 @@
                         <input type="hidden" name="subtotal" value="{{ $subtotal }}">
                     </form>
                 </div>
-
             </div>
+
         </div>
     </div>
 
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        document.getElementById('rzp-button1').onclick = function (e) {
+            var options = {
+                "key": "{{ $razorpayKeyId }}",
+                "amount": Number("{{ $totalAmount }}") * 100,
+                "currency": "INR",
+                "name": "PhoneStore",
+                "description": "Order Payment",
+                "image": "{{ asset('img/logo.png') }}",
+                "order_id": "{{ $razorpayOrderId }}",
+                "handler": function (response) {
+                    document.getElementById('razorpay_order_id').value = response.razorpay_order_id;
+                    document.getElementById('razorpay_payment_id').value = response.razorpay_payment_id;
+                    document.getElementById('razorpay_signature').value = response.razorpay_signature;
+                    document.getElementById('checkout-form').submit();
+                },
+                "prefill": {
+                    "name": "{{ $user->name }}",
+                    "email": "{{ $user->email }}",
+                    "contact": "{{ $user->phone }}"
+                },
+                "theme": { "color": "#3A5A40" },
+                "config": {
+                    "display": {
+                        "blocks": {
+                            "upi": { "name": "Pay with UPI", "order": ["google_pay", "phonepe", "upi"] },
+                            "banks": { "name": "Pay with Netbanking", "order": ["hdfc", "icici", "sbi", "axis"] }
+                        },
+                        "sequence": ["block.upi", "block.banks", "card", "wallet", "paylater"], "preferences": { "show_default_blocks": true }
+                    }
+                }
+            };
+            var rzp1 = new Razorpay(options);
+            rzp1.open();
+            e.preventDefault();
+        }
+    </script>
+
     <style>
-        /* Form & Summary Panels */
         .checkout-form-panel,
         .summary-box-v2 {
             background: #fff;
@@ -145,62 +186,29 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
 
-
-        /* Summary Box Styles (reusing from cart) */
         .summary-title {
             font-weight: 700;
-            color: var(--dark-text, #333);
         }
 
         .summary-product-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
             padding: 10px 0;
             border-bottom: 1px solid #f0f0f0;
         }
 
-        .summary-product-item img {
-            width: 50px;
-            height: 50px;
-            object-fit: contain;
-            border-radius: 6px;
-            margin-right: 15px;
-        }
-
-        .summary-product-item .item-details {
-            flex-grow: 1;
-        }
-
-        .summary-promo-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            color: var(--primary-green, #3A5A40);
-        }
-
-        .summary-total {
-            display: flex;
-            justify-content: space-between;
-            font-size: 1.2rem;
-            font-weight: 700;
-        }
-
-        /* Checkout Button */
         .btn-checkout-v2 {
-            background-color: var(--primary-green, #3A5A40);
-            color: white;
+            background: #3A5A40;
+            color: #fff;
             border-radius: 8px;
             padding: 12px;
             font-weight: 600;
             font-size: 1.1rem;
-            transition: all 0.3s ease;
         }
 
         .btn-checkout-v2:hover {
-            background-color: #2c4431;
-            color: white;
+            color: #fff;
+            background: #2c4431;
             transform: translateY(-2px);
         }
     </style>
+
 @endsection

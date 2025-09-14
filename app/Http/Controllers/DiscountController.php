@@ -171,13 +171,20 @@ class DiscountController extends Controller
         $current_date = date('Y-m-d');
 
 
+        offers::where('end_date', '<', $current_date) 
+            ->where('status', 'active')
+            ->update([
+                'status' => 'inactive'
+            ]);
+
+
         $coupon = offers::where('code', $coupon_code)
             ->where('start_date', '<=', $current_date)
             ->where('end_date', '>=', $current_date)
             ->where('status', 'active')
             ->first();
 
-            
+
         if (!$coupon) {
             return redirect()->route('Checkout')->with('error', 'Invalid or expired coupon code.');
         }
@@ -220,7 +227,7 @@ class DiscountController extends Controller
     }
 
 
-    
+
 
 
 }

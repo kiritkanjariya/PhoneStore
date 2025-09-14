@@ -247,7 +247,6 @@
                 <p class="text-center">No products found.</p>
             @endforelse
 
-
         </div>
     </div>
 
