@@ -7,6 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Products extends Model
 {
 
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    
     public function discount()
     {
         return $this->hasOne(Discount::class, 'product_id');
@@ -17,6 +23,4 @@ class Products extends Model
     {
         return $this->belongsTo(Brand::class, 'brand_id');
     }
-
 }
-

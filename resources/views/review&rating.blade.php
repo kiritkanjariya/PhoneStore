@@ -12,23 +12,24 @@
     <div class="section-heading-v2">
         <h2>Write a <span class="highlight-green">Product Review</span></h2>
     </div>
-
+    @if (isset($product))
     <div class="row d-flex justify-content-center">
         <div class="col-lg-9">
             <div class="review-card-v2">
                 <div class="review-product-header">
-                    <img src="https://m.media-amazon.com/images/I/71d7rfSl0wL._AC_UY436_QL65_.jpg" alt="Product"
+                    <img src="{{ asset('img/product-images/'.$product->image) }}" alt="Product"
                         class="review-product-image">
                     <div>
                         <p class="text-muted mb-1">You are reviewing:</p>
-                        <h5 class="review-product-title">itel IT 2165S (Blue)</h5>
+                        <h5 class="review-product-title">{{ $product->name.' (' .$product->ram.' GB)' }}</h5>
                     </div>
                 </div>
 
                 <hr>
 
                 <div class="review-form-body">
-                    <form id="review-form">
+                    <form id="review-form" method="post" action="{{ route('review_rating_submit',$product->id) }}">
+                        @csrf
                         <div class="mb-4">
                             <label class="form-label">Your overall rating</label>
                             <div class="d-flex gap-2" id="starRating">
@@ -38,7 +39,8 @@
                                 <i class="bi bi-star-fill star" data-value="4"></i>
                                 <i class="bi bi-star-fill star" data-value="5"></i>
                             </div>
-                            <input type="hidden" id="ratingValue" name="rating" value="">
+                            <input type="hidden" id="ratingValue" data-validation="required" name="rating" value="">
+                            <div class="error" id="ratingError"></div>
                         </div>
 
                         <div class="mb-4">
@@ -57,6 +59,7 @@
             </div>
         </div>
     </div>
+    @endif
 </div>
 <style>
     /* Main Review Card */
