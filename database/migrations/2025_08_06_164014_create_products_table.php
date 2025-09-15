@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('storage');
             $table->string('color');
             $table->decimal('screen_size', 10, 1);
+            $table->string('feature_highlight')->nullable();
             $table->integer('stock_quantity');
             $table->string('image');
             $table->string('status')->default('inactive');

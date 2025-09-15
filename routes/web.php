@@ -29,7 +29,7 @@ Route::get('/about', [AboutController::class, 'about'])->name('about');
 Route::get('/service', [ServiceController::class, 'service'])->name('service');
 Route::get('/shop', [PageController::class, 'shop'])->name('shop');
 Route::get('/cart', [PageController::class, 'cart'])->name('cart_detail');
-Route::get('/details', [PageController::class, 'phone_details'])->name('phone_details');
+Route::get('/details/{id}', [ProductsController::class, 'phone_details'])->name('phone_details');
 Route::get('/forgot_password', [PageController::class, 'forgot_password'])->name('forgot_pass');
 Route::get('/profile', [ProfileController::class, 'showProfile'])->name('profile');
 Route::put('/profile/{id}', [ProfileController::class, 'update'])->name('profile.update');
@@ -40,6 +40,7 @@ Route::get('/Checkout', [CheckoutController::class, 'showCheckout'])->name('Chec
 Route::post('/CheckoutProcess', [CheckoutController::class, 'processOrder'])->name('Checkoutprocess');
 Route::get('/review-rating/{id}', [CheckoutController::class, 'review_rating'])->name('review_rating');
 Route::post('/review-rating_submit/{id}', [CheckoutController::class, 'review_rating_submit'])->name('review_rating_submit');
+Route::delete('/review/{id}', [CheckoutController::class, 'delete_review'])->name('delete_review');
 
 Route::get('/shop', [ShopController::class, 'shop'])->name('shop');
 Route::get('/', [ProductsController::class, 'home'])->name('home');
@@ -78,7 +79,7 @@ Route::post('/updated_product/{id}', [ProductsController::class, 'product_update
 Route::get('/admin_profile', [ProfileController::class, 'admin_profile'])->name('admin_profile');
 Route::post('/admin_changed_profile/{id}', [ProfileController::class, 'admin_changed_profile'])->name('admin_changed_profile');
 Route::post('/admin_changed_password/{id}', [ProfileController::class, 'admin_changed_password'])->name('admin_changed_password');
-Route::get('/admin_review_rating', [PageController::class, 'redicrect_review_rating'])->name('admin_review_rating');
+Route::get('/admin_review_rating', [CheckoutController::class, 'redicrect_review_rating'])->name('admin_review_rating');
 Route::get('/admin_order', [CheckoutController::class, 'redicrect_order'])->name('admin_order');
 Route::get('/edit_order/{id}', [CheckoutController::class, 'edit_order'])->name('edit_order');
 Route::post('/updated_order/{id}', [CheckoutController::class, 'order_updated'])->name('order_updated');

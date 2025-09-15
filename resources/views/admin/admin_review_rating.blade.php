@@ -86,63 +86,26 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @if (isset($reviews))
+                    @foreach ($reviews as $review)
                     <tr>
-                        <td>1</td>
-                        <td>IPhone 13</td>
-                        <td>John Doe</td>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $review->Product->name }}</td>
+                        <td>{{ $review->user->name }}</td>
                         <td>
-                            <span class="rating-badge">4 ★</span>
+                            <span class="rating-badge">{{ $review->rating }} ★</span>
                         </td>
                         <td>
-                            <span class="review-text" title="Great phone with excellent features!">
-                                Great phone with excellent features!
-                            </span>
+                            <span class="review-text" title="Great phone with excellent features!">{{ $review->review }}</span>
                         </td>
-                        <td>2023-10-01</td>
+                        <td>{{ $review->created_at->format('d-m-Y') }}</td>
                         <td>
-                            <button class="btn btn-danger" onclick="return confirm('Delete this review?')">
-                                <i class="bi bi-trash"></i>
-                            </button>
+                            <a  href="{{ route('delete_review',$review->id) }}" class="btn btn-danger" onclick="return confirm('Delete this review?')"> <i class="bi bi-trash"></i></a>
+                               
                         </td>
                     </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Samsung Galaxy S22</td>
-                        <td>Jane Smith</td>
-                        <td>
-                            <span class="rating-badge">5 ★</span>
-                        </td>
-                        <td>
-                            <span class="review-text" title="Absolutely love the display and performance.">
-                                Absolutely love the display and performance.
-                            </span>
-                        </td>
-                        <td>2023-10-05</td>
-                        <td>
-                            <button class="btn btn-danger" onclick="return confirm('Delete this review?')">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>OnePlus 10 Pro</td>
-                        <td>Mike Johnson</td>
-                        <td>
-                            <span class="rating-badge">3 ★</span>
-                        </td>
-                        <td>
-                            <span class="review-text" title="Good phone but battery drains quickly.">
-                                Good phone but battery drains quickly.
-                            </span>
-                        </td>
-                        <td>2023-10-08</td>
-                        <td>
-                            <button class="btn btn-danger" onclick="return confirm('Delete this review?')">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
+                    @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>

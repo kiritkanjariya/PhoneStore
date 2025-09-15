@@ -14,11 +14,6 @@ class PageController extends Controller
         return view('registration');
     }
 
-    public function phone_details()
-    {
-        return view('phone_detail');
-    }
-
     public function forgot_password()
     {
         return view('forgot_pass');
@@ -30,11 +25,6 @@ class PageController extends Controller
             return redirect()->route('login');
         }
         return view('admin/admin_dashboard');
-    }
-
-    public function redicrect_review_rating()
-    {
-        return view('admin/admin_review_rating');
     }
     public function redicrect_offers()
     {

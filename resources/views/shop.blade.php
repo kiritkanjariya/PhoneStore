@@ -285,7 +285,7 @@
 
 
                                     <div class="product-img-wrapper-v2">
-                                        <a href="#">
+                                        <a href="{{ route('phone_details',$product->id) }}">
                                             <img src="{{ asset('img/product-images/' . $product->image) }}" class="product-img-v2"
                                                 alt="{{ $product->name }}">
                                         </a>

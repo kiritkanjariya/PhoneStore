@@ -216,4 +216,16 @@ class CheckoutController extends Controller
 
         return redirect()->route('order')->with('success', 'Review submitted successfully!');
     }
+
+     public function redicrect_review_rating()
+    {
+        $reviews = review::all();
+        return view('admin/admin_review_rating', compact('reviews'));
+    }
+    public function delete_review($id)
+    {
+        $review = review::findOrFail($id);
+        echo $review;
+
+    }
 }

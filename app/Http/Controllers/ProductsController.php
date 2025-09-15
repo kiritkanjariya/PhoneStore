@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Products;
 use App\Models\Brand;
+use App\Models\review;
 use App\Models\Slider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -45,7 +46,7 @@ class ProductsController extends Controller
         $products->save();
         return redirect()->route('admin_product')->with('success', 'Product Added successfully ✅');
     }
-    
+
     public function edit_product($id)
     {
         $brands = Brand::all();
@@ -56,7 +57,7 @@ class ProductsController extends Controller
     public function product_updated(Request $request, $id)
     {
         $products = Products::findOrFail($id);
-        
+
         $products->name = $request->name;
         $products->price = $request->price;
         $products->brand_id = $request->brand;
@@ -107,7 +108,7 @@ class ProductsController extends Controller
             ->where(function ($query) use ($today) {
                 $query->whereNull('end_date')->orWhere('end_date', '>=', $today);
             })->where('status', '=', 'active');
-            
+
 
         $products = DB::table('products')
             ->leftJoin('discounts', 'products.id', '=', 'discounts.product_id')
@@ -129,6 +130,18 @@ class ProductsController extends Controller
         $sliders = Slider::where('status', 'active')->get();
 
         return view('index', compact('products', 'sliders'));
+    }
+
+    public function phone_details($id)
+    {
+        $product = Products::findOrFail($id);
+
+        $reviews = Review::with('user')
+            ->where('product_id', $id)
+            ->latest()
+            ->get();
+
+        return view('phone_detail', compact('product', 'reviews'));
     }
 
 
