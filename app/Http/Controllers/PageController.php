@@ -24,22 +24,6 @@ class PageController extends Controller
         return view('forgot_pass');
     }
 
-
-    // login User
-
-
-    public function review_rating()
-    {
-        return view('review&rating');
-    }
-
-    public function order()
-    {
-        return view('orders');
-    }
-
-    // admin controller 
-
     public function redicrect_dashboard()
     {
         if (!Session::has('admin')) {
@@ -55,18 +39,5 @@ class PageController extends Controller
     public function redicrect_offers()
     {
         return view('admin/admin_offers');
-    }
-
-    public function redicrect_order()
-    {
-        return view('admin/admin_order');
-    }
-    public function edit_order()
-    {
-        return view('admin/edit_order');
-    }
-    public function order_updated()
-    {
-        return view('admin/admin_order');
     }
 }

@@ -23,6 +23,7 @@ class UserController extends Controller
         $user->address = $formdata->address;
         $user->phone = $formdata->phone;
         $user->role = $formdata->role;
+        $user->token = uniqid();
         $user->password = $formdata->password;
         $user->status = $formdata->status;
 

@@ -24,6 +24,7 @@ return new class extends Migration {
             $table->string('shipping_name');
             $table->string('shipping_address');
             $table->string('shipping_phone');
+            $table->date('delivered_date');
 
             $table->timestamps();
         });

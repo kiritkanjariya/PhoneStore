@@ -145,68 +145,77 @@
                 </tr>
             </thead>
             <tbody>
+                @if (isset($orders) && $orders->count() > 0)
+                @foreach ($orders as $order)
                 <tr>
-                    <td data-label="Sr. No.">1</td>
-                    <td data-label="Order ID">ORD123456</td>
-                    <td data-label="Customer">John Doe</td>
-                    <td data-label="Product(s)">IPhone 13</td>
-                    <td data-label="Total"><span class="badge bg-primary">$799</span></td>
-                    <td data-label="Status"><span class="badge bg-warning text-dark">Pending</span></td>
-                    <td data-label="Order Date">12-06-2025</td>
-                    <td data-label="Delivered Date">15-06-2025</td>
-                    <td data-label="Action">
-                        <div class="btn-group">
-                            <a href="{{ route('edit_order') }}" class="btn btn-warning btn-sm me-1" title="Edit">
-                                <i class="bi bi-pencil"></i>
-                            </a>
-                            <button class="btn btn-danger btn-sm" title="Delete">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $order->order_number }}</td>
+                    <td>{{ $order->user->name ?? 'N/A' }}</td>
 
-                <tr>
-                    <td data-label="Sr. No.">2</td>
-                    <td data-label="Order ID">ORD654321</td>
-                    <td data-label="Customer">Jane Smith</td>
-                    <td data-label="Product(s)">Samsung Galaxy S22</td>
-                    <td data-label="Total"><span class="badge bg-primary">$699</span></td>
-                    <td data-label="Status"><span class="badge bg-success">Delivered</span></td>
-                    <td data-label="Order Date">10-06-2025</td>
-                    <td data-label="Delivered Date">13-06-2025</td>
-                    <td data-label="Action">
-                        <div class="btn-group">
-                            <a href="{{ route('edit_order') }}" class="btn btn-warning btn-sm me-1" title="Edit">
-                                <i class="bi bi-pencil"></i>
-                            </a>
-                            <button class="btn btn-danger btn-sm" title="Delete">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
+                    {{-- Products --}}
+                    <td>
+                        @php $products = json_decode($order->items, true); @endphp
+                        @if (!empty($products))
+                        <table class="table table-bordered table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Qty</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($products as $product)
+                                <tr>
+                                    <td>
+                                        @php
+                                        $productModel = \App\Models\Products::find($product['product_id']);
+                                        @endphp
 
-                <tr>
-                    <td data-label="Sr. No.">3</td>
-                    <td data-label="Order ID">ORD789012</td>
-                    <td data-label="Customer">Alice Brown</td>
-                    <td data-label="Product(s)">OnePlus 10 Pro</td>
-                    <td data-label="Total"><span class="badge bg-primary">$899</span></td>
-                    <td data-label="Status"><span class="badge bg-danger">Cancelled</span></td>
-                    <td data-label="Order Date">08-06-2025</td>
-                    <td data-label="Delivered Date">-</td>
-                    <td data-label="Action">
+                                        @if($productModel && $productModel->image)
+                                        <img src="{{ asset('img/product-images/'.$productModel->image) }}"
+                                            alt="{{ $product['name'] }}" width="50" height="50">
+                                        @endif
+                                    </td>
+
+                                    <td>{{ $product['name'] }}</td>
+                                    <td>{{ $product['quantity'] }}</td>
+                                    <td>{{ number_format($product['subtotal'], 2) }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        @else
+                        <span class="text-muted">No products</span>
+                        @endif
+                    </td>
+
+                    <td><span class="badge bg-primary">{{ number_format($order->total_amount, 2) }}</span></td>
+                    <td><span class="badge bg-warning text-dark">{{ ucfirst($order->order_status) }}</span></td>
+                    <td>{{ $order->created_at->format('d-m-Y') }}</td>
+                    <td>{{ $order->delivered_date }}</td>
+                    <td>
                         <div class="btn-group">
-                            <a href="{{ route('edit_order') }}" class="btn btn-warning btn-sm me-1" title="Edit">
+                            <a href="{{ route('edit_order', $order->id) }}" class="btn btn-warning btn-sm me-1">
                                 <i class="bi bi-pencil"></i>
                             </a>
-                            <button class="btn btn-danger btn-sm" title="Delete">
-                                <i class="bi bi-trash"></i>
-                            </button>
+                            <form action="#" method="POST" onsubmit="return confirm('Are you sure?');">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-danger btn-sm">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
                         </div>
                     </td>
                 </tr>
+                @endforeach
+                @else
+                <tr>
+                    <td colspan="9" class="text-center text-muted">No orders found</td>
+                </tr>
+                @endif
             </tbody>
         </table>
     </div>

@@ -8,214 +8,261 @@
 
 @section('files')
 <div class="container my-5">
-    <div class="section-heading-v2">
-        <h2>My <span class="highlight-green">Orders</span></h2>
+    <div class="text-center mb-5">
+        <h2 class="orders-title">📦 My <span>Orders</span></h2>
+        <p class="orders-subtitle">Track, review, and reorder your purchases easily.</p>
     </div>
 
-    <div class="order-card-v2 fade-in-section">
+    @if(isset($orders) && count($orders) > 0)
+    @foreach ($orders as $order)
+    <div class="order-card glass-card fade-in">
         <div class="order-header">
-            <div class="header-col">
-                <span class="header-label">ORDER PLACED</span>
-                <span class="header-value">21 June 2025</span>
+            <div class="order-info">
+                <i class="bi bi-calendar-event"></i>
+                <span>Placed: {{ $order->created_at->format('d M Y') }}</span>
             </div>
-            <div class="header-col">
-                <span class="header-label">TOTAL</span>
-                <span class="header-value">₹1,54,497.00</span>
+            <div class="order-info">
+                <span>Total: ₹{{ $order->total_amount }}</span>
             </div>
-            <div class="header-col text-lg-end">
-                <span class="header-label">ORDER # 403-5482167-9565909</span>
+            <div class="order-info">
+                <span>Order ID: {{ $order->order_number }}</span>
             </div>
         </div>
 
         <div class="order-body">
-            <h5 class="delivery-status">Delivered 22 June 2025</h5>
-            <hr class="my-4">
-            <div class="row align-items-center">
-                <div class="col-4 col-md-2">
-                    <img src="{{ asset('img/product-images/iphone-15.webp') }}" class="order-product-image" alt="iPhone 15">
-                </div>
-                <div class="col-8 col-md-6">
-                    <a href="#" class="order-product-title">Apple iPhone 15 (128 GB) - Black</a>
-                    <p class="text-muted small mb-2">Return window closed on 2 July 2025</p>
-                </div>
-                <div class="col-12 col-md-4 text-md-end mt-3 mt-md-0">
-                    <div class="d-flex flex-column flex-md-row gap-2 justify-content-md-end">
-                        <button class="btn btn-order-primary"><i class="bi bi-arrow-clockwise me-1"></i> Buy it again</button>
-                        <a href="{{ route('review_rating') }}" class="product-review">Write a product review</a>
-                    </div>
-                </div>
+            <div class="delivery-status">
+                <i class="bi bi-truck"></i>
+                Delivered on {{ $order->delivered_date }}
             </div>
+            <hr>
 
-            <hr class="my-4">
-            <div class="row align-items-center">
-                <div class="col-4 col-md-2">
-                    <img src="{{ asset('img/product-images/iphone-16-5G.webp') }}" class="order-product-image" alt="OnePlus 12">
+            @php $products = json_decode($order->items, true); @endphp
+            @if(!empty($products))
+            @foreach($products as $product)
+            @php
+            $productModel = \App\Models\Products::find($product['product_id']);
+            $brands = \App\Models\Products::with('brand')->find($product['product_id']);
+            @endphp
+
+            <div class="product-card">
+                <div class="product-img">
+                    @if($productModel && $productModel->image)
+                    <img src="{{ asset('img/product-images/'.$productModel->image) }}" alt="{{ $product['name'] }}">
+                    @endif
                 </div>
-                <div class="col-8 col-md-6">
-                    <a href="#" class="order-product-title">OnePlus 12 (Flowy Emerald, 16GB RAM)</a>
-                    <p class="text-muted small mb-2">Return window closed on 2 July 2025</p>
+                <div class="product-details">
+                    <h5>{{ $product['name'] ?? 'Product' }}</h5>
+                    <p>Brand: <strong>{{ $brands->brand->name ?? 'Unknown' }}</strong></p>
+                    <p>Quantity: <strong>{{ $product['quantity'] ?? 1 }}</strong></p>
                 </div>
-                <div class="col-12 col-md-4 text-md-end mt-3 mt-md-0">
-                    <div class="d-flex flex-column flex-md-row gap-2 justify-content-md-end">
-                        <button class="btn btn-order-primary"><i class="bi bi-arrow-clockwise me-1"></i> Buy it again</button>
-                        <a href="{{ route('review_rating') }}" class="product-review">Write a product review</a>
-                    </div>
+                <div class="order-extra mt-3">
+                    <p><i class="bi bi-geo-alt"></i> <strong>Shipping Address:</strong> {{ $order->shipping_address }}</p>
+                    <p><i class="bi bi-truck"></i> <strong>Status:</strong> {{ ucfirst($order->order_status) }}</p>
                 </div>
+
+                <div class="product-actions">
+                    <button class="btn-order"><i class="bi bi-arrow-repeat"></i> Buy Again</button>
+
+                    @if(!\App\Models\Review::where('product_id', $product['product_id'])
+                    ->where('user_id', session('user')->id)
+                    ->exists())
+                    <a href="{{ route('review_rating', $product['product_id']) }}" class="btn-review">
+                        <i class="bi bi-star"></i> Review
+                    </a>
+                    @endif
+                </div>
+
             </div>
+            @endforeach
+            @else
+            <p class="text-muted">No products in this order.</p>
+            @endif
         </div>
     </div>
+    @endforeach
+    @else
+    <div class="text-center">
+        <h4>No orders yet 🚫</h4>
+        <p>Start shopping and your orders will appear here.</p>
+    </div>
+    @endif
 </div>
 
 <style>
-    .order-tabs .nav-link {
-        color: #6c757d;
-        font-weight: 500;
-        border-color: #dee2e6 #dee2e6 #dee2e6;
+    /* General */
+    .orders-title {
+        font-weight: 800;
+        font-size: 2.4rem;
+        color: #222;
     }
 
-    .order-tabs .nav-link.active {
-        color: var(--primary-green, #3A5A40);
-        border-color: var(--primary-green, #3A5A40) var(--primary-green, #3A5A40) #fff;
-        border-bottom-width: 2px;
+    .orders-title span {
+        color: #4caf50;
     }
 
-    .order-card-v2 {
-        background-color: #fff;
-        border: 1px solid #e9ecef;
-        border-radius: 12px;
-        margin-bottom: 25px;
+    .orders-subtitle {
+        color: #666;
+        font-size: 1rem;
+    }
+
+    /* Glassmorphism Card */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(12px);
+        border-radius: 20px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        margin-bottom: 35px;
         overflow: hidden;
-        transition: box-shadow 0.3s ease;
+        transition: all 0.4s ease;
     }
 
-    .order-card-v2:hover {
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.07);
+    .glass-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
     }
 
+    /* Order Header */
     .order-header {
-        background-color: var(--light-green-bg, #E8F5E9);
-        padding: 15px 20px;
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
-        gap: 15px;
+        background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+        padding: 18px 25px;
+        border-bottom: 1px solid #c8e6c9;
     }
 
-    .header-col {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .header-label {
-        font-size: 0.8rem;
-        color: #6c757d;
-        text-transform: uppercase;
-    }
-
-    .header-value {
+    .order-info {
         font-weight: 600;
+        color: #2e7d32;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.95rem;
     }
 
-    .header-link {
-        font-size: 0.9rem;
-        color: var(--primary-green, #3A5A40);
-        font-weight: 500;
-        text-decoration: none;
-    }
-
-    .header-link:hover {
-        text-decoration: underline;
-    }
-
+    /* Order Body */
     .order-body {
-        padding: 25px;
+        padding: 22px;
     }
 
     .delivery-status {
         font-weight: 700;
-        font-size: 1.2rem;
-        color: var(--primary-green, #3A5A40);
+        font-size: 1.1rem;
+        color: #388e3c;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
     }
 
-    .order-product-image {
-        width: 80px;
-        height: 80px;
+    /* Product Card */
+    .product-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        background: #fff;
+        border-radius: 14px;
+        padding: 15px 20px;
+        margin-bottom: 18px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease;
+    }
+
+    .product-card:hover {
+        transform: scale(1.02);
+    }
+
+    .product-img img {
+        width: 85px;
+        height: 85px;
+        border-radius: 10px;
         object-fit: contain;
-        border-radius: 8px;
+        border: 1px solid #ddd;
+        background: #fafafa;
+        padding: 6px;
     }
 
-    .order-product-title {
+    .product-details h5 {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 6px;
+        color: #333;
+    }
+
+    .product-details p {
+        margin: 0;
+        font-size: 0.9rem;
+        color: #555;
+    }
+
+    /* Buttons */
+    .btn-order,
+    .btn-review {
+        border-radius: 10px;
         font-weight: 600;
-        color: var(--dark-text, #333);
-        text-decoration: none;
-        display: block;
-        margin-bottom: 5px;
-    }
-
-    .order-product-title:hover {
-        color: var(--primary-green, #3A5A40);
-    }
-
-    .btn-order-primary {
-        border-radius: 8px;
-        font-weight: 500;
-        padding: 8px 15px;
-        transition: all 0.2s ease;
-        background-color: var(--primary-green, #3A5A40);
-        border-color: var(--primary-green, #3A5A40);
-        color: white;
-    }
-
-    .btn-order-primary:hover {
-        background-color: #2c4431;
-        border-color: #2c4431;
-    }
-
-    .product-review {
-        background-color: transparent;
-        text-decoration: none;
-        color: var(--primary-green, #3A5A40);
-        border: 1px solid var(--primary-green, #3A5A40);
-        font-weight: 500;
-        font-size: 16px;
-        padding: 9px;
-        border-radius: 8px;
+        padding: 10px 16px;
+        font-size: 0.9rem;
         transition: all 0.3s ease;
-        display: inline-block;
-        text-align: center;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
     }
 
-    .product-review:hover {
-        background-color: var(--primary-green, #3A5A40);
-        color: white;
+    .btn-order {
+        background: linear-gradient(135deg, #43a047, #2e7d32);
+        color: #fff;
+        border: none;
     }
 
-    @media (max-width: 576px) {
-        .order-body {
-            padding: 15px;
+    .btn-order:hover {
+        background: linear-gradient(135deg, #2e7d32, #43a047);
+        transform: translateY(-2px);
+    }
+
+    .btn-review {
+        border: 2px solid #388e3c;
+        color: #388e3c;
+        background: transparent;
+    }
+
+    .btn-review:hover {
+        background: #388e3c;
+        color: #fff;
+        transform: translateY(-2px);
+    }
+
+    /* Animation */
+    .fade-in {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.8s ease forwards;
+    }
+
+    @keyframes fadeInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .order-header {
+            flex-direction: column;
+            gap: 10px;
         }
 
-        .delivery-status {
-            font-size: 1rem;
+        .product-card {
+            flex-direction: column;
+            align-items: flex-start;
         }
 
-        .order-product-image {
-            width: 60px;
-            height: 60px;
-        }
-
-        .order-product-title {
-            font-size: 0.9rem;
-        }
-
-        .product-review {
-            font-size: 14px;
-            padding: 7px;
-        }
-
-        .btn-order-primary {
-            font-size: 14px;
-            padding: 6px 10px;
+        .product-actions {
+            width: 100%;
+            display: flex;
+            gap: 10px;
         }
     }
 </style>
