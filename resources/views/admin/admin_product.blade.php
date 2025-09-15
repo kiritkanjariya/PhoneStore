@@ -167,6 +167,7 @@
                     <th>Brand</th>
                     <th>RAM</th>
                     <th>Storage</th>
+                    <th>Color</th>
                     <th>Screen size</th>
                     <th>Feature-highlight</th>
                     <th>Stock</th>
@@ -184,14 +185,15 @@
                         <img src="{{ asset('img/product-images/' . $product->image) }}" class="img-fluid"
                             style="height: 60px; width: 60px;">
                     </td>
-                    <!-- ✅ Price Badge -->
-                    <td data-label="Price"><span class="badge bg-primary">₹{{ number_format($product->price, 2) }}</span></td>
+
+                        <td data-label="Price"><span class="badge bg-primary">₹{{ number_format($product->price, 2) }}</span></td>
                     <td data-label="Brand">{{ $product->brand->name }}</td>
-                    <td data-label="RAM">{{ $product->ram }} GB</td>
-                    <td data-label="Storage">{{ $product->storage }} GB</td>
+                    <td data-label="RAM">({{ $product->ram >= 1024 ? ($product->ram / 1024) . 'GB' : $product->ram . 'GB' }})</td>
+                    <td data-label="Storage">({{ $product->storage >= 1024 ? ($product->storage / 1024) . 'TB' : $product->storage . 'GB' }})</td>
+                    <td data-label="Storage">{{ $product->color }}</td>
                     <td data-label="Screen size">{{ $product->screen_size }}"</td>
                     <td data-label="Feature">{{ $product->feature_highlight ?? '-' }}</td>
-                    <!-- ✅ Stock Badge -->
+
                     <td data-label="Stock">
                         @if($product->stock_quantity > 20)
                         <span class="badge bg-success">{{ $product->stock_quantity }}</span>

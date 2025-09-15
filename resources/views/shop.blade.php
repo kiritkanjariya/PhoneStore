@@ -176,22 +176,29 @@
                         </div>
                     </div>
 
-                    <div class="filter-group">
-                        <div class="filter-group-header" data-bs-toggle="collapse" data-bs-target="#collapseBrand">
-                            <span>Brand</span>
-                            <i class="bi bi-chevron-down filter-caret"></i>
-                        </div>
-                        <div class="collapse" id="collapseBrand">
-                            <div class="filter-group-body">
-                                @foreach($brands as $brand)
-                                    <label class="custom-checkbox"> {{ $brand->name }}
-                                        <input type="checkbox" name="brand[]" value="{{ $brand->id }}">
-                                        <span class="checkmark"></span>
+                    <form method="GET" action="{{ route('shop') }}">
+                        <div class="filter-group">
+                            <div class="filter-group-header" data-bs-toggle="collapse" data-bs-target="#collapseBrand">
+                                <span>Brand</span>
+                                <i class="bi bi-chevron-down filter-caret"></i>
+                            </div>
+                            <div class="collapse" id="collapseBrand">
+                                <div class="filter-group-body">
+                                    @foreach($brands as $brand)
+                                        <label class="custom-checkbox">
+                                            {{ $brand->name }}
+                                            <input type="checkbox" name="brand[]" value="{{ $brand->id }}"
+                                                {{ in_array($brand->id, request()->get('brand', [])) ? 'checked' : '' }}
+                                                onchange="this.form.submit()">
+                                            <span class="checkmark"></span>
                                     </label>
-                                @endforeach
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
+
+                    <hr style="color: #dbdbdb;">
 
                     <div class="filter-group">
                         <div class="filter-group-header" data-bs-toggle="collapse" data-bs-target="#collapseRating">
@@ -216,29 +223,32 @@
                         </div>
                     </div>
 
-                    <div class="filter-group">
-                        <div class="filter-group-header" data-bs-toggle="collapse" data-bs-target="#collapseRam">
-                            <span>RAM</span>
-                            <i class="bi bi-chevron-down filter-caret"></i>
-                        </div>
-                        <div class="collapse" id="collapseRam">
-                            <div class="filter-group-body">
-                                @foreach($rams as $ram)
-                                    <label class="custom-checkbox"> {{ $ram }} GB
-                                        <input type="checkbox" name="ram[]" value="{{ $ram }}">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                @endforeach
+                    <form action="{{ route('shop') }}">
+                        <div class="filter-group">
+                            <div class="filter-group-header" data-bs-toggle="collapse" data-bs-target="#collapseRam">
+                                <span>RAM</span>
+                                <i class="bi bi-chevron-down filter-caret"></i>
+                            </div>
+                            <div class="collapse" id="collapseRam">
+                                <div class="filter-group-body">
+                                    @foreach($rams as $ram)
+                                        <label class="custom-checkbox"> {{ $ram }} GB
+                                            <input type="checkbox" name="ram[]" value="{{ $ram }}"
+                                            {{ in_array($ram, request()->get('ram', [])) ? 'checked' : '' }}
+                                                onchange="this.form.submit()">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
 
                 </div>
             </div>
 
             <div class="col-lg-9">
                 <div class="row g-4">
-
 
                     @forelse ($products as $product)
                         @php
@@ -257,7 +267,7 @@
                         @endphp
 
                         @if ($product->status === 'active')
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 fade-in-section">
+                            <div class="col-12 col-sm-6 col-md-4 fade-in-section">
                                 <div class="card product-card-v2 h-100">
 
                                     @if ($hasActiveDiscount)
@@ -283,8 +293,20 @@
 
                                     <div class="card-body-v2">
                                         <a href="#" class="product-title-v2">
-                                            {{ $product->name }} ({{ $product->storage }}GB)
+                                            {{ $product->name }} ({{ $product->ram }}GB) ({{ $product->storage }}GB)
                                         </a>
+
+                                        <div class="specs-v2 text-muted small mb-1">
+                                            @if (!empty($product->ram))
+                                                <span><strong>Color</strong>: {{ $product->color }} </span>
+                                            @endif
+                                        </div>
+
+                                        <div class="specs-v2 text-muted small mb-2">
+                                            @if (!empty($product->screen_size))
+                                                <span><strong>Display</strong>: {{ $product->screen_size }}"</span>
+                                            @endif
+                                        </div>
 
                                         <div class="rating-wrapper-v2">
                                             <div class="rating-stars-v2">
@@ -328,7 +350,11 @@
                                                 ->value('quantity') ?? 0;
                                         @endphp
 
-                                        @if($cartQty >= $product->stock_quantity)
+                                        @if($product->stock_quantity == 0)
+                                            <div class="text-center mb-4">
+                                                <span class="text-danger">Currently unavailable </span>
+                                            </div>
+                                        @elseif($cartQty >= $product->stock_quantity)
                                             <div class="card-action-button-v2">
                                                 <button class="btn btn-secondary w-100" disabled>Max quantity reached</button>
                                             </div>
@@ -340,13 +366,18 @@
                                             </div>
                                         @endif
                                     @else
-                                        <div class="card-action-button-v2">
-                                            <a href="{{ route('cart_detail') }}" class="btn btn-add-to-cart w-100">
-                                                <i class="bi bi-cart-fill me-1"></i> Add to Cart
-                                            </a>
-                                        </div>
+                                        @if($product->stock_quantity == 0)
+                                            <div class="text-center mb-4">
+                                                <span class="text-danger">Currently unavailable </span>
+                                            </div>
+                                        @else
+                                            <div class="card-action-button-v2">
+                                                <a href="{{ route('cart_detail') }}" class="btn btn-add-to-cart w-100">
+                                                    <i class="bi bi-cart-fill me-1"></i> Add to Cart
+                                                </a>
+                                            </div>
+                                        @endif    
                                     @endif
-
                                 </div>
                             </div>
                         @endif
@@ -354,7 +385,7 @@
                         <p class="text-center">No products found.</p>
                     @endforelse
 
-                    <div class="col-12 col-sm-6 col-md-4 fade-in-section">
+                    {{-- <div class="col-12 col-sm-6 col-md-4 fade-in-section">
                         <div class="card product-card-v2 h-100">
                             <div class="deal-badge-v2">17% OFF</div>
                             <div class="product-img-wrapper-v2"><a href="#"><img
@@ -424,7 +455,7 @@
                             <div class="card-action-button-v2"><a href="#" class="btn btn-add-to-cart w-100"><i
                                         class="bi bi-cart-fill me-1"></i> Add to Cart</a></div>
                         </div>
-                    </div>
+                    </div> --}}
 
                 </div>
             </div>

@@ -30,6 +30,7 @@ class ProductsController extends Controller
         $products->price = $formdata->price;
         $products->ram = $formdata->ram;
         $products->storage = $formdata->storage;
+        $products->color = $formdata->color;
         $products->screen_size = $formdata->screen_size;
         $products->feature_highlight = $formdata->feature_highlight;
         $products->stock_quantity = $formdata->stock;
@@ -44,7 +45,7 @@ class ProductsController extends Controller
         $products->save();
         return redirect()->route('admin_product')->with('success', 'Product Added successfully ✅');
     }
-
+    
     public function edit_product($id)
     {
         $brands = Brand::all();
@@ -55,7 +56,7 @@ class ProductsController extends Controller
     public function product_updated(Request $request, $id)
     {
         $products = Products::findOrFail($id);
-
+        
         $products->name = $request->name;
         $products->price = $request->price;
         $products->brand_id = $request->brand;
@@ -64,6 +65,7 @@ class ProductsController extends Controller
         $products->stock_quantity = $request->stock;
         $products->ram = $request->ram;
         $products->storage = $request->storage;
+        $products->color = $request->color;
         $products->status = $request->status;
 
         if ($request->hasFile('product_image')) {
@@ -109,6 +111,7 @@ class ProductsController extends Controller
 
         $products = DB::table('products')
             ->leftJoin('discounts', 'products.id', '=', 'discounts.product_id')
+            ->leftJoin('brands', 'products.brand_id', '=', 'brands.id')
             ->select(
                 'products.*',
                 'discounts.discount_type',
@@ -119,7 +122,9 @@ class ProductsController extends Controller
                 'discounts.start_date',
                 'discounts.end_date',
                 'discounts.status as discount_status',
-            )->get();
+            )
+            ->where('brands.name', 'Apple')
+            ->get();
 
         $sliders = Slider::where('status', 'active')->get();
 

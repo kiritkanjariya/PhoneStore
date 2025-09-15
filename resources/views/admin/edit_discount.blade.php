@@ -49,7 +49,6 @@
                             <input type="text" class="form-control" id="discount" name="discount"
                                 value="{{ $discount->discount }}">
                             @error('discount') <span class="text-danger">{{ $message }}</span> @enderror
-
                         </div>
 
                         <div class="mb-3">
@@ -107,5 +106,28 @@
         </div>
         <div class="col-md-3"></div>
     </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+        const productSelect = document.getElementById('product_id');
+        const priceDisplay = document.getElementById('original_price_display');
+
+            function updatePrice() {
+                const selectedOption = productSelect.options[productSelect.selectedIndex];
+                const mrp = selectedOption.dataset.mrp;
+
+                if (mrp) {
+                    priceDisplay.value = '₹' + parseFloat(mrp).toLocaleString('en-IN');
+                } else {
+                    priceDisplay.value = '';
+            }
+        }
+
+        productSelect.addEventListener('change', updatePrice);
+        updatePrice();
+    });
+    
+    </script>
 
 @endsection

@@ -13,9 +13,9 @@
                         <h4 class="mb-0">Edit Product</h4>
                     </div>
 
-                @if (isset($products))
+                    @if (isset($products))
 
-                @foreach ($products as $product)
+                        @foreach ($products as $product)
 
                         @endforeach
                         <form action="{{ route('product_updated', $product->id) }}" method="POST" enctype="multipart/form-data"
@@ -63,14 +63,19 @@
                                 <div class="error" id="storageError"></div>
                             </div>
                             <div class="mb-3">
+                                <label for="color" class="form-label fw-semibold">Color</label>
+                                <input type="text" class="form-control" id="color" name="color" value="{{ $product->color }}">
+                            </div>
+                            <div class="mb-3">
                                 <label for="screen_size" class="form-label fw-semibold">Screen size</label>
                                 <input type="text" class="form-control" id="screen_size" name="screen_size"
                                     value="{{ $product->screen_size }}" data-validation="required">
                                 <div class="error" id="screen_sizeError"></div>
                             </div>
                             <div class="mb-3">
-                                <label for="feature-highlight" class="form-label fw-semibold">Feature-highlight	</label>
-                                <input type="text" class="form-control" id="feature_highlight" name="feature_highlight" value="{{ $product->feature_highlight }}">
+                                <label for="feature-highlight" class="form-label fw-semibold">Feature-highlight </label>
+                                <input type="text" class="form-control" id="feature_highlight" name="feature_highlight"
+                                    value="{{ $product->feature_highlight }}">
                             </div>
                             <div class="mb-3">
                                 <label for="stock" class="form-label fw-semibold">Stock</label>

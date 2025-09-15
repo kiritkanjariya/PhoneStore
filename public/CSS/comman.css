@@ -266,8 +266,6 @@ body {
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    height: 48px;
-    /* Two lines of text */
     margin-bottom: 8px;
 }
 

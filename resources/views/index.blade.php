@@ -139,20 +139,6 @@
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 fade-in-section">
                         <div class="card product-card-v2 h-100">
 
-                            {{-- @if ($hasActiveDiscount)
-                            @if ($product->discount_type === 'percentage')
-                            <div class="deal-badge-v2">{{ number_format($product->discount) }}% Off</div>
-                            @elseif ($product->discount_type === 'fixed')
-                            <div class="deal-badge-v2">₹{{ number_format($product->discount) }} Off</div>
-                            @endif
-                            @endif
-
-                            @if ($product->discount_status == 'active' && $hasActiveDiscount)
-                            <div class="deal-badge-v2">{{ $product->badge_text }}</div>
-                            @else
-                            <div class="deal-badge-v2 bg-danger">Sale Ended</div>
-                            @endif --}}
-
                             @if ($hasActiveDiscount)
                                 @if ($product->discount_type === 'percentage')
                                     <div class="deal-badge-v2">{{ number_format($product->discount) }}% Off</div>
@@ -176,8 +162,23 @@
 
                             <div class="card-body-v2">
                                 <a href="#" class="product-title-v2">
-                                    {{ $product->name }} ({{ $product->storage }}GB)
+                                    {{ $product->name }}
+                                    ({{ $product->ram >= 1024 ? ($product->ram / 1024) . 'GB' : $product->ram . 'GB' }})
+                                    ({{ $product->storage >= 1024 ? ($product->storage / 1024) . 'TB' : $product->storage . 'GB' }})
                                 </a>
+
+
+                                <div class="specs-v2 text-muted small mb-1">
+                                    @if (!empty($product->ram))
+                                        <span><strong>Color</strong>: {{ $product->color }} </span>
+                                    @endif
+                                </div>
+
+                                <div class="specs-v2 text-muted small mb-2">
+                                    @if (!empty($product->screen_size))
+                                        <span><strong>Display</strong>: {{ $product->screen_size }}"</span>
+                                    @endif
+                                </div>
 
                                 <div class="rating-wrapper-v2">
                                     <div class="rating-stars-v2">
@@ -221,7 +222,11 @@
                                         ->value('quantity') ?? 0;
                                 @endphp
 
-                                @if($cartQty >= $product->stock_quantity)
+                                @if($product->stock_quantity == 0)
+                                    <div class="text-center mb-4">
+                                        <span class="text-danger">Currently unavailable </span>
+                                    </div>
+                                @elseif($cartQty >= $product->stock_quantity)
                                     <div class="card-action-button-v2">
                                         <button class="btn btn-secondary w-100" disabled>Max quantity reached</button>
                                     </div>
@@ -233,20 +238,24 @@
                                     </div>
                                 @endif
                             @else
-                                <div class="card-action-button-v2">
-                                    <a href="{{ route('cart_detail') }}" class="btn btn-add-to-cart w-100">
-                                        <i class="bi bi-cart-fill me-1"></i> Add to Cart
-                                    </a>
-                                </div>
+                                @if($product->stock_quantity == 0)
+                                    <div class="text-center mb-4">
+                                        <span class="text-danger">Currently unavailable </span>
+                                    </div>
+                                @else
+                                    <div class="card-action-button-v2">
+                                        <a href="{{ route('cart_detail') }}" class="btn btn-add-to-cart w-100">
+                                            <i class="bi bi-cart-fill me-1"></i> Add to Cart
+                                        </a>
+                                    </div>
+                                @endif    
                             @endif
-
                         </div>
                     </div>
                 @endif
             @empty
                 <p class="text-center">No products found.</p>
             @endforelse
-
         </div>
     </div>
 

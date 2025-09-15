@@ -53,12 +53,21 @@
                                 data-validation="required numeric">
                             <div class="error" id="ramError"></div>
                         </div>
+
                         <div class="mb-3">
                             <label for="storage" class="form-label fw-semibold">Storage</label>
                             <input type="text" class="form-control" id="storage" name="storage" placeholder="Enter storage"
                                 data-validation="required numeric">
                             <div class="error" id="storageError"></div>
                         </div>
+
+                        <div class="mb-3">
+                            <label for="color" class="form-label fw-semibold">Color</label>
+                            <input type="text" class="form-control" id="color" name="color" placeholder="Enter Color"
+                                data-validation="required alpha">
+                            <div class="error" id="colorError"></div>
+                        </div>
+
                         <div class="mb-3">
                             <label for="screen_size" class="form-label fw-semibold">Screen size</label>
                             <input type="text" class="form-control" id="screen_size" name="screen_size"

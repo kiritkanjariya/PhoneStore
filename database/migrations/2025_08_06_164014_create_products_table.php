@@ -18,6 +18,7 @@ return new class extends Migration
             $table->decimal('price', 10, 2);
             $table->integer('ram');
             $table->integer('storage');
+            $table->string('color');
             $table->decimal('screen_size', 10, 1);
             $table->integer('stock_quantity');
             $table->string('image');
