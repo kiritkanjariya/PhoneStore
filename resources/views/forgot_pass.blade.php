@@ -22,11 +22,7 @@
                                 instructions to reset it.</p>
                         </div>
 
-
-
-                        
-
-                        <form action="#/jcjfnj method="POST">
+                        <form action="{{ route('forgot_password_submit') }}" method="POST">
                             @csrf
                             <div class="mb-4">
                                 <label for="resetEmail" class="form-label">Email address</label>
