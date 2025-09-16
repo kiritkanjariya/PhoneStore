@@ -159,30 +159,31 @@
                 <div class="shop-sidebar-v2">
                     <h4 class="sidebar-title">Shop Filters</h4>
 
-                    <div class="filter-group">
-                        <div class="filter-group-header" data-bs-toggle="collapse" data-bs-target="#collapsePrice">
-                            <span>Price</span>
-                            <i class="bi bi-chevron-down filter-caret"></i>
-                        </div>
-                        <div class="collapse" id="collapsePrice">
-                            <div class="filter-group-body">
-                                @foreach($priceRanges as $value => $label)
-                                    <label class="custom-checkbox"> {{ $label }}
-                                        <input type="checkbox" name="price[]" value="{{ $value }}">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
-
                     <form method="GET" action="{{ route('shop') }}">
+                        
                         <div class="filter-group">
-                            <div class="filter-group-header" data-bs-toggle="collapse" data-bs-target="#collapseBrand">
-                                <span>Brand</span>
-                                <i class="bi bi-chevron-down filter-caret"></i>
+                            <div class="filter-group-header">
+                                <span>Price</span>
                             </div>
-                            <div class="collapse" id="collapseBrand">
+                            <div class="collapse show" id="collapsePrice">
+                                <div class="filter-group-body">
+                                    @foreach($priceRanges as $value => $label)
+                                        <label class="custom-checkbox"> {{ $label }}
+                                            <input type="checkbox" name="price[]" value="{{ $value }}"
+                                                {{ in_array($value, request()->get('price', [])) ? 'checked' : '' }}
+                                                onchange="this.form.submit()">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <div class="filter-group-header">
+                                <span>Brand</span>
+                            </div>
+                            <div class="collapse show" id="collapseBrand"> 
                                 <div class="filter-group-body">
                                     @foreach($brands as $brand)
                                         <label class="custom-checkbox">
@@ -191,50 +192,50 @@
                                                 {{ in_array($brand->id, request()->get('brand', [])) ? 'checked' : '' }}
                                                 onchange="this.form.submit()">
                                             <span class="checkmark"></span>
-                                    </label>
+                                        </label>
                                     @endforeach
                                 </div>
                             </div>
                         </div>
-                    </form>
 
-                    <hr style="color: #dbdbdb;">
-
-                    <div class="filter-group">
-                        <div class="filter-group-header" data-bs-toggle="collapse" data-bs-target="#collapseRating">
-                            <span>Rating</span>
-                            <i class="bi bi-chevron-down filter-caret"></i>
-                        </div>
-                        <div class="collapse" id="collapseRating">
-                            <div class="filter-group-body">
-                                <label class="custom-checkbox"> 4 ★ & above
-                                    <input type="checkbox" name="rate[]">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="custom-checkbox"> 3 ★ & above
-                                    <input type="checkbox" name="rate[]">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="custom-checkbox"> 2 ★ & above
-                                    <input type="checkbox" name="rate[]">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <form action="{{ route('shop') }}">
                         <div class="filter-group">
-                            <div class="filter-group-header" data-bs-toggle="collapse" data-bs-target="#collapseRam">
-                                <span>RAM</span>
-                                <i class="bi bi-chevron-down filter-caret"></i>
+                            <div class="filter-group-header">
+                                <span>Rating</span>
                             </div>
-                            <div class="collapse" id="collapseRam">
+                            <div class="collapse show" id="collapseRating"> 
+                                <div class="filter-group-body">
+                                    <label class="custom-checkbox"> 4 ★ & above
+                                        <input type="checkbox" name="rate[]" value="4"
+                                            {{ in_array("4", request()->get('rate', [])) ? 'checked' : '' }}
+                                            onchange="this.form.submit()">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="custom-checkbox"> 3 ★ & above
+                                        <input type="checkbox" name="rate[]" value="3"
+                                            {{ in_array("3", request()->get('rate', [])) ? 'checked' : '' }}
+                                            onchange="this.form.submit()">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="custom-checkbox"> 2 ★ & above
+                                        <input type="checkbox" name="rate[]" value="2"
+                                            {{ in_array("2", request()->get('rate', [])) ? 'checked' : '' }}
+                                            onchange="this.form.submit()">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <div class="filter-group-header">
+                                <span>RAM</span>
+                            </div>
+                            <div class="collapse show" id="collapseRam">
                                 <div class="filter-group-body">
                                     @foreach($rams as $ram)
                                         <label class="custom-checkbox"> {{ $ram }} GB
                                             <input type="checkbox" name="ram[]" value="{{ $ram }}"
-                                            {{ in_array($ram, request()->get('ram', [])) ? 'checked' : '' }}
+                                                {{ in_array($ram, request()->get('ram', [])) ? 'checked' : '' }}
                                                 onchange="this.form.submit()">
                                             <span class="checkmark"></span>
                                         </label>
@@ -242,10 +243,11 @@
                                 </div>
                             </div>
                         </div>
-                    </form>
 
+                    </form>
                 </div>
             </div>
+
 
             <div class="col-lg-9">
                 <div class="row g-4">
@@ -310,13 +312,14 @@
 
                                         <div class="rating-wrapper-v2">
                                             <div class="rating-stars-v2">
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-half"></i>
+                                                @php
+                                                    $avgRating = $product->avg_rating;
+                                                @endphp
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    <i class="bi {{ $i <= round($avgRating) ? 'bi-star-fill' : 'bi-star' }}"></i>
+                                                @endfor
                                             </div>
-                                            <span class="review-count-v2">(234 reviews)</span>
+                                            <span class="review-count-v2">({{ $product->total_reviews }} ratings)</span>
                                         </div>
 
                                         <div class="price-wrapper-v2">
@@ -459,6 +462,7 @@
 
                 </div>
             </div>
+
         </div>
     </div>
 
