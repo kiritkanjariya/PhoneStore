@@ -34,6 +34,11 @@ Route::get('/forgot_password', [PageController::class, 'forgot_password'])->name
 Route::get('/profile', [ProfileController::class, 'showProfile'])->name('profile');
 Route::put('/profile/{id}', [ProfileController::class, 'update'])->name('profile.update');
 Route::post('/changed_password/{id}', [ProfileController::class, 'changed_password'])->name('changed_password');
+Route::post('/forgot_password_submit',[AuthController::class,'forgot_password_submit'])->name('forgot_password_submit');
+Route::get('/otp', [AuthController::class,'otp'])->name('otp');
+Route::get('/new_password/{email}', [AuthController::class,'new_password'])->name('new_password');
+Route::post('/otp_submit', [AuthController::class,'otp_submit'])->name('otp_submit');
+Route::post('/reset_password/{email}', [AuthController::class,'reset_password'])->name('reset_password');
 
 Route::get('/orders', [CheckoutController::class, 'order'])->name('order');
 Route::get('/Checkout', [CheckoutController::class, 'showCheckout'])->name('Checkout');
