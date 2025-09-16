@@ -61,8 +61,6 @@
                 </div>
 
                 <div class="product-actions">
-                    <button class="btn-order"><i class="bi bi-arrow-repeat"></i> Buy Again</button>
-
                     @if(!\App\Models\Review::where('product_id', $product['product_id'])
                     ->where('user_id', session('user')->id)
                     ->exists())

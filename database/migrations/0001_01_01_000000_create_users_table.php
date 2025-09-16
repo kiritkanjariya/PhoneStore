@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('phone')->unique();
             $table->text('password');
             $table->text('profile');
+            $table->integer('otp')->nullable();
             $table->string('status')->default('inactive');
             $table->string('role')->default('user');
             $table->string('token');
