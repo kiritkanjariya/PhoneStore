@@ -113,6 +113,7 @@ class ProductsController extends Controller
         $products = DB::table('products')
             ->leftJoin('discounts', 'products.id', '=', 'discounts.product_id')
             ->leftJoin('brands', 'products.brand_id', '=', 'brands.id')
+            ->leftJoin('reviews', 'products.id', '=', 'reviews.product_id')
             ->select(
                 'products.*',
                 'discounts.discount_type',
@@ -123,9 +124,25 @@ class ProductsController extends Controller
                 'discounts.start_date',
                 'discounts.end_date',
                 'discounts.status as discount_status',
+                'brands.name as brand_name',
+                DB::raw('AVG(reviews.rating) as avg_rating'),
+                DB::raw('COUNT(reviews.id) as total_reviews')
             )
             ->where('brands.name', 'Apple')
+            ->groupBy(
+                'products.id',
+                'discounts.discount_type',
+                'discounts.discount',
+                'discounts.badge_text',
+                'discounts.deal_tag',
+                'discounts.feature_highlight',
+                'discounts.start_date',
+                'discounts.end_date',
+                'discounts.status',
+                'brands.name'
+            )
             ->get();
+
 
         $sliders = Slider::where('status', 'active')->get();
 
@@ -134,7 +151,37 @@ class ProductsController extends Controller
 
     public function phone_details($id)
     {
-        $product = Products::findOrFail($id);
+
+        $product = DB::table('products')
+            ->leftJoin('discounts', 'products.id', '=', 'discounts.product_id')
+            ->leftJoin('brands', 'products.brand_id', '=', 'brands.id')
+            ->leftJoin('reviews', 'products.id', '=', 'reviews.product_id')
+            ->select(
+                'products.*',
+                'discounts.discount_type',
+                'discounts.discount',
+                'discounts.badge_text',
+                'discounts.deal_tag',
+                'discounts.feature_highlight as discount_feature_highlight',
+                'discounts.start_date',
+                'discounts.end_date',
+                'discounts.status as discount_status',
+                'brands.name as brand_name',
+            )
+            ->where('brands.name', 'Apple')
+            ->where('products.id', $id)
+            ->groupBy(
+                'products.id',
+                'discounts.discount_type',
+                'discounts.discount',
+                'discounts.badge_text',
+                'discounts.deal_tag',
+                'discounts.feature_highlight',
+                'discounts.start_date',
+                'discounts.end_date',
+                'discounts.status',
+                'brands.name'
+            )->first();
 
         $reviews = Review::with('user')
             ->where('product_id', $id)

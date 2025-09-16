@@ -1,423 +1,453 @@
 @extends('master_view')
 
 @section('files')
-<div class="container my-5">
+    <div class="container my-5">
 
-    <div class="row g-5">
-        <div class="col-lg-6 fade-in-section">
-            <div class="product-gallery">
-                <div class="main-image-wrapper">
-                    <img src="{{ asset('img/product-images/' . $product->image) }}"
-                        alt="{{ $product->name }}"
-                        id="main-product-image"
-                        class="img-fluid rounded-3">
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-6 fade-in-section">
-            <div class="product-details-panel">
-                <h1 class="product-title-v2">{{ $product->name }}</h1>
-
-                <a href="#reviews-section" class="rating-link">
-                    <div class="rating-stars-v2">
-                        @php
-                        $avgRating = $reviews->avg('rating');
-                        @endphp
-                        @for ($i = 1; $i <= 5; $i++)
-                            <i class="bi {{ $i <= round($avgRating) ? 'bi-star-fill' : 'bi-star' }}"></i>
-                            @endfor
+        <div class="row g-5">
+            <div class="col-lg-6 fade-in-section">
+                <div class="product-gallery">
+                    <div class="main-image-wrapper">
+                        <img src="{{ asset('img/product-images/' . $product->image) }}" alt="{{ $product->name }}"
+                            id="main-product-image" class="img-fluid rounded-3">
                     </div>
-                    <span class="review-count-v2">({{ $reviews->count() }} ratings)</span>
-                </a>
-
-                <div class="price-block-v2">
-                    <span class="current-price-v2">₹{{ number_format($product->price, 2) }}</span>
-                    @if ($product->original_price)
-                    <span class="original-price-v2"><del>₹{{ number_format($product->original_price, 2) }}</del></span>
-                    <span class="discount-badge">
-                        -{{ round((($product->original_price - $product->price) / $product->original_price) * 100) }}%
-                    </span>
-                    @endif
-                </div>
-                <p class="text-muted"><i class="bi bi-fire text-danger"></i> {{ rand(50, 300) }}+ bought in past month</p>
-
-                <ul class="key-features">
-                    <li><i class="bi bi-sd-card"></i><strong>RAM:</strong> {{ $product->ram }} GB</li>
-                    <li><i class="bi bi-database"></i><strong>Storage:</strong> {{ $product->storage }} GB</li>
-                    <li><i class="bi bi-palette"></i><strong>Color:</strong> {{ $product->color }}</li>
-                    <li><i class="bi bi-display"></i><strong>Display:</strong> {{ $product->screen_size }}</li>
-                </ul>
-
-                <div class="qty-selector-v2 my-4">
-                    <label class="variant-label me-3">Quantity:</label>
-                    <button class="qty-btn" onclick="decreaseQty('qty1')">-</button>
-                    <input type="text" id="qty1" value="1" class="qty-input">
-                    <button class="qty-btn" onclick="increaseQty('qty1')">+</button>
-                </div>
-
-                <div class="action-buttons">
-                    <a href="{{ route('add_cart', $product->id) }}" class="btn btn-add-to-cart flex-grow-1"><i class="bi bi-cart-fill me-2"></i>Add to Cart</a>
-                    <button type="button" class="btn btn-buy-now flex-grow-1">Buy Now</button>
                 </div>
             </div>
-        </div>
-    </div>
 
+            <div class="col-lg-6 fade-in-section">
+                <div class="product-details-panel">
+                    <h1 class="product-title-v2">{{ $product->name }}</h1>
 
-    <div id="reviews-section" class="reviews-section-v2 mt-5">
-        <div class="section-heading-v2">
-            <h2>Customer <span class="highlight-green">Reviews</span></h2>
-        </div>
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="rating-summary">
-                    <div class="overall-rating">
-                        @php
-                        $avgRating = $reviews->avg('rating');
-                        $countRating = $reviews->count();
-                        @endphp
-                        <span class="rating-value">{{ number_format($avgRating, 1) }}</span>
+                    <a href="#reviews-section" class="rating-link">
                         <div class="rating-stars-v2">
+                            @php
+                                $avgRating = $reviews->avg('rating');
+                            @endphp
                             @for ($i = 1; $i <= 5; $i++)
                                 <i class="bi {{ $i <= round($avgRating) ? 'bi-star-fill' : 'bi-star' }}"></i>
-                                @endfor
+                            @endfor
                         </div>
-                        <div class="rating-total-text">{{ $countRating }} Ratings</div>
+                        <span class="review-count-v2">({{ $reviews->count() }} ratings)</span>
+                    </a>
+
+                    <div class="price-block-v2">
+                        <span class="current-price-v2">
+                            ₹{{ number_format($product->price - (($product->price * $product->discount) / 100), 2) }}
+                        </span>
+
+                        @if ($product->discount)
+                            <span class="original-price-v2">
+                                <del>₹{{ number_format($product->price, 2) }}</del>
+                            </span>
+                            <span class="discount-badge">
+                                -{{ round($product->discount) }}%
+                            </span>
+                        @endif
                     </div>
 
-                    @php
-                    $ratingsBreakdown = [];
-                    foreach(range(1,5) as $star) {
-                    $ratingsBreakdown[$star] = $reviews->where('rating', $star)->count();
-                    }
-                    @endphp
+                    <p class="text-muted"><i class="bi bi-fire text-danger"></i> {{ rand(50, 300) }}+ bought in past month
+                    </p>
 
-                    @foreach ($ratingsBreakdown as $star => $count)
-                    @php
-                    $percent = $countRating > 0 ? ($count / $countRating) * 100 : 0;
-                    @endphp
-                    <div class="rating-bar-item">
-                        <span>{{ $star }} <i class="bi bi-star-fill"></i></span>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: {{ $percent }}%;"></div>
-                        </div>
-                        <span>{{ round($percent) }}%</span>
-                    </div>
-                    @endforeach
+                    <ul class="key-features">
+                        <li><i class="bi bi-sd-card"></i><strong>RAM:</strong> {{ $product->ram }} GB</li>
+                        <li><i class="bi bi-database"></i><strong>Storage:</strong> {{ $product->storage }} GB</li>
+                        <li><i class="bi bi-palette"></i><strong>Color:</strong> {{ $product->color }}</li>
+                        <li><i class="bi bi-display"></i><strong>Display:</strong> {{ $product->screen_size }}</li>
+                    </ul>
+
+                        @if(Session::has('user'))
+                            @php
+                                $cartQty = \App\Models\Cart::where('user_id', Session::get('user')->id)
+                                    ->where('product_id', $product->id)
+                                    ->value('quantity') ?? 0;
+                            @endphp
+
+                            @if($product->stock_quantity == 0)
+                                <div class="text-center mb-4">
+                                    <span class="text-danger">Currently unavailable </span>
+                                </div>
+                            @elseif($cartQty >= $product->stock_quantity)
+                                <div class="card-action-button-v2">
+                                    <button class="btn btn-secondary w-100" disabled>Max quantity reached</button>
+                                </div>
+                            @else
+                                <div class="action-buttons d-flex gap-2">
+                                    <a href="{{ route('add_cart',$product->id) }}" class="btn btn-add-to-cart w-25">
+                                        <i class="bi bi-cart-fill me-2"></i> Add to Cart
+                                    </a>
+                                </div>
+                            @endif
+                        @else
+                            @if($product->stock_quantity == 0)
+                                <div class="text-center mb-4">
+                                    <span class="text-danger">Currently unavailable </span>
+                                </div>
+                            @else
+                                <div class="action-buttons">
+                                    <a href="{{ route('cart_detail') }}" class="btn btn-add-to-cart w-25">
+                                        <i class="bi bi-cart-fill me-2"></i> Add to Cart
+                                    </a>
+                                </div>
+                            @endif
+                        @endif
+
                 </div>
-            </div>
-
-            <div class="col-lg-8">
-                @forelse ($reviews as $review)
-                <div class="review-card">
-                    <div class="review-header">
-                        <img src="{{asset('uploads/profile/'.$review->user->profile) }}"
-                            class="reviewer-avatar" alt="{{ $review->user->name }}">
-                        <div>
-                            <span class="reviewer-name">{{ $review->user->name }}</span>
-                            <div class="rating-stars-v2 small">
-                                @for ($i = 1; $i <= 5; $i++)
-                                    <i class="bi {{ $i <= $review->rating ? 'bi-star-fill' : 'bi-star' }}"></i>
-                                    @endfor
-                            </div>
-                        </div>
-                    </div>
-                    <p class="review-text">{{ $review->review }}</p>
-                    <small class="review-date">Reviewed on {{ $review->created_at->format('F d, Y') }}</small>
-                </div>
-                @empty
-                <p class="text-muted">No reviews yet. Be the first to review this product!</p>
-                @endforelse
             </div>
         </div>
+
+
+        <div id="reviews-section" class="reviews-section-v2 mt-5">
+            <div class="section-heading-v2">
+                <h2>Customer <span class="highlight-green">Reviews</span></h2>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="rating-summary">
+                        <div class="overall-rating">
+                            @php
+                                $avgRating = $reviews->avg('rating');
+                                $countRating = $reviews->count();
+                            @endphp
+                            <span class="rating-value">{{ number_format($avgRating, 1) }}</span>
+                            <div class="rating-stars-v2">
+                                @for ($i = 1; $i <= 5; $i++)
+                                    <i class="bi {{ $i <= round($avgRating) ? 'bi-star-fill' : 'bi-star' }}"></i>
+                                @endfor
+                            </div>
+                            <div class="rating-total-text">{{ $countRating }} Ratings</div>
+                        </div>
+
+                        @php
+                            $ratingsBreakdown = [];
+                            foreach (range(1, 5) as $star) {
+                                $ratingsBreakdown[$star] = $reviews->where('rating', $star)->count();
+                            }
+                        @endphp
+
+                        @foreach ($ratingsBreakdown as $star => $count)
+                            @php
+                                $percent = $countRating > 0 ? ($count / $countRating) * 100 : 0;
+                            @endphp
+                            <div class="rating-bar-item">
+                                <span>{{ $star }} <i class="bi bi-star-fill"></i></span>
+                                <div class="progress">
+                                    <div class="progress-bar" style="width: {{ $percent }}%;"></div>
+                                </div>
+                                <span>{{ round($percent) }}%</span>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+
+                <div class="col-lg-8">
+                    @forelse ($reviews as $review)
+                        <div class="review-card">
+                            <div class="review-header">
+                                <img src="{{asset('uploads/profile/' . $review->user->profile) }}" class="reviewer-avatar"
+                                    alt="{{ $review->user->name }}">
+                                <div>
+                                    <span class="reviewer-name">{{ $review->user->name }}</span>
+                                    <div class="rating-stars-v2 small">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            <i class="bi {{ $i <= $review->rating ? 'bi-star-fill' : 'bi-star' }}"></i>
+                                        @endfor
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="review-text">{{ $review->review }}</p>
+                            <small class="review-date">Reviewed on {{ $review->created_at->format('F d, Y') }}</small>
+                        </div>
+                    @empty
+                        <p class="text-muted">No reviews yet. Be the first to review this product!</p>
+                    @endforelse
+                </div>
+            </div>
+        </div>
+
     </div>
+    <style>
+        /* Product Gallery */
+        .main-image-wrapper {
+            border: 1px solid #dee2e6;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
 
-</div>
-<style>
-    /* Product Gallery */
-    .main-image-wrapper {
-        border: 1px solid #dee2e6;
-        border-radius: 12px;
-        padding: 15px;
-        margin-bottom: 15px;
-    }
-
-    #main-product-image {
-        width: 100%;
-        height: auto;
-        max-height: 450px;
-        object-fit: contain;
-    }
+        #main-product-image {
+            width: 100%;
+            height: auto;
+            max-height: 450px;
+            object-fit: contain;
+        }
 
 
-    /* Product Details Panel */
-    .product-details-panel {
-        padding: 15px;
-    }
+        /* Product Details Panel */
+        .product-details-panel {
+            padding: 15px;
+        }
 
-    .product-title-v2 {
-        font-weight: 700;
-        font-size: 2rem;
-        margin-bottom: 10px;
-    }
+        .product-title-v2 {
+            font-weight: 700;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
 
-    .rating-link {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        text-decoration: none;
-        margin-bottom: 20px;
-    }
+        .rating-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            margin-bottom: 20px;
+        }
 
-    .rating-stars-v2 {
-        color: var(--accent-gold, #D4AF37);
-        font-size: 1.1rem;
-    }
+        .rating-stars-v2 {
+            color: var(--accent-gold, #D4AF37);
+            font-size: 1.1rem;
+        }
 
-    .rating-stars-v2.small {
-        font-size: 0.9rem;
-    }
+        .rating-stars-v2.small {
+            font-size: 0.9rem;
+        }
 
-    .review-count-v2 {
-        color: #6c757d;
-        font-weight: 500;
-    }
+        .review-count-v2 {
+            color: #6c757d;
+            font-weight: 500;
+        }
 
-    .price-block-v2 {
-        background-color: var(--light-green-bg, #E8F5E9);
-        padding: 15px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-    }
+        .price-block-v2 {
+            background-color: var(--light-green-bg, #E8F5E9);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
 
-    .current-price-v2 {
-        font-size: 2rem;
-        font-weight: 700;
-        color: var(--primary-green, #3A5A40);
-    }
+        .current-price-v2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-green, #3A5A40);
+        }
 
-    .original-price-v2 {
-        color: #6c757d;
-        margin-left: 10px;
-    }
+        .original-price-v2 {
+            color: #6c757d;
+            margin-left: 10px;
+        }
 
-    .discount-badge {
-        background-color: var(--primary-green, #3A5A40);
-        color: white;
-        padding: 5px 10px;
-        border-radius: 6px;
-        font-weight: 600;
-        margin-left: 10px;
-    }
+        .discount-badge {
+            background-color: var(--primary-green, #3A5A40);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
 
-    /* REMOVED .variants-section and .variant-label styles as they are no longer needed */
+        /* REMOVED .variants-section and .variant-label styles as they are no longer needed */
 
-    .key-features {
-        list-style: none;
-        padding-left: 0;
-        margin-bottom: 20px;
-    }
+        .key-features {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 20px;
+        }
 
-    .key-features li {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 10px;
-    }
+        .key-features li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
 
-    .key-features i {
-        font-size: 1.2rem;
-        color: var(--primary-green, #3A5A40);
-    }
+        .key-features i {
+            font-size: 1.2rem;
+            color: var(--primary-green, #3A5A40);
+        }
 
-    .qty-selector-v2 {
-        display: flex;
-        align-items: center;
-    }
+        .qty-selector-v2 {
+            display: flex;
+            align-items: center;
+        }
 
-    .qty-selector-v2 .variant-label {
-        font-weight: 600;
-    }
+        .qty-selector-v2 .variant-label {
+            font-weight: 600;
+        }
 
-    /* Style for "Quantity:" text */
-    .qty-selector-v2 .qty-btn {
-        background: #f8f9fa;
-        border: 1px solid #dee2e6;
-        cursor: pointer;
-        width: 40px;
-        height: 40px;
-        font-size: 1.2rem;
-        border-radius: 8px;
-    }
+        /* Style for "Quantity:" text */
+        .qty-selector-v2 .qty-btn {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            font-size: 1.2rem;
+            border-radius: 8px;
+        }
 
-    .qty-selector-v2 .qty-input {
-        width: 50px;
-        text-align: center;
-        border: 1px solid #dee2e6;
-        height: 40px;
-        margin: 0 5px;
-        border-radius: 8px;
-    }
+        .qty-selector-v2 .qty-input {
+            width: 50px;
+            text-align: center;
+            border: 1px solid #dee2e6;
+            height: 40px;
+            margin: 0 5px;
+            border-radius: 8px;
+        }
 
-    .qty-selector-v2 .qty-input:focus {
-        outline: none;
-        border-color: var(--primary-green, #3A5A40);
-    }
+        .qty-selector-v2 .qty-input:focus {
+            outline: none;
+            border-color: var(--primary-green, #3A5A40);
+        }
 
-    .action-buttons {
-        display: flex;
-        gap: 10px;
-    }
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
 
-    .btn-add-to-cart {
-        background-color: var(--primary-green, #3A5A40);
-        color: white;
-        font-weight: 600;
-        padding: 12px;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-    }
+        .btn-add-to-cart {
+            background-color: var(--primary-green, #3A5A40);
+            color: white;
+            font-weight: 600;
+            padding: 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
 
-    .btn-buy-now {
-        background-color: transparent;
-        color: var(--primary-green, #3A5A40);
-        border: 2px solid var(--primary-green, #3A5A40);
-        font-weight: 600;
-        padding: 12px;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-    }
+        .btn-buy-now {
+            background-color: transparent;
+            color: var(--primary-green, #3A5A40);
+            border: 2px solid var(--primary-green, #3A5A40);
+            font-weight: 600;
+            padding: 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
 
-    .btn-add-to-cart:hover {
-        background-color: #2c4431;
-    }
+        .btn-add-to-cart:hover {
+            background-color: #2c4431;
+        }
 
-    .btn-buy-now:hover {
-        background-color: var(--primary-green, #3A5A40);
-        color: white;
-    }
+        .btn-buy-now:hover {
+            background-color: var(--primary-green, #3A5A40);
+            color: white;
+        }
 
-    /* Reviews Section */
-    .reviews-section-v2 {
-        background-color: var(--light-green-bg, #E8F5E9);
-        padding: 40px;
-        border-radius: 12px;
-    }
+        /* Reviews Section */
+        .reviews-section-v2 {
+            background-color: var(--light-green-bg, #E8F5E9);
+            padding: 40px;
+            border-radius: 12px;
+        }
 
-    .rating-summary {
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        text-align: center;
-    }
+        .rating-summary {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
 
-    .overall-rating {
-        margin-bottom: 20px;
-    }
+        .overall-rating {
+            margin-bottom: 20px;
+        }
 
-    .rating-value {
-        font-size: 3rem;
-        font-weight: 700;
-    }
+        .rating-value {
+            font-size: 3rem;
+            font-weight: 700;
+        }
 
-    .rating-total-text {
-        font-size: 0.9rem;
-        color: #6c757d;
-    }
+        .rating-total-text {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
 
-    .rating-bar-item {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-size: 0.9rem;
-    }
+        .rating-bar-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+        }
 
-    .rating-bar-item .progress {
-        height: 8px;
-        flex-grow: 1;
-    }
+        .rating-bar-item .progress {
+            height: 8px;
+            flex-grow: 1;
+        }
 
-    .rating-bar-item .progress-bar {
-        background-color: var(--primary-green, #3A5A40);
-    }
+        .rating-bar-item .progress-bar {
+            background-color: var(--primary-green, #3A5A40);
+        }
 
-    .review-card {
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        margin-bottom: 15px;
-    }
+        .review-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
 
-    .review-header {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        margin-bottom: 10px;
-    }
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
 
-    .reviewer-avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-    }
+        .reviewer-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
 
-    .reviewer-name {
-        font-weight: 600;
-    }
+        .reviewer-name {
+            font-weight: 600;
+        }
 
-    .review-text {
-        color: #555;
-    }
+        .review-text {
+            color: #555;
+        }
 
-    .review-date {
-        font-size: 0.8rem;
-        color: #999;
-    }
+        .review-date {
+            font-size: 0.8rem;
+            color: #999;
+        }
 
-    .star-rating-input {
-        display: flex;
-        flex-direction: row-reverse;
-        justify-content: flex-end;
-    }
+        .star-rating-input {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+        }
 
-    .star-rating-input input {
-        display: none;
-    }
+        .star-rating-input input {
+            display: none;
+        }
 
-    .star-rating-input label {
-        color: #ccc;
-        cursor: pointer;
-        font-size: 2rem;
-        transition: color 0.2s;
-    }
+        .star-rating-input label {
+            color: #ccc;
+            cursor: pointer;
+            font-size: 2rem;
+            transition: color 0.2s;
+        }
 
-    .star-rating-input input:checked~label,
-    .star-rating-input label:hover,
-    .star-rating-input label:hover~label {
-        color: var(--accent-gold, #D4AF37);
-    }
-</style>
+        .star-rating-input input:checked~label,
+        .star-rating-input label:hover,
+        .star-rating-input label:hover~label {
+            color: var(--accent-gold, #D4AF37);
+        }
+    </style>
 
-<script>
-    function changeImage(element) {
-        document.getElementById('main-product-image').src = element.src;
-        // Handle active state for thumbnails
-        let thumbnails = document.querySelectorAll('.thumbnail-img');
-        thumbnails.forEach(thumb => thumb.classList.remove('active'));
-        element.classList.add('active');
-    }
+    <script>
+        function changeImage(element) {
+            document.getElementById('main-product-image').src = element.src;
+            // Handle active state for thumbnails
+            let thumbnails = document.querySelectorAll('.thumbnail-img');
+            thumbnails.forEach(thumb => thumb.classList.remove('active'));
+            element.classList.add('active');
+        }
 
-    function increaseQty(id) {
-        const input = document.getElementById(id);
-        let value = parseInt(input.value);
-        if (!isNaN(value)) input.value = value + 1;
-    }
+        function increaseQty(id) {
+            const input = document.getElementById(id);
+            let value = parseInt(input.value);
+            if (!isNaN(value)) input.value = value + 1;
+        }
 
-    function decreaseQty(id) {
-        const input = document.getElementById(id);
-        let value = parseInt(input.value);
-        if (!isNaN(value) && value > 1) input.value = value - 1;
-    }
-</script>
+        function decreaseQty(id) {
+            const input = document.getElementById(id);
+            let value = parseInt(input.value);
+            if (!isNaN(value) && value > 1) input.value = value - 1;
+        }
+    </script>
 @endsection

@@ -154,14 +154,14 @@
 
 
                             <div class="product-img-wrapper-v2">
-                                <a href="{{ route('phone_details',$product->id) }}">
+                                <a href="{{ route('phone_details', $product->id) }}">
                                     <img src="{{ asset('img/product-images/' . $product->image) }}" class="product-img-v2"
                                         alt="{{ $product->name }}">
                                 </a>
                             </div>
 
                             <div class="card-body-v2">
-                                <a href="#" class="product-title-v2">
+                                <a href="{{ route('phone_details', $product->id) }}" class="product-title-v2">
                                     {{ $product->name }}
                                     ({{ $product->ram >= 1024 ? ($product->ram / 1024) . 'GB' : $product->ram . 'GB' }})
                                     ({{ $product->storage >= 1024 ? ($product->storage / 1024) . 'TB' : $product->storage . 'GB' }})
@@ -182,13 +182,14 @@
 
                                 <div class="rating-wrapper-v2">
                                     <div class="rating-stars-v2">
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-half"></i>
+                                        @php
+                                            $avgRating = $product->avg_rating;
+                                        @endphp
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            <i class="bi {{ $i <= round($avgRating) ? 'bi-star-fill' : 'bi-star' }}"></i>
+                                        @endfor
                                     </div>
-                                    <span class="review-count-v2">(234 reviews)</span>
+                                    <span class="review-count-v2">({{ $product->total_reviews }} ratings)</span>
                                 </div>
 
                                 <div class="price-wrapper-v2">
@@ -248,8 +249,9 @@
                                             <i class="bi bi-cart-fill me-1"></i> Add to Cart
                                         </a>
                                     </div>
-                                @endif    
+                                @endif
                             @endif
+                            
                         </div>
                     </div>
                 @endif
