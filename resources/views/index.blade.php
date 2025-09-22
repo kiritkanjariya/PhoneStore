@@ -251,13 +251,14 @@
                                     </div>
                                 @endif
                             @endif
-                            
+
                         </div>
                     </div>
                 @endif
             @empty
                 <p class="text-center">No products found.</p>
             @endforelse
+
         </div>
     </div>
 
@@ -270,113 +271,145 @@
 
         <div class="row justify-content-center">
 
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 fade-in-section">
-                <div class="card product-card-v2 h-100">
-                    <div class="deal-badge-v2">AI Powerhouse</div>
-                    <div class="product-img-wrapper-v2">
-                        <a href="#"><img src="https://m.media-amazon.com/images/I/71uqj6BKnRL._AC_UY327_FMwebp_QL65_.jpg"
-                                class="product-img-v2" alt="Samsung Galaxy S25 Ultra"></a>
-                    </div>
-                    <div class="card-body-v2">
-                        <a href="#" class="product-title-v2">Samsung Galaxy S25 Ultra (AI Powered, 256 GB)</a>
-                        <div class="rating-wrapper-v2">
-                            <div class="rating-stars-v2"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                    class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                    class="bi bi-star-fill"></i></div>
-                            <span class="review-count-v2">(315 reviews)</span>
-                        </div>
-                        <div class="price-wrapper-v2">
-                            <span class="current-price-v2">₹1,34,999</span>
-                            <span class="original-price-v2">M.R.P: <del>₹1,49,999</del></span>
-                        </div>
-                        <div class="deal-text-v2">Launch Offer</div>
-                        <p class="prime-note-v2">Next-Gen AI Camera</p>
-                    </div>
-                    <div class="card-action-button-v2"><a href="#" class="btn btn-add-to-cart w-100"><i
-                                class="bi bi-cart-fill me-1"></i> Add to Cart</a></div>
-                </div>
-            </div>
+            @forelse ($newArrival as $new)
+                @php
+                    $today = now()->toDateString();
 
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 fade-in-section">
-                <div class="card product-card-v2 h-100">
-                    <div class="deal-badge-v2">Pixel Perfect</div>
-                    <div class="product-img-wrapper-v2">
-                        <a href="#"><img src="https://m.media-amazon.com/images/I/51Ibtg1KESL._AC_UY327_FMwebp_QL65_.jpg"
-                                class="product-img-v2" alt="Google Pixel 10 Pro"></a>
-                    </div>
-                    <div class="card-body-v2">
-                        <a href="#" class="product-title-v2">Google Pixel 10 Pro (256 GB) - Obsidian</a>
-                        <div class="rating-wrapper-v2">
-                            <div class="rating-stars-v2"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                    class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                    class="bi bi-star-half"></i></div>
-                            <span class="review-count-v2">(289 reviews)</span>
-                        </div>
-                        <div class="price-wrapper-v2">
-                            <span class="current-price-v2">₹1,12,999</span>
-                            <span class="original-price-v2">M.R.P: <del>₹1,19,900</del></span>
-                        </div>
-                        <div class="deal-text-v2">Early Access Deal</div>
-                        <p class="prime-note-v2">Pure Android Experience</p>
-                    </div>
-                    <div class="card-action-button-v2"><a href="#" class="btn btn-add-to-cart w-100"><i
-                                class="bi bi-cart-fill me-1"></i> Add to Cart</a></div>
-                </div>
-            </div>
+                    $hasActiveDiscount = $new->discount_status === 'active'
+                        && (!$new->start_date || $new->start_date <= $today)
+                        && (!$new->end_date || $new->end_date >= $today);
 
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 fade-in-section">
-                <div class="card product-card-v2 h-100">
-                    <div class="deal-badge-v2">Speed Demon</div>
-                    <div class="product-img-wrapper-v2">
-                        <a href="#"><img src="https://m.media-amazon.com/images/I/71N4hshhfNL._AC_UY327_FMwebp_QL65_.jpg"
-                                class="product-img-v2" alt="OnePlus 13"></a>
-                    </div>
-                    <div class="card-body-v2">
-                        <a href="#" class="product-title-v2">OnePlus 13 (16GB RAM, 256GB) - Emerald Dusk</a>
-                        <div class="rating-wrapper-v2">
-                            <div class="rating-stars-v2"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                    class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                    class="bi bi-star-fill"></i></div>
-                            <span class="review-count-v2">(610 reviews)</span>
-                        </div>
-                        <div class="price-wrapper-v2">
-                            <span class="current-price-v2">₹72,999</span>
-                            <span class="original-price-v2">M.R.P: <del>₹79,999</del></span>
-                        </div>
-                        <div class="deal-text-v2">Performance Plus Offer</div>
-                        <p class="prime-note-v2">120W SuperVOOC Charging</p>
-                    </div>
-                    <div class="card-action-button-v2"><a href="#" class="btn btn-add-to-cart w-100"><i
-                                class="bi bi-cart-fill me-1"></i> Add to Cart</a></div>
-                </div>
-            </div>
+                    $discountedPrice = $new->price;
+                    if ($hasActiveDiscount && $new->discount_type === 'percentage') {
+                        $discountedPrice -= ($new->price * $new->discount) / 100;
+                    } elseif ($hasActiveDiscount && $new->discount_type === 'fixed') {
+                        $discountedPrice -= $new->discount;
+                    }
+                @endphp
 
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 fade-in-section">
-                <div class="card product-card-v2 h-100">
-                    <div class="deal-badge-v2">Leica Optics</div>
-                    <div class="product-img-wrapper-v2">
-                        <a href="#"><img src="https://m.media-amazon.com/images/I/31LZF3flVtL._AC_.jpg"
-                                class="product-img-v2" alt="Xiaomi 15 Pro"></a>
-                    </div>
-                    <div class="card-body-v2">
-                        <a href="#" class="product-title-v2">Xiaomi 15 Pro (Leica Camera, 512 GB) - Jade Green</a>
-                        <div class="rating-wrapper-v2">
-                            <div class="rating-stars-v2"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                    class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                    class="bi bi-star-half"></i></div>
-                            <span class="review-count-v2">(455 reviews)</span>
+                @if ($new->status === 'active')
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 fade-in-section">
+                        <div class="card product-card-v2 h-100">
+
+                            @if ($hasActiveDiscount)
+                                @if ($new->discount_type === 'percentage')
+                                    <div class="deal-badge-v2">{{ number_format($new->discount) }}% Off</div>
+                                @elseif ($new->discount_type === 'fixed')
+                                    <div class="deal-badge-v2">₹{{ number_format($new->discount) }} Off</div>
+                                @endif
+                                @if ($new->badge_text)
+                                    <div class="deal-badge-v2">{{ $new->badge_text }}</div>
+                                @endif
+                            @elseif ($new->discount_status == 'inactive')
+                                <div class="deal-badge-v2 bg-danger">Sale Ended</div>
+                            @endif
+
+
+                            <div class="product-img-wrapper-v2">
+                                <a href="{{ route('phone_details', $new->id) }}">
+                                    <img src="{{ asset('img/product-images/' . $new->image) }}" class="product-img-v2"
+                                        alt="{{ $new->name }}">
+                                </a>
+                            </div>
+
+                            <div class="card-body-v2">
+                                <a href="{{ route('phone_details', $new->id) }}" class="product-title-v2">
+                                    {{ $new->name }}
+                                    ({{ $new->ram >= 1024 ? ($new->ram / 1024) . 'GB' : $new->ram . 'GB' }})
+                                    ({{ $new->storage >= 1024 ? ($new->storage / 1024) . 'TB' : $new->storage . 'GB' }})
+                                </a>
+
+
+                                <div class="specs-v2 text-muted small mb-1">
+                                    @if (!empty($new->ram))
+                                        <span><strong>Color</strong>: {{ $new->color }} </span>
+                                    @endif
+                                </div>
+
+                                <div class="specs-v2 text-muted small mb-2">
+                                    @if (!empty($new->screen_size))
+                                        <span><strong>Display</strong>: {{ $new->screen_size }}"</span>
+                                    @endif
+                                </div>
+
+                                <div class="rating-wrapper-v2">
+                                    <div class="rating-stars-v2">
+                                        @php
+                                            $avgRating = $new->avg_rating;
+                                        @endphp
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            <i class="bi {{ $i <= round($avgRating) ? 'bi-star-fill' : 'bi-star' }}"></i>
+                                        @endfor
+                                    </div>
+                                    <span class="review-count-v2">({{ $new->total_reviews }} ratings)</span>
+                                </div>
+
+                                <div class="price-wrapper-v2">
+                                    @if ($hasActiveDiscount && $discountedPrice < $new->price)
+                                        <span class="current-price-v2">₹{{ number_format($discountedPrice) }}</span>
+                                        <span class="original-price-v2">
+                                            M.R.P: <del>₹{{ number_format($new->price) }}</del>
+                                        </span>
+                                    @else
+                                        <span class="current-price-v2">₹{{ number_format($new->price) }}</span>
+                                    @endif
+                                </div>
+
+                                @if ($new->discount_status === 'active')
+                                    <div class="deal-text-v2">{{ $new->deal_tag }}</div>
+                                @elseif ($new->discount_status === 'inactive')
+                                    <div><span class="text-danger bolder">Sale Ended</span></div>
+                                @endif
+
+                                @if ($hasActiveDiscount && $new->discount_feature_highlight)
+                                    <p class="prime-note-v2 mt-2">{{ $new->discount_feature_highlight }}</p>
+                                @elseif ($new->feature_highlight)
+                                    <p class="prime-note-v2 mt-2">{{ $new->feature_highlight }}</p>
+                                @endif
+                            </div>
+
+                            @if(Session::has('user'))
+                                @php
+                                    $cartQty = \App\Models\Cart::where('user_id', Session::get('user')->id)
+                                        ->where('product_id', $new->id)
+                                        ->value('quantity') ?? 0;
+                                @endphp
+
+                                @if($new->stock_quantity == 0)
+                                    <div class="text-center mb-4">
+                                        <span class="text-danger">Currently unavailable </span>
+                                    </div>
+                                @elseif($cartQty >= $new->stock_quantity)
+                                    <div class="card-action-button-v2">
+                                        <button class="btn btn-secondary w-100" disabled>Max quantity reached</button>
+                                    </div>
+                                @else
+                                    <div class="card-action-button-v2">
+                                        <a href="{{ route('add_cart', $new->id) }}" class="btn btn-add-to-cart w-100">
+                                            <i class="bi bi-cart-fill me-1"></i> Add to Cart
+                                        </a>
+                                    </div>
+                                @endif
+                            @else
+                                @if($new->stock_quantity == 0)
+                                    <div class="text-center mb-4">
+                                        <span class="text-danger">Currently unavailable </span>
+                                    </div>
+                                @else
+                                    <div class="card-action-button-v2">
+                                        <a href="{{ route('cart_detail') }}" class="btn btn-add-to-cart w-100">
+                                            <i class="bi bi-cart-fill me-1"></i> Add to Cart
+                                        </a>
+                                    </div>
+                                @endif
+                            @endif
+
                         </div>
-                        <div class="price-wrapper-v2">
-                            <span class="current-price-v2">₹78,999</span>
-                            <span class="original-price-v2">M.R.P: <del>₹84,999</del></span>
-                        </div>
-                        <div class="deal-text-v2">Photography Pro Deal</div>
-                        <p class="prime-note-v2">Co-engineered with Leica</p>
                     </div>
-                    <div class="card-action-button-v2"><a href="#" class="btn btn-add-to-cart w-100"><i
-                                class="bi bi-cart-fill me-1"></i> Add to Cart</a></div>
-                </div>
-            </div>
+                @endif
+            @empty
+                <p class="text-center">No products found.</p>
+            @endforelse
 
         </div>
 

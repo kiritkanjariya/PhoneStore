@@ -49,7 +49,7 @@ class CheckoutController extends Controller
         }
 
 
-        $razorpayMax = 50000;
+        $razorpayMax = 500000;
         if ($totalAmount > $razorpayMax) {
             return redirect()->route('cart_detail')->with(
                 'error',

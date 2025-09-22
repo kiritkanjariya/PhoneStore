@@ -143,10 +143,49 @@ class ProductsController extends Controller
             )
             ->get();
 
+        $newArrival = DB::table('products')
+            ->leftJoin('discounts', 'products.id', '=', 'discounts.product_id')
+            ->leftJoin('brands', 'products.brand_id', '=', 'brands.id')
+            ->leftJoin('reviews', 'products.id', '=', 'reviews.product_id')
+            ->select(
+                'products.*',
+                'discounts.discount_type',
+                'discounts.discount',
+                'discounts.badge_text',
+                'discounts.deal_tag',
+                'discounts.feature_highlight as discount_feature_highlight',
+                'discounts.start_date',
+                'discounts.end_date',
+                'discounts.status as discount_status',
+                'brands.name as brand_name',
+                DB::raw('AVG(reviews.rating) as avg_rating'),
+                DB::raw('COUNT(reviews.id) as total_reviews')
+            )
+            ->whereIn('products.name', [
+                'Vivo V50e 5G',
+                'OPPO Reno14Pro 5G',
+                'Google Pixel 10 5G',
+                'OnePlus 13s',
+                'realme 15 Pro 5G'
+            ])
+            ->groupBy(
+                'products.id',
+                'discounts.discount_type',
+                'discounts.discount',
+                'discounts.badge_text',
+                'discounts.deal_tag',
+                'discounts.feature_highlight',
+                'discounts.start_date',
+                'discounts.end_date',
+                'discounts.status',
+                'brands.name'
+            )
+            ->get();
+
 
         $sliders = Slider::where('status', 'active')->get();
 
-        return view('index', compact('products', 'sliders'));
+        return view('index', compact('products', 'sliders', 'newArrival'));
     }
 
     public function phone_details($id)
