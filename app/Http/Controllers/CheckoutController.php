@@ -61,7 +61,7 @@ class CheckoutController extends Controller
 
         $razorpayOrder = $api->order->create([
             'receipt' => 'order_rcptid_' . time(),
-            'amount' => $totalAmount * 100,
+            'amount' => 900000,
             'currency' => 'INR',
         ]);
 

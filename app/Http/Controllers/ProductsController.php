@@ -207,7 +207,6 @@ class ProductsController extends Controller
                 'discounts.status as discount_status',
                 'brands.name as brand_name',
             )
-            ->where('brands.name', 'Apple')
             ->where('products.id', $id)
             ->groupBy(
                 'products.id',
