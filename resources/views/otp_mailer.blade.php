@@ -66,11 +66,6 @@
                                 <span class="otp-box">{{ $otp }}</span>
                             </div>
 
-                            <p style="margin: 15px 0; font-size: 16px; color:#555; text-align:center;">
-                                This OTP will expire in <strong>10 minutes</strong>.  
-                                Do not share it with anyone for your security.
-                            </p>
-
                             <hr style="border: none; border-top: 1px solid #eee; margin: 25px 0;">
 
                             <p style="font-size: 14px; color: #999; text-align:center;">

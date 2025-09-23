@@ -93,7 +93,7 @@ class UserController extends Controller
 
             if ($user->status == 'inactive') {
                 $user->status = 'active';
-                $user->token = '';
+                $user->token = NULL;
                 $user->save();
 
                 return redirect()->route('login')->with('success', 'Your Account is Activated...');
