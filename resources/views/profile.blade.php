@@ -1,8 +1,3 @@
-@if (!session()->has('user'))
-<script>
-    window.location.href = "{{ route('login') }}";
-</script>
-@endif
 @extends('master_view')
 
 @section('files')
@@ -35,19 +30,23 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Full Name</label>
-                                <input type="text" class="form-control" value="{{ $user->name }}" name="fullname">
+                                <input type="text" class="form-control" value="{{ $user->name }}" name="fullname" data-validation="required alpha">
+                                <div class="error" id="fullnameError"></div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Phone Number</label>
-                                <input type="text" class="form-control" name="phone" value="{{ $user->phone }}">
+                                <input type="text" class="form-control" name="phone" value="{{ $user->phone }}" data-validation="required numeric min max" data-min="10" data-max="10">
+                                <div class="error" id="phoneError"></div>
                             </div>
                             <div class="col-12 mb-3">
                                 <label class="form-label">Address</label>
-                                <textarea class="form-control" rows="3" name="address">{{ $user->address }}</textarea>
+                                <textarea class="form-control" rows="3" name="address" data-validation="required">{{ $user->address }}</textarea>
+                                <div class="error" id="addressError"></div>
                             </div>
                             <div class="col-12 mb-3">
                                 <label class="form-label">Profile Picture</label>
-                                <input type="file" class="form-control" name="profile_pic">
+                                <input type="file" class="form-control" name="profile_pic" data-validation="file file1">
+                                <div class="error" id="profile_picError"></div>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-profile-save mt-2">Save Changes</button>

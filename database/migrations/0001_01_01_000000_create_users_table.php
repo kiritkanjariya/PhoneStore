@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('otp')->nullable();
             $table->string('status')->default('inactive');
             $table->string('role')->default('user');
-            $table->string('token');
+            $table->string('token')->nullable();
             $table->timestamps();
         });
 

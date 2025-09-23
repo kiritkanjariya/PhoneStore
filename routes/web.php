@@ -28,23 +28,23 @@ Route::get('/activation/{token}', [UserController::class, 'activation'])->name('
 Route::get('/about', [AboutController::class, 'about'])->name('about');
 Route::get('/service', [ServiceController::class, 'service'])->name('service');
 Route::get('/shop', [PageController::class, 'shop'])->name('shop');
-Route::get('/cart', [PageController::class, 'cart'])->name('cart_detail');
+Route::get('/cart', [PageController::class, 'cart'])->name('cart_detail')->middleware('check.user');
 Route::get('/details/{id}', [ProductsController::class, 'phone_details'])->name('phone_details');
 Route::get('/forgot_password', [PageController::class, 'forgot_password'])->name('forgot_pass');
-Route::get('/profile', [ProfileController::class, 'showProfile'])->name('profile');
-Route::put('/profile/{id}', [ProfileController::class, 'update'])->name('profile.update');
-Route::post('/changed_password/{id}', [ProfileController::class, 'changed_password'])->name('changed_password');
-Route::post('/forgot_password_submit',[AuthController::class,'forgot_password_submit'])->name('forgot_password_submit');
-Route::get('/otp', [AuthController::class,'otp'])->name('otp');
-Route::get('/new_password/{email}', [AuthController::class,'new_password'])->name('new_password');
-Route::post('/otp_submit', [AuthController::class,'otp_submit'])->name('otp_submit');
-Route::post('/reset_password/{email}', [AuthController::class,'reset_password'])->name('reset_password');
+Route::get('/profile', [ProfileController::class, 'showProfile'])->name('profile')->middleware('check.user');
+Route::put('/profile/{id}', [ProfileController::class, 'update'])->name('profile.update')->middleware('check.user');
+Route::post('/changed_password/{id}', [ProfileController::class, 'changed_password'])->name('changed_password')->middleware('check.user');
+Route::post('/forgot_password_submit', [AuthController::class, 'forgot_password_submit'])->name('forgot_password_submit');
+Route::get('/otp', [AuthController::class, 'otp'])->name('otp');
+Route::get('/new_password/{email}', [AuthController::class, 'new_password'])->name('new_password');
+Route::post('/otp_submit', [AuthController::class, 'otp_submit'])->name('otp_submit');
+Route::post('/reset_password/{email}', [AuthController::class, 'reset_password'])->name('reset_password');
 
-Route::get('/orders', [CheckoutController::class, 'order'])->name('order');
-Route::get('/Checkout', [CheckoutController::class, 'showCheckout'])->name('Checkout');
-Route::post('/CheckoutProcess', [CheckoutController::class, 'processOrder'])->name('Checkoutprocess');
-Route::get('/review-rating/{id}', [CheckoutController::class, 'review_rating'])->name('review_rating');
-Route::post('/review-rating_submit/{id}', [CheckoutController::class, 'review_rating_submit'])->name('review_rating_submit');
+Route::get('/orders', [CheckoutController::class, 'order'])->name('order')->middleware('check.user');
+Route::get('/Checkout', [CheckoutController::class, 'showCheckout'])->name('Checkout')->middleware('check.user');
+Route::post('/CheckoutProcess', [CheckoutController::class, 'processOrder'])->name('Checkoutprocess')->middleware('check.user');
+Route::get('/review-rating/{id}', [CheckoutController::class, 'review_rating'])->name('review_rating')->middleware('check.user');
+Route::post('/review-rating_submit/{id}', [CheckoutController::class, 'review_rating_submit'])->name('review_rating_submit')->middleware('check.user');
 Route::delete('/review/{id}', [CheckoutController::class, 'delete_review'])->name('delete_review');
 
 Route::get('/shop', [ShopController::class, 'shop'])->name('shop');
@@ -115,10 +115,10 @@ Route::post('/advantage_added', [AdvantageController::class, 'advantage_added'])
 Route::get('/edit_advantage/{id}', [AdvantageController::class, 'edit_advantage'])->name('edit_advantage');
 Route::post('/advantage_updated/{id}', [AdvantageController::class, 'advantage_updated'])->name('advanatage_updated');
 
-Route::get('/cart', [CartController::class, 'cart'])->name('cart_detail');
-Route::get('/add_to_cart/{id}', [CartController::class, 'add_cart'])->name('add_cart');
-Route::post('/cart/increase/{id}', [CartController::class, 'increaseQuantity'])->name('increase_quantity');
-Route::post('/cart/decrease/{id}', [CartController::class, 'decreaseQuantity'])->name('decrease_quantity');
-Route::post('/cart/{id}', [CartController::class, 'delete_cart_item'])->name('delete_cart_item');
+Route::get('/cart', [CartController::class, 'cart'])->name('cart_detail')->middleware('check.user');
+Route::get('/add_to_cart/{id}', [CartController::class, 'add_cart'])->name('add_cart')->middleware('check.user');
+Route::post('/cart/increase/{id}', [CartController::class, 'increaseQuantity'])->name('increase_quantity')->middleware('check.user');
+Route::post('/cart/decrease/{id}', [CartController::class, 'decreaseQuantity'])->name('decrease_quantity')->middleware('check.user');
+Route::post('/cart/{id}', [CartController::class, 'delete_cart_item'])->name('delete_cart_item')->middleware('check.user');
 
-Route::post('/coupon', [DiscountController::class, 'apply_coupon'])->name('coupon_apply');
+Route::post('/coupon', [DiscountController::class, 'apply_coupon'])->name('coupon_apply')->middleware('check.user');

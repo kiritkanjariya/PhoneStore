@@ -1,9 +1,3 @@
-@if (!session()->has('user'))
-<script>
-    window.location.href = "{{ route('login') }}";
-</script>
-@endif
-
 @extends('master_view')
 
 @section('files')
