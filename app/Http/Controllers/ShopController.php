@@ -106,4 +106,29 @@ class ShopController extends Controller
         return view('shop', compact('brands', 'products', 'priceRanges', 'rams', 'offer'));
     }
 
+    public function search(Request $request)
+    {
+        
+        $search = $request->input('query');
+
+        $products = Products::where('name', 'LIKE', "%{$search}%")
+            ->orWhere('color', 'LIKE', "%{$search}%")
+            ->get();
+
+
+        $offer = Offers::where('status', 'active')->orderBy('id', 'desc')->first();
+        $brands = Brand::orderBy('name')->get();
+        $rams = Products::select('ram')->distinct()->orderBy('ram')->pluck('ram');
+        $priceRanges = [
+            '5000-10000' => '₹5,000 - ₹10,000',
+            '10000-20000' => '₹10,000 - ₹20,000',
+            '20000-40000' => '₹20,000 - ₹40,000',
+            '40000+' => 'Above ₹40,000',
+        ];
+
+        return view('shop', compact('products', 'brands', 'priceRanges', 'rams', 'offer'));
+
+    }
+
+
 }

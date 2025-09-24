@@ -273,11 +273,6 @@
                                 <div class="card product-card-v2 h-100">
 
                                     @if ($hasActiveDiscount)
-                                        @if ($product->discount_type === 'percentage')
-                                            <div class="deal-badge-v2">{{ number_format($product->discount) }}% Off</div>
-                                        @elseif ($product->discount_type === 'fixed')
-                                            <div class="deal-badge-v2">₹{{ number_format($product->discount) }} Off</div>
-                                        @endif
                                         @if ($product->badge_text)
                                             <div class="deal-badge-v2">{{ $product->badge_text }}</div>
                                         @endif
@@ -285,16 +280,15 @@
                                         <div class="deal-badge-v2 bg-danger">Sale Ended</div>
                                     @endif
 
-
                                     <div class="product-img-wrapper-v2">
                                         <a href="{{ route('phone_details',$product->id) }}">
-                                            <img src="{{ asset('img/product-images/' . $product->image) }}" class="product-img-v2"
+                                            <img src="{{ asset('img/product-images/' . rawurlencode($product->image)) }}" class="product-img-v2"
                                                 alt="{{ $product->name }}">
                                         </a>
                                     </div>
 
                                     <div class="card-body-v2">
-                                        <a href="#" class="product-title-v2">
+                                        <a href="{{ route('phone_details',$product->id) }}" class="product-title-v2">
                                             {{ $product->name }} ({{ $product->ram }}GB) ({{ $product->storage }}GB)
                                         </a>
 
@@ -319,7 +313,7 @@
                                                     <i class="bi {{ $i <= round($avgRating) ? 'bi-star-fill' : 'bi-star' }}"></i>
                                                 @endfor
                                             </div>
-                                            <span class="review-count-v2">({{ $product->total_reviews }} ratings)</span>
+                                            <span class="review-count-v2">({{ $product->total_reviews }} reviews)</span>
                                         </div>
 
                                         <div class="price-wrapper-v2">
@@ -328,6 +322,11 @@
                                                 <span class="original-price-v2">
                                                     M.R.P: <del>₹{{ number_format($product->price) }}</del>
                                                 </span>
+                                                @if ($product->discount_type === 'percentage')
+                                                    <div style="font-size: 14px; font-weight: 600;"> ({{ number_format($product->discount) }}% Off)</div>
+                                                @elseif ($product->discount_type === 'fixed')
+                                                    <div style="font-size: 13px; font-weight: 600;"> (₹{{ number_format($product->discount) }} Off)</div>
+                                                @endif
                                             @else
                                                 <span class="current-price-v2">₹{{ number_format($product->price) }}</span>
                                             @endif

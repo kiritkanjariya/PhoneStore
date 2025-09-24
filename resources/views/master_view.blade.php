@@ -41,13 +41,35 @@
                     <li class="nav-item"><a class="nav-link" href="{{ route('about') }}">About</a></li>
                 </ul>
 
-                <form class="d-flex me-3" role="search">
-                    <input class="form-control search-input-v2" type="search" placeholder="Search for products..."
-                        aria-label="Search" style="width: 300px">
-                    <button class="btn btn-search-v2" type="submit">
+                <form id="searchForm" action="{{ route('product_search') }}" method="post" class="d-flex me-3">
+                    @csrf
+                    <div class="position-relative">
+                        <input name="query" id="query" class="form-control search-input-v2" type="text"
+                            placeholder="Search for products..." style="width: 300px">
+
+                        <div id="queryError" class="text-danger small mt-1"></div>
+
+                    </div>
+
+                    <button class="btn btn-search-v2 ms-2" type="submit">
                         <i class="bi bi-search"></i>
                     </button>
                 </form>
+
+                <script>
+                    document.getElementById('searchForm').addEventListener('submit', function (e) {
+                        const queryInput = document.getElementById('query');
+                        const errorDiv = document.getElementById('queryError');
+
+                        errorDiv.textContent = '';
+
+                        if (queryInput.value.trim() === '') {
+                            e.preventDefault(); // stop the form from submitting
+                            errorDiv.textContent = 'Please enter a product name';
+                            queryInput.focus();  
+                        }
+                    });
+                </script>
 
                 <div class="d-flex align-items-center header-icons-v2">
 
@@ -58,12 +80,12 @@
                             <i class="bi bi-bag-check-fill fs-3 text-white"></i>
 
                             @if(Session::has('user'))
-                            @php
-                            $cartCount = \App\Models\Cart::where('user_id', Session::get('user')->id)->count();
-                            @endphp
-                            @if($cartCount > 0)
-                            <span class="cart-count-badge">{{ $cartCount }}</span>
-                            @endif
+                                @php
+                                    $cartCount = \App\Models\Cart::where('user_id', Session::get('user')->id)->count();
+                                @endphp
+                                @if($cartCount > 0)
+                                    <span class="cart-count-badge">{{ $cartCount }}</span>
+                                @endif
                             @endif
                         </div>
                         <span class="ms-2 fw-bold">Cart</span>
@@ -93,52 +115,52 @@
                     </style>
 
                     @if (session()->has('user'))
-                    @php
-                    $user = session('user');
-                    @endphp
-                    <div class="dropdown profile-dropdown">
-                        <a href="#" class="dropdown-toggle d-flex align-items-center text-decoration-none"
-                            id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="{{ asset('uploads/profile/' . $user->profile) }}" alt="User Avatar" width="40"
-                                height="30" class="rounded-circle">
-                            <span class="d-none d-sm-inline mx-2 fw-bold text-dark">{{ session('user')->name }}</span>
-                        </a>
+                        @php
+                            $user = session('user');
+                        @endphp
+                        <div class="dropdown profile-dropdown">
+                            <a href="#" class="dropdown-toggle d-flex align-items-center text-decoration-none"
+                                id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="{{ asset('uploads/profile/' . $user->profile) }}" alt="User Avatar" width="40"
+                                    height="30" class="rounded-circle">
+                                <span class="d-none d-sm-inline mx-2 fw-bold text-dark">{{ session('user')->name }}</span>
+                            </a>
 
-                        <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="dropdownUser">
+                            <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="dropdownUser">
 
-                            <li class="dropdown-header text-center">
-                                <h6 class=" mb-0">{{ session('user')->name }}</h6>
-                                <small class="text-muted">{{ session('user')->email }}</small>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider my-0">
-                            </li>
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center" href="{{ route('profile') }}">
-                                    <i class="bi bi-person-circle me-2"></i> My Profile
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center" href="{{ route('order') }}">
-                                    <i class="bi bi-receipt me-2"></i> Order History
-                                </a>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider my-0">
-                            </li>
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center text-danger"
-                                    href="{{ route('logout') }}">
-                                    <i class="bi bi-box-arrow-right me-2"></i> Logout
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                                <li class="dropdown-header text-center">
+                                    <h6 class=" mb-0">{{ session('user')->name }}</h6>
+                                    <small class="text-muted">{{ session('user')->email }}</small>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider my-0">
+                                </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center" href="{{ route('profile') }}">
+                                        <i class="bi bi-person-circle me-2"></i> My Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center" href="{{ route('order') }}">
+                                        <i class="bi bi-receipt me-2"></i> Order History
+                                    </a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider my-0">
+                                </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center text-danger"
+                                        href="{{ route('logout') }}">
+                                        <i class="bi bi-box-arrow-right me-2"></i> Logout
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     @else
-                    <a href="{{ route('login') }}" class="header-icon-link">
-                        <i class="bi bi-person-circle"></i>
-                        <span>Account</span>
-                    </a>
+                        <a href="{{ route('login') }}" class="header-icon-link">
+                            <i class="bi bi-person-circle"></i>
+                            <span>Account</span>
+                        </a>
                     @endif
                 </div>
 
@@ -301,17 +323,17 @@
     </style>
 
     @if(session('success'))
-    <div class="m-2 alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+        <div class="m-2 alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     @endif
 
     @if(session('error'))
-    <div class="m-2 alert alert-danger alert-dismissible fade show" role="alert">
-        {{ session('error') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+        <div class="m-2 alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     @endif
 
     <style>
@@ -505,17 +527,17 @@
                         <h5 class="widget-title">Contact Us</h5>
                         <ul class="list-unstyled contact-info">
                             @php
-                            $contact = \App\Models\Contacts::all();
+                                $contact = \App\Models\Contacts::all();
                             @endphp
                             @foreach ($contact as $contactinfo)
-                            <li>
-                                <i class="bi bi-envelope-fill"></i>
-                                <a href="mailto:nextphone@gmail.com">{{ $contactinfo->email }}</a>
-                            </li>
-                            <li>
-                                <i class="bi bi-telephone-fill"></i>
-                                <a href="tel:+911234567890">+91 {{ $contactinfo->phone }}</a>
-                            </li>
+                                <li>
+                                    <i class="bi bi-envelope-fill"></i>
+                                    <a href="mailto:nextphone@gmail.com">{{ $contactinfo->email }}</a>
+                                </li>
+                                <li>
+                                    <i class="bi bi-telephone-fill"></i>
+                                    <a href="tel:+911234567890">+91 {{ $contactinfo->phone }}</a>
+                                </li>
                             @endforeach
                         </ul>
                     </div>
@@ -544,7 +566,7 @@
 
     <script>
         // SCRIPT FOR NAVBAR SCROLL EFFECT
-        window.addEventListener('scroll', function() {
+        window.addEventListener('scroll', function () {
             const navbar = document.querySelector('.navbar');
             if (window.scrollY > 20) {
                 navbar.classList.add('scrolled');
@@ -554,7 +576,7 @@
         });
 
         // SCRIPT FOR FADE-IN ANIMATION ON SCROLL
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const sections = document.querySelectorAll('.fade-in-section');
 
             const observer = new IntersectionObserver((entries) => {
@@ -573,7 +595,7 @@
         });
 
 
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
             const currentPath = window.location.pathname;
 

@@ -189,7 +189,7 @@
                                             <i class="bi {{ $i <= round($avgRating) ? 'bi-star-fill' : 'bi-star' }}"></i>
                                         @endfor
                                     </div>
-                                    <span class="review-count-v2">({{ $product->total_reviews }} ratings)</span>
+                                    <span class="review-count-v2">({{ $product->total_reviews }} reviews)</span>
                                 </div>
 
                                 <div class="price-wrapper-v2">
@@ -341,7 +341,7 @@
                                             <i class="bi {{ $i <= round($avgRating) ? 'bi-star-fill' : 'bi-star' }}"></i>
                                         @endfor
                                     </div>
-                                    <span class="review-count-v2">({{ $new->total_reviews }} ratings)</span>
+                                    <span class="review-count-v2">({{ $new->total_reviews }} reviews)</span>
                                 </div>
 
                                 <div class="price-wrapper-v2">

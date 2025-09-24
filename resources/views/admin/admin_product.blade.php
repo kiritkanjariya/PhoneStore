@@ -182,7 +182,7 @@
                     <td data-label="Sr no.">{{ $loop->iteration }}</td>
                     <td data-label="Name">{{ $product->name }}</td>
                     <td data-label="Image">
-                        <img src="{{ asset('img/product-images/' . $product->image) }}" class="img-fluid"
+                        <img src="{{ asset('img/product-images/' . rawurlencode($product->image)) }}" class="img-fluid"
                             style="height: 60px; width: 60px;">
                     </td>
 

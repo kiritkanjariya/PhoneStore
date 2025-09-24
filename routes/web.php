@@ -122,3 +122,6 @@ Route::post('/cart/decrease/{id}', [CartController::class, 'decreaseQuantity'])-
 Route::post('/cart/{id}', [CartController::class, 'delete_cart_item'])->name('delete_cart_item')->middleware('check.user');
 
 Route::post('/coupon', [DiscountController::class, 'apply_coupon'])->name('coupon_apply')->middleware('check.user');
+
+
+Route::post('/search', [ShopController::class, 'search'])->name('product_search');

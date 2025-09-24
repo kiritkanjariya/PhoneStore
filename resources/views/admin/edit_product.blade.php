@@ -22,7 +22,7 @@
                             class="p-4">
                             @csrf
                             <div class="d-flex justify-content-center">
-                                <img src="{{ asset('img/product-images/' . $product->image) }}" class="img-fluid"
+                                <img src="{{ asset('img/product-images/' . rawurlencode($product->image)) }}" class="img-fluid"
                                     style="height: 270px; width: 40%;">
                             </div>
                             <div class="mb-3">
