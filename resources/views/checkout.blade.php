@@ -93,7 +93,7 @@
 
                     <li class="summary-product-item d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center">
-                            <img src="{{ asset('img/product-images/' . $cart_item->product->image) }}" alt="Product"
+                            <img src="{{ asset('img/product-images/' . rawurlencode( $cart_item->product->image) )}}" alt="Product"
                                 width="50" class="me-2">
                             <div class="item-details">
                                 <h6 class="my-0">{{ $cart_item->product->name }}</h6>

@@ -301,7 +301,7 @@ body {
 }
 
 .current-price-v2 {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     font-weight: 700;
     color: var(--dark-text, #333);
 }
@@ -314,7 +314,7 @@ body {
 .deal-text-v2 {
     font-size: 0.9rem;
     color: var(--primary-green, #3A5A40);
-    font-weight: 600;
+    font-weight: 700;
     margin-bottom: 12px;
 }
 

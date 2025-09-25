@@ -11,7 +11,7 @@
         <div class="col-lg-9">
             <div class="review-card-v2">
                 <div class="review-product-header">
-                    <img src="{{ asset('img/product-images/'.$product->image) }}" alt="Product"
+                    <img src="{{ asset('img/product-images/'. rawurlencode($product->image)) }}" alt="Product"
                         class="review-product-image">
                     <div>
                         <p class="text-muted mb-1">You are reviewing:</p>

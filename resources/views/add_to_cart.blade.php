@@ -38,7 +38,7 @@
 
                             <div class="cart-item-v2">
                                 <div class="product-details">
-                                    <img src="{{ asset('img/product-images/' . $product->image) }}" class="product-img-v2"
+                                    <img src="{{ asset('img/product-images/' . rawurlencode($product->image)) }}" class="product-img-v2"
                                         alt="{{ $product->name }}">
                                     <div>
                                         <h5 class="product-title">{{ $product->name }}</h5>

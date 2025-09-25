@@ -190,7 +190,6 @@ class ProductsController extends Controller
 
     public function phone_details($id)
     {
-
         $product = DB::table('products')
             ->leftJoin('discounts', 'products.id', '=', 'discounts.product_id')
             ->leftJoin('brands', 'products.brand_id', '=', 'brands.id')

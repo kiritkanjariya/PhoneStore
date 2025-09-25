@@ -91,8 +91,8 @@ class ShopController extends Controller
 
         $products = $productsQuery->orderBy('products.created_at', 'desc')->get();
 
-
         $offer = Offers::where('status', 'active')->orderBy('id', 'desc')->first();
+
         $brands = Brand::orderBy('name')->get();
         $rams = Products::select('ram')->distinct()->orderBy('ram')->pluck('ram');
 
@@ -108,7 +108,7 @@ class ShopController extends Controller
 
     public function search(Request $request)
     {
-        
+
         $search = $request->input('query');
 
         $products = Products::where('name', 'LIKE', "%{$search}%")

@@ -114,6 +114,7 @@ class DiscountController extends Controller
         $offer = new offers();
         $offer->title = $request->offer_title;
         $offer->code = $request->offer_code;
+        $offer->min_amount = $request->min_amount;
         $offer->discount = $request->discount_percentage;
         $offer->start_date = $request->start_date;
         $offer->end_date = $request->end_date;
@@ -171,7 +172,7 @@ class DiscountController extends Controller
         $current_date = date('Y-m-d');
 
 
-        offers::where('end_date', '<', $current_date) 
+        offers::where('end_date', '<', $current_date)
             ->where('status', 'active')
             ->update([
                 'status' => 'inactive'
@@ -181,8 +182,12 @@ class DiscountController extends Controller
         $coupon = offers::where('code', $coupon_code)
             ->where('start_date', '<=', $current_date)
             ->where('end_date', '>=', $current_date)
-            ->where('status', 'active')
+            ->where('status', 'inactive')
             ->first();
+
+        if ($coupon) {
+            $coupon->update(['status' => 'active']);
+        }
 
 
         if (!$coupon) {
@@ -204,7 +209,7 @@ class DiscountController extends Controller
         }
 
         if ($coupon->discount) {
-            $discountAmount = $subtotal * ($coupon->discount / 100);
+            $discountAmount = $coupon->min_amount * ($coupon->discount / 100);
         } else {
             $discountAmount = $coupon->discount;
         }

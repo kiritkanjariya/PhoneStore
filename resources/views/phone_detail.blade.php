@@ -3,19 +3,42 @@
 @section('files')
     <div class="container my-5">
 
+        @php
+            $today = now()->toDateString();
+
+            $hasActiveDiscount = $product->discount_status === 'active'
+                && (!$product->start_date || $product->start_date <= $today)
+                && (!$product->end_date || $product->end_date >= $today);
+
+            $discountedPrice = $product->price;
+            if ($hasActiveDiscount && $product->discount_type === 'percentage') {
+                $discountedPrice -= ($product->price * $product->discount) / 100;
+            } elseif ($hasActiveDiscount && $product->discount_type === 'fixed') {
+                $discountedPrice -= $product->discount;
+            }
+        @endphp
+
         <div class="row g-5">
             <div class="col-lg-6 fade-in-section">
                 <div class="product-gallery">
                     <div class="main-image-wrapper">
-                        <img src="{{ asset('img/product-images/' . $product->image) }}" alt="{{ $product->name }}"
-                            id="main-product-image" class="img-fluid rounded-3">
+                        <img src="{{ asset('img/product-images/' . rawurlencode($product->image)) }}"
+                            alt="{{ $product->name }}" id="main-product-image" class="img-fluid rounded-3">
                     </div>
                 </div>
             </div>
 
             <div class="col-lg-6 fade-in-section">
                 <div class="product-details-panel">
+
                     <h1 class="product-title-v2">{{ $product->name }}</h1>
+                    @if ($product->badge_text)
+                        <h6 style="background-color: #2c4431;
+                                                    width: 120px;
+                                                    padding: 5px;
+                                                    border-radius: 5px;
+                                                    color:#fff;">{{ $product->badge_text }}</h6>
+                    @endif
 
                     <a href="#reviews-section" class="rating-link">
                         <div class="rating-stars-v2">
@@ -26,25 +49,37 @@
                                 <i class="bi {{ $i <= round($avgRating) ? 'bi-star-fill' : 'bi-star' }}"></i>
                             @endfor
                         </div>
-                        <span class="review-count-v2">({{ $reviews->count() }} ratings)</span>
+                        <span class="review-count-v2">({{ $reviews->count() }} reviews)</span>
                     </a>
 
                     <div class="price-block-v2">
-                        <span class="current-price-v2">
-                            ₹{{ number_format($product->price - (($product->price * $product->discount) / 100), 2) }}
-                        </span>
-
-                        @if ($product->discount)
-                            <span class="original-price-v2">
-                                <del>₹{{ number_format($product->price, 2) }}</del>
+                        @php
+                            $formatter = new \NumberFormatter('en_IN', \NumberFormatter::DECIMAL);
+                            $formatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, 0);
+                        @endphp
+                        @if ($hasActiveDiscount && $discountedPrice < $product->price)
+                            <span class="current-price-v2">₹{{ $formatter->format($discountedPrice) }}</span>
+                            <span class="original-price-v2" style="font-size: 15px;">
+                                M.R.P: <del>₹{{ $formatter->format($product->price) }}</del>
                             </span>
-                            <span class="discount-badge">
-                                -{{ round($product->discount) }}%
-                            </span>
+                            @if ($product->discount_type === 'percentage')
+                                <div style="font-size: 18px; font-weight: 600;"> ({{ $formatter->format($product->discount) }}%
+                                    Off)
+                                </div>
+                            @elseif ($product->discount_type === 'fixed')
+                                <div style="font-size: 18px; font-weight: 600;"> (₹{{ $formatter->format($product->discount) }}
+                                    Off)
+                                </div>
+                            @endif
+                            <p style="margin-top: 5px; font-size: 12px; font-weight: 600;">
+                                {{ $product->discount_feature_highlight }}</p>
+                        @else
+                            <span class="current-price-v2">₹{{ $formatter->format($product->price) }}</span>
                         @endif
                     </div>
 
-                    <p class="text-muted"><i class="bi bi-fire text-danger"></i> {{ rand(50, 300) }}+ bought in past month
+                    <p class="text-muted"><i class="bi bi-fire text-danger"></i> {{ rand(50, 300) }}+ bought in past
+                        month
                     </p>
 
                     <ul class="key-features">
@@ -52,43 +87,44 @@
                         <li><i class="bi bi-database"></i><strong>Storage:</strong> {{ $product->storage }} GB</li>
                         <li><i class="bi bi-palette"></i><strong>Color:</strong> {{ $product->color }}</li>
                         <li><i class="bi bi-display"></i><strong>Display:</strong> {{ $product->screen_size }}</li>
+                        <li><i class="bi bi-display"></i><strong>Highlight:</strong> {{ $product->feature_highlight }}</li>
                     </ul>
 
-                        @if(Session::has('user'))
-                            @php
-                                $cartQty = \App\Models\Cart::where('user_id', Session::get('user')->id)
-                                    ->where('product_id', $product->id)
-                                    ->value('quantity') ?? 0;
-                            @endphp
+                    @if(Session::has('user'))
+                        @php
+                            $cartQty = \App\Models\Cart::where('user_id', Session::get('user')->id)
+                                ->where('product_id', $product->id)
+                                ->value('quantity') ?? 0;
+                        @endphp
 
-                            @if($product->stock_quantity == 0)
-                                <div class="text-center mb-4">
-                                    <span class="text-danger">Currently unavailable </span>
-                                </div>
-                            @elseif($cartQty >= $product->stock_quantity)
-                                <div class="card-action-button-v2">
-                                    <button class="btn btn-secondary w-100" disabled>Max quantity reached</button>
-                                </div>
-                            @else
-                                <div class="action-buttons d-flex gap-2">
-                                    <a href="{{ route('add_cart',$product->id) }}" class="btn btn-add-to-cart w-25">
-                                        <i class="bi bi-cart-fill me-2"></i> Add to Cart
-                                    </a>
-                                </div>
-                            @endif
+                        @if($product->stock_quantity == 0)
+                            <div class="text-center mb-4">
+                                <span class="text-danger">Currently unavailable </span>
+                            </div>
+                        @elseif($cartQty >= $product->stock_quantity)
+                            <div class="card-action-button-v2">
+                                <button class="btn btn-secondary w-100" disabled>Max quantity reached</button>
+                            </div>
                         @else
-                            @if($product->stock_quantity == 0)
-                                <div class="text-center mb-4">
-                                    <span class="text-danger">Currently unavailable </span>
-                                </div>
-                            @else
-                                <div class="action-buttons">
-                                    <a href="{{ route('cart_detail') }}" class="btn btn-add-to-cart w-25">
-                                        <i class="bi bi-cart-fill me-2"></i> Add to Cart
-                                    </a>
-                                </div>
-                            @endif
+                            <div class="action-buttons d-flex gap-2">
+                                <a href="{{ route('add_cart', $product->id) }}" class="btn btn-add-to-cart w-25">
+                                    <i class="bi bi-cart-fill me-2"></i> Add to Cart
+                                </a>
+                            </div>
                         @endif
+                    @else
+                        @if($product->stock_quantity == 0)
+                            <div class="text-center mb-4">
+                                <span class="text-danger">Currently unavailable </span>
+                            </div>
+                        @else
+                            <div class="action-buttons">
+                                <a href="{{ route('cart_detail') }}" class="btn btn-add-to-cart w-25">
+                                    <i class="bi bi-cart-fill me-2"></i> Add to Cart
+                                </a>
+                            </div>
+                        @endif
+                    @endif
 
                 </div>
             </div>
@@ -164,6 +200,7 @@
         </div>
 
     </div>
+
     <style>
         /* Product Gallery */
         .main-image-wrapper {
@@ -429,25 +466,5 @@
         }
     </style>
 
-    <script>
-        function changeImage(element) {
-            document.getElementById('main-product-image').src = element.src;
-            // Handle active state for thumbnails
-            let thumbnails = document.querySelectorAll('.thumbnail-img');
-            thumbnails.forEach(thumb => thumb.classList.remove('active'));
-            element.classList.add('active');
-        }
 
-        function increaseQty(id) {
-            const input = document.getElementById(id);
-            let value = parseInt(input.value);
-            if (!isNaN(value)) input.value = value + 1;
-        }
-
-        function decreaseQty(id) {
-            const input = document.getElementById(id);
-            let value = parseInt(input.value);
-            if (!isNaN(value) && value > 1) input.value = value - 1;
-        }
-    </script>
 @endsection

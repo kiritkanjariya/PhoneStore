@@ -143,7 +143,7 @@
     </style>
 
     @if (isset($offer) && $offer->status === 'active')
-        <div class="offer-bar-v2">
+        <div class="offer-bar-v2 mt-4">
             <i class="bi bi-tag-fill"></i>
             <span>
                 <strong>{{ $offer->title }}</strong> : {{ $offer->discount }}% Off <strong>On Order Above</strong>
@@ -155,7 +155,7 @@
     <div class="container py-5">
         <div class="row">
 
-            <div class="col-lg-3">
+            <div class="col-lg-3 mb-5">
                 <div class="shop-sidebar-v2">
                     <h4 class="sidebar-title">Shop Filters</h4>
 
@@ -276,8 +276,6 @@
                                         @if ($product->badge_text)
                                             <div class="deal-badge-v2">{{ $product->badge_text }}</div>
                                         @endif
-                                    @elseif ($product->discount_status == 'inactive')
-                                        <div class="deal-badge-v2 bg-danger">Sale Ended</div>
                                     @endif
 
                                     <div class="product-img-wrapper-v2">
@@ -317,25 +315,29 @@
                                         </div>
 
                                         <div class="price-wrapper-v2">
+                                            @php
+                                                    $formatter = new \NumberFormatter('en_IN', \NumberFormatter::DECIMAL);
+                                                    $formatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, 0);
+                                            @endphp
                                             @if ($hasActiveDiscount && $discountedPrice < $product->price)
-                                                <span class="current-price-v2">₹{{ number_format($discountedPrice) }}</span>
+                                                <span class="current-price-v2">₹{{ $formatter->format($discountedPrice) }}</span>
                                                 <span class="original-price-v2">
-                                                    M.R.P: <del>₹{{ number_format($product->price) }}</del>
+                                                    M.R.P: <del>₹{{ $formatter->format($product->price) }}</del>
                                                 </span>
                                                 @if ($product->discount_type === 'percentage')
-                                                    <div style="font-size: 14px; font-weight: 600;"> ({{ number_format($product->discount) }}% Off)</div>
+                                                    <div style="font-size: 14px; font-weight: 600;"> ({{ $formatter->format($product->discount) }}% Off)
+                                                    </div>
                                                 @elseif ($product->discount_type === 'fixed')
-                                                    <div style="font-size: 13px; font-weight: 600;"> (₹{{ number_format($product->discount) }} Off)</div>
+                                                    <div style="font-size: 13px; font-weight: 600;"> (₹{{ $formatter->format($product->discount) }} Off)
+                                                    </div>
                                                 @endif
                                             @else
-                                                <span class="current-price-v2">₹{{ number_format($product->price) }}</span>
+                                                <span class="current-price-v2">₹{{ $formatter->format($product->price) }}</span>
                                             @endif
                                         </div>
 
                                         @if ($product->discount_status === 'active')
                                             <div class="deal-text-v2">{{ $product->deal_tag }}</div>
-                                        @elseif ($product->discount_status === 'inactive')
-                                            <div><span class="text-danger bolder">Sale Ended</span></div>
                                         @endif
 
                                         @if ($hasActiveDiscount && $product->discount_feature_highlight)

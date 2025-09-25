@@ -41,7 +41,7 @@
             <div class="product-card">
                 <div class="product-img">
                     @if($productModel && $productModel->image)
-                    <img src="{{ asset('img/product-images/'.$productModel->image) }}" alt="{{ $product['name'] }}">
+                    <img src="{{ asset('img/product-images/'. rawurlencode($productModel->image)) }}" alt="{{ $product['name'] }}">
                     @endif
                 </div>
                 <div class="product-details">

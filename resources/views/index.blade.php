@@ -140,16 +140,9 @@
                         <div class="card product-card-v2 h-100">
 
                             @if ($hasActiveDiscount)
-                                @if ($product->discount_type === 'percentage')
-                                    <div class="deal-badge-v2">{{ number_format($product->discount) }}% Off</div>
-                                @elseif ($product->discount_type === 'fixed')
-                                    <div class="deal-badge-v2">₹{{ number_format($product->discount) }} Off</div>
-                                @endif
                                 @if ($product->badge_text)
                                     <div class="deal-badge-v2">{{ $product->badge_text }}</div>
                                 @endif
-                            @elseif ($product->discount_status == 'inactive')
-                                <div class="deal-badge-v2 bg-danger">Sale Ended</div>
                             @endif
 
 
@@ -193,20 +186,31 @@
                                 </div>
 
                                 <div class="price-wrapper-v2">
+                                    @php
+                                        $formatter = new \NumberFormatter('en_IN', \NumberFormatter::DECIMAL);
+                                        $formatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, 0);
+                                    @endphp
                                     @if ($hasActiveDiscount && $discountedPrice < $product->price)
-                                        <span class="current-price-v2">₹{{ number_format($discountedPrice) }}</span>
+                                        <span class="current-price-v2">₹{{ $formatter->format($discountedPrice) }}</span>
                                         <span class="original-price-v2">
-                                            M.R.P: <del>₹{{ number_format($product->price) }}</del>
+                                            M.R.P: <del>₹{{ $formatter->format($product->price) }}</del>
                                         </span>
+                                        @if ($product->discount_type === 'percentage')
+                                            <div style="font-size: 14px; font-weight: 600;"> ({{ $formatter->format($product->discount) }}%
+                                                Off)
+                                            </div>
+                                        @elseif ($product->discount_type === 'fixed')
+                                            <div style="font-size: 13px; font-weight: 600;"> (₹{{ $formatter->format($product->discount) }}
+                                                Off)
+                                            </div>
+                                        @endif
                                     @else
-                                        <span class="current-price-v2">₹{{ number_format($product->price) }}</span>
+                                        <span class="current-price-v2">₹{{ $formatter->format($product->price) }}</span>
                                     @endif
                                 </div>
 
                                 @if ($product->discount_status === 'active')
                                     <div class="deal-text-v2">{{ $product->deal_tag }}</div>
-                                @elseif ($product->discount_status === 'inactive')
-                                    <div><span class="text-danger bolder">Sale Ended</span></div>
                                 @endif
 
                                 @if ($hasActiveDiscount && $product->discount_feature_highlight)
@@ -300,8 +304,6 @@
                                 @if ($new->badge_text)
                                     <div class="deal-badge-v2">{{ $new->badge_text }}</div>
                                 @endif
-                            @elseif ($new->discount_status == 'inactive')
-                                <div class="deal-badge-v2 bg-danger">Sale Ended</div>
                             @endif
 
 
@@ -357,8 +359,6 @@
 
                                 @if ($new->discount_status === 'active')
                                     <div class="deal-text-v2">{{ $new->deal_tag }}</div>
-                                @elseif ($new->discount_status === 'inactive')
-                                    <div><span class="text-danger bolder">Sale Ended</span></div>
                                 @endif
 
                                 @if ($hasActiveDiscount && $new->discount_feature_highlight)
@@ -419,40 +419,25 @@
         <div class="section-heading-v2">
             <h2>Shop by <span class="highlight-green">Top Brands</span></h2>
         </div>
+
         <div class="brand-logos-wrapper">
             <a href="#" class="brand-link">
-                <div class="brand-logo">
-                    <img src="{{ asset('img/product-images/iphone-16-5G.webp') }}" alt="Apple iPhone">
-                </div>
                 <span class="brand-name">Apple</span>
             </a>
 
             <a href="#" class="brand-link">
-                <div class="brand-logo">
-                    <img src="https://m.media-amazon.com/images/I/418mFfRZu-L._AC_.jpg" alt="Samsung Galaxy">
-                </div>
                 <span class="brand-name">Samsung</span>
             </a>
 
             <a href="#" class="brand-link">
-                <div class="brand-logo">
-                    <img src="https://m.media-amazon.com/images/I/41-eyvGzycL._AC_UY327_FMwebp_QL65_.jpg"
-                        alt="Google Pixel">
-                </div>
                 <span class="brand-name">Google</span>
             </a>
 
             <a href="#" class="brand-link">
-                <div class="brand-logo">
-                    <img src="https://m.media-amazon.com/images/I/616ZzloUDIL._AC_UY327_FMwebp_QL65_.jpg" alt="OnePlus">
-                </div>
                 <span class="brand-name">OnePlus</span>
             </a>
 
             <a href="#" class="brand-link">
-                <div class="brand-logo">
-                    <img src="https://m.media-amazon.com/images/I/71DsX0zIwRL._AC_UY327_FMwebp_QL65_.jpg" alt="Xiaomi">
-                </div>
                 <span class="brand-name">Xiaomi</span>
             </a>
         </div>
