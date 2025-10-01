@@ -195,7 +195,7 @@
     <div class="container">
         <h2 class="cta-title">Ready to Get Started?</h2>
         <p class="cta-subtitle">Contact our expert team today for a free consultation or quote.</p>
-        <a href="#" class="btn btn-cta-primary">Contact Us Now</a>
+        <a href="{{ route('contact') }}" class="btn btn-cta-primary">Contact Us Now</a>
     </div>
 </section>
 @endsection

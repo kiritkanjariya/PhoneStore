@@ -166,7 +166,10 @@ class ProductsController extends Controller
                 'OPPO Reno14Pro 5G',
                 'Google Pixel 10 5G',
                 'OnePlus 13s',
-                'realme 15 Pro 5G'
+                'realme 15 Pro 5G',
+                'iPhone 17 Pro Max',
+                'Motorola G96 5G',
+                'realme NARZO 80 Pro 5G'
             ])
             ->groupBy(
                 'products.id',

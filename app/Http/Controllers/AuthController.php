@@ -20,6 +20,9 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if ($user) {
+            if ($user->status != "active") {
+                return back()->with('error', 'please, Active your account.');
+            }
             if (Hash::check($request->password, $user->password)) {
                 if ($user->role == 'user') {
                     $request->session()->put('user', $user);

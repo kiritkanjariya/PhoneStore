@@ -171,7 +171,6 @@ class DiscountController extends Controller
 
         $current_date = date('Y-m-d');
 
-
         offers::where('end_date', '<', $current_date)
             ->where('status', 'active')
             ->update([
@@ -182,12 +181,17 @@ class DiscountController extends Controller
         $coupon = offers::where('code', $coupon_code)
             ->where('start_date', '<=', $current_date)
             ->where('end_date', '>=', $current_date)
-            ->where('status', 'inactive')
+            ->where(function ($query) {
+                $query->where('status', 'inactive')
+                    ->orWhere('status', 'active');
+            })
             ->first();
 
         if ($coupon) {
-            $coupon->update(['status' => 'active']);
+            $coupon->status = 'active';
+            $coupon->save();
         }
+
 
 
         if (!$coupon) {

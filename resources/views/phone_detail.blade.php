@@ -83,11 +83,12 @@
                     </p>
 
                     <ul class="key-features">
+                        <li><i class="bi bi-shop"></i><strong>Brand:</strong> {{ $product->brand_name }} </li>
                         <li><i class="bi bi-sd-card"></i><strong>RAM:</strong> {{ $product->ram }} GB</li>
                         <li><i class="bi bi-database"></i><strong>Storage:</strong> {{ $product->storage }} GB</li>
                         <li><i class="bi bi-palette"></i><strong>Color:</strong> {{ $product->color }}</li>
                         <li><i class="bi bi-display"></i><strong>Display:</strong> {{ $product->screen_size }}</li>
-                        <li><i class="bi bi-display"></i><strong>Highlight:</strong> {{ $product->feature_highlight }}</li>
+                        <li><i class="bi bi-stars"></i><strong>Highlight:</strong> {{ $product->feature_highlight }}</li>
                     </ul>
 
                     @if(Session::has('user'))

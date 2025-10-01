@@ -34,6 +34,7 @@ class ShopController extends Controller
 
         $productsQuery = DB::table('products')
             ->leftJoin('discounts', 'products.id', '=', 'discounts.product_id')
+            ->leftJoin('brands', 'products.brand_id', '=', 'brands.id')
             ->leftJoin('reviews', 'products.id', '=', 'reviews.product_id')
             ->select(
                 'products.*',
@@ -45,6 +46,7 @@ class ShopController extends Controller
                 'discounts.start_date',
                 'discounts.end_date',
                 'discounts.status as discount_status',
+                'brands.name as brand_name',
                 DB::raw('AVG(reviews.rating) as avg_rating'),
                 DB::raw('COUNT(reviews.id) as total_reviews')
             )
@@ -58,15 +60,16 @@ class ShopController extends Controller
                 'discounts.feature_highlight',
                 'discounts.start_date',
                 'discounts.end_date',
-                'discounts.status'
+                'discounts.status',
+                'brands.name'
             )->where('products.status', 'active');
 
 
         if ($request->filled('price')) {
             $productsQuery->where(function ($query) use ($request) {
                 foreach ($request->price as $range) {
-                    if ($range === '40000+') {
-                        $query->orWhere('products.price', '>=', 40000);
+                    if ($range === '100000+') {
+                        $query->orWhere('products.price', '>=', 100000);
                     } elseif (strpos($range, '-') !== false) {
                         [$min, $max] = explode('-', $range);
                         $query->orWhereBetween('products.price', [(int) $min, (int) $max]);
@@ -97,10 +100,10 @@ class ShopController extends Controller
         $rams = Products::select('ram')->distinct()->orderBy('ram')->pluck('ram');
 
         $priceRanges = [
-            '5000-10000' => '₹5,000 - ₹10,000',
-            '10000-20000' => '₹10,000 - ₹20,000',
-            '20000-40000' => '₹20,000 - ₹40,000',
-            '40000+' => 'Above ₹40,000',
+            '15000-40000' => '₹15,000 - ₹40,000',
+            '40000-70000' => '₹40,000 - ₹70,000',
+            '70000-100000' => '₹70,000 - ₹1,00,000',
+            '100000+' => 'Above ₹1,00,000',
         ];
 
         return view('shop', compact('brands', 'products', 'priceRanges', 'rams', 'offer'));
@@ -120,10 +123,10 @@ class ShopController extends Controller
         $brands = Brand::orderBy('name')->get();
         $rams = Products::select('ram')->distinct()->orderBy('ram')->pluck('ram');
         $priceRanges = [
-            '5000-10000' => '₹5,000 - ₹10,000',
-            '10000-20000' => '₹10,000 - ₹20,000',
-            '20000-40000' => '₹20,000 - ₹40,000',
-            '40000+' => 'Above ₹40,000',
+            '15000-40000' => '₹15,000 - ₹40,000',
+            '40000-70000' => '₹40,000 - ₹70,000',
+            '70000-100000' => '₹70,000 - ₹1,00,000',
+            '100000+' => 'Above ₹1,00,000',
         ];
 
         return view('shop', compact('products', 'brands', 'priceRanges', 'rams', 'offer'));

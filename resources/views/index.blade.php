@@ -209,6 +209,12 @@
                                     @endif
                                 </div>
 
+                                <div class="specs-v2 text-muted small mb-2 mt-2">
+                                    @if (!empty($product->brand_name))
+                                        <span><strong>Top Brand</strong>: {{ $product->brand_name }}</span>
+                                    @endif
+                                </div>
+
                                 @if ($product->discount_status === 'active')
                                     <div class="deal-text-v2">{{ $product->deal_tag }}</div>
                                 @endif
@@ -330,7 +336,7 @@
 
                                 <div class="specs-v2 text-muted small mb-2">
                                     @if (!empty($new->screen_size))
-                                        <span><strong>Display</strong>: {{ $new->screen_size }}"</span>
+                                        <span><strong>Display</strong>: {{ $new->screen_size }}</span>
                                     @endif
                                 </div>
 
@@ -347,13 +353,32 @@
                                 </div>
 
                                 <div class="price-wrapper-v2">
+                                    @php
+                                        $formatter = new \NumberFormatter('en_IN', \NumberFormatter::DECIMAL);
+                                        $formatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, 0);
+                                    @endphp
                                     @if ($hasActiveDiscount && $discountedPrice < $new->price)
-                                        <span class="current-price-v2">₹{{ number_format($discountedPrice) }}</span>
+                                        <span class="current-price-v2">₹{{ $formatter->format($discountedPrice) }}</span>
                                         <span class="original-price-v2">
-                                            M.R.P: <del>₹{{ number_format($new->price) }}</del>
+                                            M.R.P: <del>₹{{ $formatter->format($new->price) }}</del>
                                         </span>
+                                        @if ($new->discount_type === 'percentage')
+                                            <div style="font-size: 14px; font-weight: 600;"> ({{ $formatter->format($new->discount) }}%
+                                                Off)
+                                            </div>
+                                        @elseif ($new->discount_type === 'fixed')
+                                            <div style="font-size: 13px; font-weight: 600;"> (₹{{ $formatter->format($new->discount) }}
+                                                Off)
+                                            </div>
+                                        @endif
                                     @else
-                                        <span class="current-price-v2">₹{{ number_format($new->price) }}</span>
+                                        <span class="current-price-v2">₹{{ $formatter->format($new->price) }}</span>
+                                    @endif
+                                </div>
+
+                                <div class="specs-v2 text-muted small mb-2 mt-2">
+                                    @if (!empty($new->brand_name))
+                                        <span><strong>Top Brand</strong>: {{ $new->brand_name }}</span>
                                     @endif
                                 </div>
 
@@ -411,35 +436,6 @@
                 <p class="text-center">No products found.</p>
             @endforelse
 
-        </div>
-
-    </div>
-
-    <div class="container my-5">
-        <div class="section-heading-v2">
-            <h2>Shop by <span class="highlight-green">Top Brands</span></h2>
-        </div>
-
-        <div class="brand-logos-wrapper">
-            <a href="#" class="brand-link">
-                <span class="brand-name">Apple</span>
-            </a>
-
-            <a href="#" class="brand-link">
-                <span class="brand-name">Samsung</span>
-            </a>
-
-            <a href="#" class="brand-link">
-                <span class="brand-name">Google</span>
-            </a>
-
-            <a href="#" class="brand-link">
-                <span class="brand-name">OnePlus</span>
-            </a>
-
-            <a href="#" class="brand-link">
-                <span class="brand-name">Xiaomi</span>
-            </a>
         </div>
 
     </div>

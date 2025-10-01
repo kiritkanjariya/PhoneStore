@@ -21,7 +21,7 @@
 
     <nav class="navbar navbar-expand-lg sticky-top px-lg-3 shadow main-nav-v2">
         <div class="container-fluid">
-            <a class="navbar-brand me-5 fw-bold fs-4 text-white d-flex align-items-center" href="#">
+            <a class="navbar-brand me-5 fw-bold fs-4 text-white d-flex align-items-center" href="{{ route('home') }}">
                 <img src="{{ asset('img/sliders/NP_Logo-removebg-preview.png') }}" alt="Logo" style="height: 60px;">
                 <span>Next<span style="color:#D4AF37">Phone</span></span>
             </a>

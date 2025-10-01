@@ -251,7 +251,6 @@
 
             <div class="col-lg-9">
                 <div class="row g-4">
-
                     @forelse ($products as $product)
                         @php
                             $today = now()->toDateString();
@@ -298,7 +297,7 @@
 
                                         <div class="specs-v2 text-muted small mb-2">
                                             @if (!empty($product->screen_size))
-                                                <span><strong>Display</strong>: {{ $product->screen_size }}"</span>
+                                                <span><strong>Display</strong>: {{ $product->screen_size }}</span>
                                             @endif
                                         </div>
 
@@ -333,6 +332,12 @@
                                                 @endif
                                             @else
                                                 <span class="current-price-v2">₹{{ $formatter->format($product->price) }}</span>
+                                            @endif
+                                        </div>
+
+                                        <div class="specs-v2 text-muted small mb-2 mt-2">
+                                            @if (!empty($product->brand_name))
+                                                <span><strong>Top Brand</strong>: {{ $product->brand_name }}</span>
                                             @endif
                                         </div>
 
@@ -388,104 +393,10 @@
                     @empty
                         <p class="text-center">No products found.</p>
                     @endforelse
-
-                    {{-- <div class="col-12 col-sm-6 col-md-4 fade-in-section">
-                        <div class="card product-card-v2 h-100">
-                            <div class="deal-badge-v2">17% OFF</div>
-                            <div class="product-img-wrapper-v2"><a href="#"><img
-                                        src="https://m.media-amazon.com/images/I/71d7rfSl0wL._AC_UY327_FMwebp_QL65_.jpg"
-                                        class="product-img-v2" alt="iPhone 15"></a></div>
-                            <div class="card-body-v2">
-                                <a href="#" class="product-title-v2">Apple iPhone 15, 8GB, 128GB</a>
-                                <div class="rating-wrapper-v2">
-                                    <div class="rating-stars-v2"><i class="bi bi-star-fill"></i><i
-                                            class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                            class="bi bi-star-fill"></i><i class="bi bi-star-half"></i></div>
-                                    <span class="review-count-v2">(234 reviews)</span>
-                                </div>
-                                <div class="price-wrapper-v2"><span class="current-price-v2">₹78,000</span><span
-                                        class="original-price-v2">M.R.P: <del>₹90,000</del></span></div>
-                                <div class="deal-text-v2">Limited Time Deal</div>
-                                <p class="prime-note-v2">Prime Exclusive</p>
-                            </div>
-                            <div class="card-action-button-v2"><a href="#" class="btn btn-add-to-cart w-100"><i
-                                        class="bi bi-cart-fill me-1"></i> Add to Cart</a></div>
-                        </div>
-                    </div>
-
-                    <div class="col-12 col-sm-6 col-md-4 fade-in-section">
-                        <div class="card product-card-v2 h-100">
-                            <div class="deal-badge-v2">20% OFF</div>
-                            <div class="product-img-wrapper-v2"><a href="#"><img
-                                        src="https://cdn.kalvo.com/uploads/img/gallery/70383-vivo-iqoo-z10x-1.jpg"
-                                        class="product-img-v2" alt="iQOO Z10x"></a></div>
-                            <div class="card-body-v2">
-                                <a href="#" class="product-title-v2">iQOO Z10x, 8GB, 256GB</a>
-                                <div class="rating-wrapper-v2">
-                                    <div class="rating-stars-v2"><i class="bi bi-star-fill"></i><i
-                                            class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                            class="bi bi-star-fill"></i><i class="bi bi-star"></i></div>
-                                    <span class="review-count-v2">(178 reviews)</span>
-                                </div>
-                                <div class="price-wrapper-v2"><span class="current-price-v2">₹16,498</span><span
-                                        class="original-price-v2">M.R.P: <del>₹20,499</del></span></div>
-                                <div class="deal-text-v2">Special Offer</div>
-                                <p class="prime-note-v2">Includes Bank Offer</p>
-                            </div>
-                            <div class="card-action-button-v2"><a href="#" class="btn btn-add-to-cart w-100"><i
-                                        class="bi bi-cart-fill me-1"></i> Add to Cart</a></div>
-                        </div>
-                    </div>
-
-                    <div class="col-12 col-sm-6 col-md-4 fade-in-section">
-                        <div class="card product-card-v2 h-100">
-                            <div class="deal-badge-v2">7% OFF</div>
-                            <div class="product-img-wrapper-v2"><a href="#"><img
-                                        src="https://m.media-amazon.com/images/I/71qGismu6NL._AC_UY327_FMwebp_QL65_.jpg"
-                                        class="product-img-v2" alt="Samsung S24 Ultra"></a></div>
-                            <div class="card-body-v2">
-                                <a href="#" class="product-title-v2">Samsung Galaxy S24 Ultra, 12GB, 256GB</a>
-                                <div class="rating-wrapper-v2">
-                                    <div class="rating-stars-v2"><i class="bi bi-star-fill"></i><i
-                                            class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                            class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
-                                    <span class="review-count-v2">(510 reviews)</span>
-                                </div>
-                                <div class="price-wrapper-v2"><span class="current-price-v2">₹70,990</span><span
-                                        class="original-price-v2">M.R.P: <del>₹1,39,999</del></span></div>
-                                <div class="deal-text-v2">Festive Offer</div>
-                                <p class="prime-note-v2">No Cost EMI Available</p>
-                            </div>
-                            <div class="card-action-button-v2"><a href="#" class="btn btn-add-to-cart w-100"><i
-                                        class="bi bi-cart-fill me-1"></i> Add to Cart</a></div>
-                        </div>
-                    </div> --}}
-
                 </div>
             </div>
 
         </div>
     </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const headers = document.querySelectorAll('.filter-group-header');
-            headers.forEach(header => {
-                header.addEventListener('click', function () {
-                    const icon = this.querySelector('.filter-caret');
-                    // The aria-expanded attribute is managed by Bootstrap's collapse plugin,
-                    // this script just ensures the icon rotates correctly.
-                    // A small timeout allows Bootstrap to update the attribute first.
-                    setTimeout(() => {
-                        if (this.getAttribute('aria-expanded') === 'true') {
-                            icon.style.transform = 'rotate(-180deg)';
-                        } else {
-                            icon.style.transform = 'rotate(0deg)';
-                        }
-                    }, 250);
-                });
-            });
-        });
-    </script>
 
 @endsection
