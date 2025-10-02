@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AdvantageController;
@@ -70,7 +71,7 @@ Route::get('/contact', [ContactController::class, 'contact'])->name('contact');
 Route::post('/contact_updated', [ContactController::class, 'contact_updated'])->name('contact_updated');
 Route::post('/contact/submit', [Contact_query_Controller::class, 'submitQuery'])->name('contact.submit');
 
-Route::get('/dashboard', [PageController::class, 'redicrect_dashboard'])->name('admin_dashboard');
+Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('admin_dashboard');
 Route::get('/users', [UserController::class, 'redicrect_users'])->name('admin_users');
 Route::get('/edit_users/{id}', [UserController::class, 'edit_users'])->name('edit_user');
 Route::post('/users_updated/{id}', [UserController::class, 'user_updated'])->name('user_updated');
