@@ -148,6 +148,7 @@
             <span>
                 <strong>{{ $offer->title }}</strong> : {{ $offer->discount }}% Off <strong>On Order Above</strong>
                 {{ number_format($offer->min_amount) }} <strong>Use Code:</strong> {{ $offer->code }}
+                <strong>(Max Discount: ₹{{ number_format($offer->min_amount * ($offer->discount / 100)) }})</strong>
             </span>
         </div>
     @endif
