@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -26,6 +27,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'name',
+        'email',
+        'status'
     ];
 
     /**
@@ -50,4 +54,21 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'active');
+    }
+
+    public function scopeInactive($query)
+    {
+        return $query->where('status', 'inactive');
+    }
+
+    public function scopeNewUsers($query)
+    {
+        return $query->where('created_at', '>=', Carbon::now());
+    }
+
+
 }

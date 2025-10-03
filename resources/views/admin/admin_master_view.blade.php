@@ -19,9 +19,9 @@
 
 <body>
     @if (!session()->has('admin'))
-    <script>
-        window.location.href = "{{ route('login') }}";
-    </script>
+        <script>
+            window.location.href = "{{ route('login') }}";
+        </script>
     @endif
     <div class="wrapper">
         <aside id="sidebar">
@@ -104,26 +104,30 @@
 
                     @if (session()->has('admin'))
 
-                    <div class="dropdown">
-                        <button class="btn profile-dropdown-btn d-flex align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="{{ asset('uploads/profile/'.session('admin')->profile ) }}" class="profile-avatar" alt="Admin">
-                            <div class="d-none d-sm-block text-start">
-                                <div class="profile-name">{{ session('admin')->name }}</div>
-                                <div class="profile-role">{{ session('admin')->email }}</div>
-                            </div>
-                            <i class="bi bi-chevron-down d-none d-sm-block ms-2"></i>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end shadow border-0">
-                            <li>
-                                <h6 class="dropdown-header">My Account</h6>
-                            </li>
-                            <li><a class="dropdown-item" href="{{ route('admin_profile') }}"><i class="bi bi-person-circle me-2"></i> Profile</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item text-danger" href="{{ route('admin_logout') }}"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
-                        </ul>
-                    </div>
+                        <div class="dropdown">
+                            <button class="btn profile-dropdown-btn d-flex align-items-center" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="{{ asset('uploads/profile/' . session('admin')->profile) }}"
+                                    class="profile-avatar" alt="Admin">
+                                <div class="d-none d-sm-block text-start">
+                                    <div class="profile-name">{{ session('admin')->name }}</div>
+                                    <div class="profile-role">{{ session('admin')->email }}</div>
+                                </div>
+                                <i class="bi bi-chevron-down d-none d-sm-block ms-2"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end shadow border-0">
+                                <li>
+                                    <h6 class="dropdown-header">My Account</h6>
+                                </li>
+                                <li><a class="dropdown-item" href="{{ route('admin_profile') }}"><i
+                                            class="bi bi-person-circle me-2"></i> Profile</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item text-danger" href="{{ route('admin_logout') }}"><i
+                                            class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+                            </ul>
+                        </div>
                     @endif
                 </div>
             </nav>
@@ -231,17 +235,17 @@
 
             <div class="main-content-scrollable">
                 @if(session('success'))
-                <div class="m-2 alert alert-success alert-dismissible fade show" role="alert">
-                    {{ session('success') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
+                    <div class="m-2 alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
                 @endif
 
                 @if(session('error'))
-                <div class="m-2 alert alert-danger alert-dismissible fade show" role="alert">
-                    {{ session('error') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
+                    <div class="m-2 alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ session('error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
                 @endif
                 @yield('file_content')
             </div>
@@ -257,6 +261,7 @@
 
         </div>
     </div>
+
 
 </body>
 
