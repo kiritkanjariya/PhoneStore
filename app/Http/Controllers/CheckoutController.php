@@ -186,6 +186,9 @@ class CheckoutController extends Controller
 
     public function order()
     {
+
+
+
         $user = User::find(Session::get('user')->id);
 
         $orders = Orders::with('user')
@@ -194,6 +197,13 @@ class CheckoutController extends Controller
 
 
 
+        $date = date('Y-m-d');
+        foreach ($orders as $order) {
+            if ($order->delivered_date == $date) {
+                $order->order_status = 'delivered';
+                $order->save();
+            }
+        }
         return view('orders', compact('orders'));
     }
 
@@ -217,7 +227,7 @@ class CheckoutController extends Controller
         return redirect()->route('order')->with('success', 'Review submitted successfully!');
     }
 
-     public function redicrect_review_rating()
+    public function redicrect_review_rating()
     {
         $reviews = review::all();
         return view('admin/admin_review_rating', compact('reviews'));

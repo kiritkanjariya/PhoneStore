@@ -67,7 +67,7 @@ class User extends Authenticatable
 
     public function scopeNewUsers($query)
     {
-        return $query->where('created_at', '>=', Carbon::now());
+        return $query->where('created_at', '>=', Carbon::now()->today());
     }
 
 

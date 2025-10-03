@@ -34,8 +34,8 @@
                     <div class="mb-3">
                         <label for="status" class="form-label fw-semibold">Status</label>
                         <select class="form-select" id="status" name="status">
-                            <option value="pending" {{ $orders->status == 'pending' ? 'selected' : '' }}>Pending</option>
                             <option value="delivered" {{ $orders->status == 'delivered' ? 'selected' : '' }}>Delivered</option>
+                            <option value="pending" {{ $orders->status == 'pending' ? 'selected' : '' }}>Pending</option>
                         </select>
                         <div class="error" id="statusError"></div>
                     </div>
