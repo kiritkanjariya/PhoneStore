@@ -43,6 +43,14 @@ class BrandController extends Controller
         return redirect()->route('admin_brand')->with('success', 'Brand Updated successfully ✅');
     }
 
+     public function delete_brand($id)
+    {
+        $brand = Brand::findOrFail($id);
+        $brand->delete();
+
+        return redirect()->route('admin_brand')->with('success', 'Brand deleted successfully!');
+    }
+
     public function index()
     {
         //

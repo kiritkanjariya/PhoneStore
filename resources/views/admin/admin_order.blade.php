@@ -200,10 +200,12 @@
                             <a href="{{ route('edit_order', $order->id) }}" class="btn btn-warning btn-sm me-1">
                                 <i class="bi bi-pencil"></i>
                             </a>
-                            <form action="#" method="POST" onsubmit="return confirm('Are you sure?');">
+                            <form action="{{ route('order.destroy', $order->id) }}" method="POST"
+                                style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button class="btn btn-danger btn-sm">
+                                <button type="submit" class="btn btn-danger btn-sm"
+                                    onclick="return confirm('Are you sure you want to delete this discount?')">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </form>

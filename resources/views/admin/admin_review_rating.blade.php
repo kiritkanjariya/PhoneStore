@@ -101,7 +101,6 @@
                         <td>{{ $review->created_at->format('d-m-Y') }}</td>
                         <td>
                             <a  href="{{ route('delete_review',$review->id) }}" class="btn btn-danger" onclick="return confirm('Delete this review?')"> <i class="bi bi-trash"></i></a>
-                               
                         </td>
                     </tr>
                     @endforeach

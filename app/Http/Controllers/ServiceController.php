@@ -20,7 +20,7 @@ class ServiceController extends Controller
     {
         $services = service::all();
         $advantages = advantage::all();
-        return view('admin/admin_service', compact('services','advantages'));
+        return view('admin/admin_service', compact('services', 'advantages'));
     }
 
     public function add_service()
@@ -49,6 +49,22 @@ class ServiceController extends Controller
         $service->service_icon = $request->icon;
         $service->save();
         return redirect()->route('admin_service')->with('success', 'Service Updated successfully ✅');
+    }
+
+    public function delete_service($id)
+    {
+        $service = service::findOrFail($id);
+        $service->delete();
+
+        return redirect()->route('admin_service')->with('success', 'Service deleted successfully!');
+    }
+
+    public function delete_advantage($id)
+    {
+        $advatage = advantage::findOrFail($id);
+        $advatage->delete();
+
+        return redirect()->route('admin_service')->with('success', 'Advantage deleted successfully!');
     }
 
     public function index()

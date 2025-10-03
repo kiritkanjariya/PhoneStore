@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Session;
 use App\Models\Discount;
 use App\Models\Brand;
 use App\Models\offers;
+use App\Models\orders;
 use App\Models\Products;
 use Illuminate\Http\Request;
 
@@ -99,7 +100,15 @@ class DiscountController extends Controller
         $discount = Discount::findOrFail($id);
         $discount->delete();
 
-        return redirect()->back()->with('success', 'Discount deleted successfully!');
+        return redirect()->route('admin_offers')->with('success', 'Discount deleted successfully!');
+    }
+
+    public function destroy_order($id)
+    {
+        $order = orders::findOrFail($id);
+        $order->delete();
+
+        return redirect()->route('admin_order')->with('success', 'Order deleted successfully!');
     }
 
 
@@ -155,7 +164,7 @@ class DiscountController extends Controller
         $offer = offers::findOrFail($id);
         $offer->delete();
 
-        return redirect()->back()->with('success', 'Offer deleted successfully!');
+        return redirect()->route('admin_offers')->with('success', 'Offer deleted successfully!');
     }
 
 

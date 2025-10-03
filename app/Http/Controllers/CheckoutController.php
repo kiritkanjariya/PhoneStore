@@ -225,7 +225,8 @@ class CheckoutController extends Controller
     public function delete_review($id)
     {
         $review = review::findOrFail($id);
-        echo $review;
+        $review->delete();
 
+        return redirect()->route('admin_review_rating')->with('success', 'Review & Rating deleted successfully!');
     }
 }

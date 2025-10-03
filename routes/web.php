@@ -46,6 +46,10 @@ Route::post('/CheckoutProcess', [CheckoutController::class, 'processOrder'])->na
 Route::get('/review-rating/{id}', [CheckoutController::class, 'review_rating'])->name('review_rating')->middleware('check.user');
 Route::post('/review-rating_submit/{id}', [CheckoutController::class, 'review_rating_submit'])->name('review_rating_submit')->middleware('check.user');
 Route::delete('/review/{id}', [CheckoutController::class, 'delete_review'])->name('delete_review');
+Route::delete('/delete_service/{id}', [ServiceController::class, 'delete_service'])->name('delete_service');
+Route::delete('/delete_advantage/{id}', [ServiceController::class, 'delete_advantage'])->name('delete_advantage');
+Route::delete('/delete_brand/{id}', [BrandController::class, 'delete_brand'])->name('delete_brand');
+Route::delete('/delete_drawback/{id}', [DrawbackController::class, 'delete_drawback'])->name('delete_drawback');
 
 Route::get('/shop', [ShopController::class, 'shop'])->name('shop');
 Route::get('/', [ProductsController::class, 'home'])->name('home');
@@ -61,6 +65,7 @@ Route::get('/add_discount', [DiscountController::class, 'add_discount'])->name('
 Route::post('/added_discount', [DiscountController::class, 'discount_added'])->name('discount_added');
 Route::get('/admin_offers', [DiscountController::class, 'redicrect_offers'])->name('admin_offers');
 Route::delete('/discount/{id}', [DiscountController::class, 'destroy'])->name('discount.destroy');
+Route::delete('/order/{id}', [DiscountController::class, 'destroy_order'])->name('order.destroy');
 Route::get('/slider', [SliderController::class, 'redicrect_slider'])->name('admin_slider');
 Route::get('/add_slider', [SliderController::class, 'add_slider'])->name('add_slider');
 Route::post('/added_slider', [SliderController::class, 'slider_added'])->name('slider_added');

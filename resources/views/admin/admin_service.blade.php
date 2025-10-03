@@ -166,9 +166,7 @@
                             <a href="{{ route('edit_service', $service->id) }}" class="btn btn-warning btn-sm me-1" title="Edit">
                                 <i class="bi bi-pencil"></i>
                             </a>
-                            <a href="#" class="btn btn-danger shadow">
-                                <i class="bi bi-trash"></i>
-                            </a>
+                            <a href="{{ route('delete_service',$service->id) }}" class="btn btn-danger" onclick="return confirm('Delete this Service?')"> <i class="bi bi-trash"></i></a>
                         </div>
                     </td>
                 </tr>
@@ -211,9 +209,7 @@
                             <a href="{{ route('edit_advantage', $advantage->id) }}" class="btn btn-warning btn-sm me-1" title="Edit">
                                 <i class="bi bi-pencil"></i>
                             </a>
-                            <a href="#" class="btn btn-danger shadow">
-                                <i class="bi bi-trash"></i>
-                            </a>
+                            <a href="{{ route('delete_advantage',$advantage->id) }}" class="btn btn-danger" onclick="return confirm('Delete this advantage?')"> <i class="bi bi-trash"></i></a>
                         </div>
                     </td>
                 </tr>

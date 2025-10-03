@@ -172,9 +172,7 @@
                                 title="Edit">
                                 <i class="bi bi-pencil"></i>
                             </a>
-                            <a href="#" class="btn btn-danger shadow">
-                                <i class="bi bi-trash"></i>
-                            </a>
+                            <a href="{{ route('delete_brand',$brand->id) }}" class="btn btn-danger" onclick="return confirm('Delete this Brand?')"> <i class="bi bi-trash"></i></a>
                         </div>
                     </td>
                 </tr>

@@ -44,6 +44,14 @@ class DrawbackController extends Controller
         $drawback->save();
         return redirect()->route('admin_contact_about')->with('success', 'Drawback Updated successfully ✅');
     }
+
+    public function delete_drawback($id)
+    {
+        $drawback = drawback::findOrFail($id);
+        $drawback->delete();
+
+        return redirect()->route('admin_contact_about')->with('success', 'Drawback deleted successfully!');
+    }
     public function index()
     {
         //

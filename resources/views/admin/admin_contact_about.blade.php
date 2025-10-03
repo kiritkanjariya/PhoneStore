@@ -19,12 +19,14 @@
     }
 
     /* Form Controls */
-    .form-control, .form-select {
+    .form-control,
+    .form-select {
         border-radius: 0.5rem;
         padding: 10px 14px;
     }
 
-    .form-control:focus, .form-select:focus {
+    .form-control:focus,
+    .form-select:focus {
         border-color: #4e73df;
         box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, .25);
     }
@@ -259,9 +261,7 @@
                                 <a href="{{ route('edit_drawback', $drawback->id) }}" class="btn btn-warning btn-sm me-1">
                                     <i class="bi bi-pencil"></i>
                                 </a>
-                                <a href="#" class="btn btn-danger shadow">
-                                <i class="bi bi-trash"></i>
-                            </a>
+                                <a href="{{ route('delete_drawback',$drawback->id) }}" class="btn btn-danger" onclick="return confirm('Delete this Service?')"> <i class="bi bi-trash"></i></a>
                             </div>
                         </td>
                     </tr>
